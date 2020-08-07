@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ProjectPlant</string>
+    <string name="splash">splash</string>
+    <string name="developed_by_group_1_sit312">Developed by Group 1 - SIT312</string>
+    <string name="connect">CONNECT</string>
+    <string name="connect_icon">connect_icon</string>
+    <string name="home">Home</string>
+    <string name="main_logo">main_logo</string>
+    <string name="refresh">refresh</string>
+    <string name="monitor">Monitor</string>
+    <string name="plant_profiles">Plant Profiles</string>
+    <string name="resources">Resources</string>
+    <string name="data">Data</string>
+    <string name="help">Help</string>
+    <string name="information">Information</string>
+    <string name="profiles">Profiles</string>
+</resources>
