@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context=".MainActivity">
+
+    <ImageButton
+        android:id="@+id/resources"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="91dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="@string/resources"
+        android:scaleType="fitCenter"
+        android:src="@drawable/resources"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/monitor"
+        app:layout_constraintTop_toBottomOf="@+id/monitor"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/profiles"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginRight="57dp"
+        android:layout_marginBottom="91dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="@string/plant_profiles"
+        android:scaleType="fitCenter"
+        android:src="@drawable/profiles"
+        app:layout_constraintBottom_toTopOf="@+id/data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/monitor"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/monitor"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="57dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="@string/monitor"
+        android:scaleType="fitCenter"
+        android:src="@drawable/monitor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_title" />
+
+    <ImageView
+        android:id="@+id/logo_main"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:contentDescription="@string/main_logo"
+        app:layout_constraintBottom_toTopOf="@+id/home_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/plant" />
+
+    <ImageView
+        android:id="@+id/data"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:contentDescription="@string/data"
+        app:layout_constraintStart_toStartOf="@+id/profiles"
+        app:layout_constraintTop_toTopOf="@+id/resources"
+        app:srcCompat="@drawable/data" />
+
+    <ImageView
+        android:id="@+id/help"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="91dp"
+        android:contentDescription="@string/help"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/resources"
+        app:layout_constraintTop_toBottomOf="@+id/resources"
+        app:srcCompat="@drawable/help" />
+
+    <ImageView
+        android:id="@+id/information"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:contentDescription="@string/information"
+        app:layout_constraintStart_toStartOf="@+id/data"
+        app:layout_constraintTop_toTopOf="@+id/help"
+        app:srcCompat="@drawable/information" />
+
+    <TextView
+        android:id="@+id/home_title"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="82dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="@string/home"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/monitor_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/monitor"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/monitor"
+        app:layout_constraintStart_toStartOf="@+id/monitor"
+        app:layout_constraintTop_toBottomOf="@+id/monitor" />
+
+    <TextView
+        android:id="@+id/profiles_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profiles"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/profiles"
+        app:layout_constraintStart_toStartOf="@+id/profiles"
+        app:layout_constraintTop_toBottomOf="@+id/profiles" />
+
+    <TextView
+        android:id="@+id/resources_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/resources"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/resources"
+        app:layout_constraintStart_toStartOf="@+id/resources"
+        app:layout_constraintTop_toBottomOf="@+id/resources" />
+
+    <TextView
+        android:id="@+id/data_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/data"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/data"
+        app:layout_constraintStart_toStartOf="@+id/data"
+        app:layout_constraintTop_toBottomOf="@+id/data" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/help"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/help"
+        app:layout_constraintStart_toStartOf="@+id/help"
+        app:layout_constraintTop_toBottomOf="@+id/help" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/information"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/information"
+        app:layout_constraintStart_toStartOf="@+id/information"
+        app:layout_constraintTop_toBottomOf="@+id/information" />
+</androidx.constraintlayout.widget.ConstraintLayout>
