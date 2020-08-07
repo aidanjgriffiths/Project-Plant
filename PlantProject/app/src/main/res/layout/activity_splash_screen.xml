@@ -8,7 +8,7 @@
     tools:context=".SplashScreen">
 
     <Button
-        android:id="@+id/button_connect2"
+        android:id="@+id/button_connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"

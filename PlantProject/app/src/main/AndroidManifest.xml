@@ -15,6 +15,9 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Resources"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SplashScreen"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait">

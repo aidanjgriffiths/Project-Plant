@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -321,4 +322,32 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
         }
     }
+
+    public void buttonProfiles(View view) {
+
+    }
+
+    public void buttonData(View view) {
+
+    }
+    // attach to resources button press and open resources activity using smooth transition
+    public void buttonResources(View view) {
+        Intent intent = new Intent(this, Resources.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        }else{
+            startActivity(intent);
+        }
+    }
+    public void buttonHelp(View view) {
+
+    }
+    public void buttonInformation(View view) {
+
+    }
+    public void buttonMonitor(View view) {
+
+    }
+
+
 }
