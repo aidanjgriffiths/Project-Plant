@@ -6,6 +6,7 @@
     <string name="connect_icon">connect_icon</string>
     <string name="home">Home</string>
     <string name="main_logo">main_logo</string>
+    <string name="back"><![CDATA[< Back]]></string>
     <string name="refresh">refresh</string>
     <string name="monitor">Monitor</string>
     <string name="plant_profiles">Plant Profiles</string>
@@ -14,4 +15,11 @@
     <string name="help">Help</string>
     <string name="information">Information</string>
     <string name="profiles">Profiles</string>
+    <string name="logo_resources">logo_resources</string>
+    <string name="australian_national_nbotanical_gardens">Australian National \nBotanical Gardens</string>
+    <string name="flora_of_australia_online">Flora of Australia Online</string>
+    <string name="atlas_of_living_australia">Atlas of Living Australia</string>
+    <string name="australian_network_nfor_plant_conservation">Australian Network \nfor Plant Conservation</string>
+    <string name="australian_native_nplant_society">Australian Native \nPlant Society</string>
+    <string name="australian_national_nherbarium">Australian National \nHerbarium</string>
 </resources>
