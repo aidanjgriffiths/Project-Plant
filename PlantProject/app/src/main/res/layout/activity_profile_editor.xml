@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/button_plant"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context=".ProfileEditor">
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:background="#66246424"
+        android:gravity="center"
+        android:text="@string/plantiful"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:onClick="buttonCancel"
+        android:text="@android:string/cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintEnd_toStartOf="@+id/imageView8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:onClick="buttonDone"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:background="#99B8B7B7"
+        android:onClick="buttonGenerate"
+        android:text="Generate\nQR code"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="#C3C3C3"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/qr_viewer"
+        app:layout_constraintStart_toStartOf="@+id/imageButton"
+        app:layout_constraintTop_toTopOf="@+id/qr_viewer" />
+
+    <EditText
+        android:id="@+id/plant_name"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:background="@color/textview_colors"
+        android:ems="10"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
+        android:textColor="@color/title_colour"
+        android:textColorHint="@color/hint_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintBottom_toBottomOf="@+id/textView20"
+        app:layout_constraintStart_toEndOf="@+id/textView20"
+        app:layout_constraintStart_toStartOf="@+id/camera_preview"
+        app:layout_constraintTop_toTopOf="@+id/textView20"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <EditText
+        android:id="@+id/moisture_min"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintBottom_toBottomOf="@+id/textView23"
+        app:layout_constraintEnd_toStartOf="@+id/moisture_max"
+        app:layout_constraintTop_toTopOf="@+id/textView23" />
+
+    <EditText
+        android:id="@+id/moisture_max"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintBottom_toBottomOf="@+id/moisture_min"
+        app:layout_constraintEnd_toEndOf="@+id/plant_name"
+        app:layout_constraintTop_toTopOf="@+id/moisture_min" />
+
+    <EditText
+        android:id="@+id/temp_min"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintBottom_toBottomOf="@+id/textView26"
+        app:layout_constraintStart_toStartOf="@+id/moisture_min"
+        app:layout_constraintTop_toTopOf="@+id/textView26" />
+
+    <EditText
+        android:id="@+id/temp_max"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintStart_toStartOf="@+id/moisture_max"
+        app:layout_constraintTop_toTopOf="@+id/temp_min" />
+
+    <EditText
+        android:id="@+id/humid_min"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintBottom_toBottomOf="@+id/textView28"
+        app:layout_constraintStart_toStartOf="@+id/temp_min"
+        app:layout_constraintTop_toTopOf="@+id/textView28" />
+
+    <EditText
+        android:id="@+id/humid_max"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintStart_toStartOf="@+id/temp_max"
+        app:layout_constraintTop_toTopOf="@+id/humid_min" />
+
+    <EditText
+        android:id="@+id/light_min"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintBottom_toBottomOf="@+id/textView29"
+        app:layout_constraintStart_toStartOf="@+id/humid_min"
+        app:layout_constraintTop_toTopOf="@+id/textView29" />
+
+    <EditText
+        android:id="@+id/light_max"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        app:layout_constraintStart_toStartOf="@+id/humid_max"
+        app:layout_constraintTop_toTopOf="@+id/light_min" />
+
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        app:layout_constraintVertical_bias="0.5">
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:adjustViewBounds="false"
+        android:background="#99B8B7B7"
+        android:onClick="buttonPhoto"
+        android:padding="6dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/camera_preview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/camera_preview"
+        app:layout_constraintTop_toTopOf="@+id/camera_preview"
+        app:srcCompat="@drawable/camera" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:contentDescription="@string/profile_logo"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".95"
+        app:srcCompat="@drawable/plant" />
+
+    <ImageView
+        android:id="@+id/qr_viewer"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/qr_background"
+        app:layout_constraintEnd_toEndOf="@+id/light_max"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/camera_preview"
+        app:layout_constraintTop_toTopOf="@+id/qr_background" />
+
+    <Spinner
+        android:id="@+id/plant_type"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:dropDownWidth="210dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+        app:layout_constraintStart_toStartOf="@+id/plant_name"
+        app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="92dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="@string/profile_editor"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="@string/growing_conditions"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        app:layout_constraintVertical_bias="0.525" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Name \nYour Plant:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="@+id/textView22"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Select \nPlant Type:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/divider2"
+        app:layout_constraintEnd_toEndOf="@+id/textView20"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/photo"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/camera_preview"
+        app:layout_constraintEnd_toStartOf="@+id/camera_preview"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/camera_preview" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Moisture Range (%):"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/moisture_min"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Temp. Range (\u2103):"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Humidity Range (%):"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView26"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Light Range (lx):"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView28"
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/min"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/moisture_min"
+        app:layout_constraintEnd_toEndOf="@+id/moisture_min"
+        app:layout_constraintStart_toStartOf="@+id/moisture_min"
+        app:layout_constraintTop_toBottomOf="@+id/textView14"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/max"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/moisture_max"
+        app:layout_constraintStart_toStartOf="@+id/moisture_max"
+        app:layout_constraintTop_toTopOf="@+id/textView30" />
+
+    <TextView
+        android:id="@+id/plant_picker"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:focusable="auto"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+        app:layout_constraintEnd_toEndOf="@+id/plant_type"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/plant_type"
+        app:layout_constraintTop_toTopOf="@+id/textView21"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="52dp"
+        android:background="@color/title_colour"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="52dp"
+        android:background="@color/title_colour"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="42dp"
+        android:background="@color/title_colour"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintVertical_bias="0.257" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Plant \nIdentifier:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/qr_viewer"
+        app:layout_constraintEnd_toEndOf="@+id/textView22"
+        app:layout_constraintTop_toTopOf="@+id/qr_viewer" />
+
+    <ImageView
+        android:id="@+id/qr_background"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#99B8B7B7"
+        android:padding="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="@+id/camera_preview"
+        app:layout_constraintTop_toBottomOf="@+id/divider3"
+        app:srcCompat="@drawable/share" />
+
+    <TextView
+        android:id="@+id/jpg_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageButton"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

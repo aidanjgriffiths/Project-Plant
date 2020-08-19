@@ -1,8 +1,8 @@
 package com.example.plantproject;
 
-import android.app.ActivityOptions;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,9 +11,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.UUID;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SplashScreen extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
+    private final int SPLASH_DISPLAY_LENGTH = 7000;
     private static final int REQUEST_ENABLE_BT = 1;
     private ImageView logo;
     private Animation topAnim;
@@ -37,24 +37,19 @@ public class SplashScreen extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-
-        //sets the layout activity
         setContentView(R.layout.activity_splash_screen);
 
-
-        //animate the logo
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
         logo = findViewById(R.id.connect_image);
         logo.setAnimation(topAnim);
 
-        //play the music
-        mySong = MediaPlayer.create(SplashScreen.this, R.raw.splash);
+        mySong = MediaPlayer.create(SplashScreen.this, R.raw.mysong);
         mySong.start();
 
         // Turn on Bluetooth
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter == null){
-            Toast.makeText(this, "Bluetooth is not supported on this device", Toast.LENGTH_SHORT).show();
+            toastMessage("Bluetooth is not supported on this device");
             System.exit(0);
         }
         else{
@@ -63,12 +58,21 @@ public class SplashScreen extends AppCompatActivity {
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             }
             else{
-                Toast.makeText(this, "Bluetooth is ON", Toast.LENGTH_SHORT).show();
+                toastMessage("Bluetooth is ON");
             }
         }
+
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                /* Create an Intent that will start the Menu-Activity. */
+                Intent mainIntent = new Intent(SplashScreen.this, com.example.plantproject.MainActivity.class);
+                SplashScreen.this.startActivity(mainIntent);
+                SplashScreen.this.finish();
+            }
+        }, SPLASH_DISPLAY_LENGTH);
     }
 
-    //make fullscreen
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -88,15 +92,14 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
-    // checks if bluetooth device enabled on starting the application
-    @Override
+    @Override  // checks if bluetooth device enabled on starting the application
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Bluetooth enabled", Toast.LENGTH_LONG).show();
+                toastMessage("Bluetooth enabled");
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
+                toastMessage("Bluetooth not enabled");
             }
         }
     }
@@ -107,7 +110,6 @@ public class SplashScreen extends AppCompatActivity {
         mySong.release();
     }
 
-    //close application if pressed twice
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -117,7 +119,7 @@ public class SplashScreen extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        toastMessage("Please click BACK again to exit");
 
         new Handler().postDelayed(new Runnable() {
 
@@ -128,14 +130,14 @@ public class SplashScreen extends AppCompatActivity {
         }, 2000);
     }
 
-    //connect button functionality
-    public void buttonConnect(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        }else{
-            startActivity(intent);
-        }
+    private void toastMessage(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.rgb(36,100,36));
+        view.setBackground(getResources().getDrawable(R.drawable.btngradient));
+        TextView toastMessage = toast.getView().findViewById(android.R.id.message);
+        toastMessage.setTextColor(Color.WHITE);
+        toast.show();
     }
 
 }

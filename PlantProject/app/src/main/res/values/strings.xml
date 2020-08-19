@@ -2,11 +2,10 @@
     <string name="app_name">ProjectPlant</string>
     <string name="splash">splash</string>
     <string name="developed_by_group_1_sit312">Developed by Group 1 - SIT312</string>
-    <string name="connect">CONNECT</string>
+    <string name="connect">Connect</string>
     <string name="connect_icon">connect_icon</string>
     <string name="home">Home</string>
     <string name="main_logo">main_logo</string>
-    <string name="back"><![CDATA[< Back]]></string>
     <string name="refresh">refresh</string>
     <string name="monitor">Monitor</string>
     <string name="plant_profiles">Plant Profiles</string>
@@ -15,6 +14,41 @@
     <string name="help">Help</string>
     <string name="information">Information</string>
     <string name="profiles">Profiles</string>
+    <string name="reset_data">Reset Data</string>
+    <string name="back"><![CDATA[< Back]]></string>
+    <string name="connecting_the_device">Connecting the device</string>
+    <string name="adding_a_profile">Adding a profile</string>
+    <string name="identifying_and_monitoring_a_plant">Identifying and monitoring a plant</string>
+    <string name="adding_a_plant_profile">Adding a plant profile</string>
+    <string name="monitoring_a_plant">Monitoring a plant</string>
+    <string name="export_data">Export Data</string>
+    <string name="hardware_id">Hardware ID:</string>
+    <string name="software_version">Software Version:</string>
+    <string name="current_moisture">Current moisture:</string>
+    <string name="current_temperature">Current temperature:</string>
+    <string name="current_light_reading">Current light reading:</string>
+    <string name="current_humidity">Current humidity:</string>
+    <string name="add">+ Add</string>
+    <string name="profile_logo">profile_logo</string>
+    <string name="profile_editor">Profile Editor</string>
+    <string name="description">Description</string>
+    <string name="name">Name</string>
+    <string name="plant_name">Plant Name:</string>
+    <string name="description_">Description:</string>
+    <string name="done">Done</string>
+    <string name="photo">Photo:</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="growing_conditions">Growing Conditions</string>
+    <string name="email_qr_code">Email QR Code</string>
+    <string name="moisture_range">Moisture Range:</string>
+    <string name="temp_range">Temp. Range:</string>
+    <string name="humidity_range">Humidity Range:</string>
+    <string name="light_range">Light Range:</string>
+    <string name="save">Save</string>
+    <string name="plant_type">Plant Type:</string>
+    <string name="generate_qr_code">Generate QR Code</string>
+    <string name="openprofile">openprofile</string>
+    <string name="divider">Divider</string>
     <string name="logo_resources">logo_resources</string>
     <string name="australian_national_nbotanical_gardens">Australian National \nBotanical Gardens</string>
     <string name="flora_of_australia_online">Flora of Australia Online</string>
@@ -22,4 +56,26 @@
     <string name="australian_network_nfor_plant_conservation">Australian Network \nfor Plant Conservation</string>
     <string name="australian_native_nplant_society">Australian Native \nPlant Society</string>
     <string name="australian_national_nherbarium">Australian National \nHerbarium</string>
+    <string name="optional">Optional</string>
+    <string name="max">Max</string>
+    <string name="min">Min</string>
+    <string name="deleting_data">Deleting data</string>
+    <string name="warning">Warning!</string>
+    <string name="mario_manitta_nmiles_danswan_naidan_griffiths_nash_phillips">Mario Manitta\nMiles Danswan\nAidan Griffiths\nAsh Phillips</string>
+    <string name="contributors">Contributors</string>
+    <string name="sit312_system_design_and_prototyping">SIT312 - System Design and Prototyping</string>
+    <string name="plantiful">PLANTIFUL</string>
+    <string name="if_you_have_a_garden_and_a_library_nyou_have_everything_you_need_n_marcus_tullius_cicero">\"If you have a garden and a library,\nyou have everything you need\"\n-Marcus Tullius Cicero</string>
+    <string name="channel_name">notify</string>
+    <string name="channel_description">Time to check your plants!</string>
+    <string name="log_the_data">Log the Data</string>
+    <string name="profile_pic">profile_pic</string>
+
+
+    <string-array name="plants">
+        <item>(Optional)</item>
+        <item>Low Tolerance</item>
+        <item>Medium Tolerance</item>
+        <item>High Tolerance</item>
+    </string-array>
 </resources>

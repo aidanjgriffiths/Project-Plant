@@ -24,7 +24,6 @@ public class Resources extends AppCompatActivity {
         setContentView(R.layout.activity_resources);
     }
 
-    // fullscreen
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -44,14 +43,13 @@ public class Resources extends AppCompatActivity {
         }
     }
 
-    // link to website on button/text press
     public void Resource1(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.setData(Uri.parse("http://anpsa.org.au/links.html"));
         startActivity(intent);
     }
-    // link to website on button/text press
+
     public void Resource2(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -59,7 +57,6 @@ public class Resources extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // link to website on button/text press
     public void Resource3(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -67,7 +64,6 @@ public class Resources extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // link to website on button/text press
     public void Resource4(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -75,24 +71,22 @@ public class Resources extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // link to website on button/text press
     public void Resource5(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.setData(Uri.parse("https://www.ala.org.au/"));
         startActivity(intent);
     }
-    // link to website on button/text press
+
     public void Resource6(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.setData(Uri.parse("https://www.anpc.asn.au/"));
         startActivity(intent);
     }
-    // lgo back to mainActivity using smooth transition
+
     public void buttonBack(View view) {
         super.onBackPressed();
-        //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
         }
