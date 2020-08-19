@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context=".Monitor">
+
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:background="#66246424"
+        android:gravity="center"
+        android:text="@string/plantiful"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/title_colour"
+        app:layout_constraintBottom_toTopOf="@+id/button_record"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/light_scale"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/title_colour"
+        app:layout_constraintBottom_toTopOf="@+id/textView32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_pic"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/monitor_header"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="92dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="@string/monitor"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/monitor_logo"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:contentDescription="@string/monitor"
+        app:layout_constraintBottom_toTopOf="@+id/monitor_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".95"
+        app:srcCompat="@drawable/plant" />
+
+    <Button
+        android:id="@+id/back_monitor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:onClick="buttonBack"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/monitor_logo"
+        app:layout_constraintEnd_toStartOf="@+id/monitor_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/monitor_logo" />
+
+    <SurfaceView
+        android:id="@+id/qr_scanner"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monitor_header"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtBarcodeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monitor_header"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moisture (%)"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qr_scanner"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <ImageView
+        android:id="@+id/moisture_scale"
+        android:layout_width="230dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView32"
+        app:srcCompat="@drawable/scale_nb" />
+
+    <ImageView
+        android:id="@+id/temperature_scale"
+        android:layout_width="230dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="@+id/moisture_scale"
+        app:layout_constraintTop_toBottomOf="@+id/textView33"
+        app:srcCompat="@drawable/scale_nb" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Temperature (\u2103)"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/temperature_scale"
+        app:layout_constraintStart_toStartOf="@+id/temperature_scale"
+        app:layout_constraintTop_toBottomOf="@+id/moisture_scale" />
+
+    <TextView
+        android:id="@+id/min_moist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/moisture_scale"
+        app:layout_constraintEnd_toStartOf="@+id/moisture_scale"
+        app:layout_constraintTop_toTopOf="@+id/moisture_scale" />
+
+    <ImageView
+        android:id="@+id/humidity_scale"
+        android:layout_width="230dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="@+id/temperature_scale"
+        app:layout_constraintTop_toBottomOf="@+id/textView35"
+        app:srcCompat="@drawable/scale_nb" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Humidity (%)"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/humidity_scale"
+        app:layout_constraintStart_toStartOf="@+id/humidity_scale"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_scale" />
+
+    <ImageView
+        android:id="@+id/light_scale"
+        android:layout_width="230dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="@+id/humidity_scale"
+        app:layout_constraintTop_toBottomOf="@+id/textView36"
+        app:srcCompat="@drawable/scale_nb" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Light (lx)"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/light_scale"
+        app:layout_constraintStart_toStartOf="@+id/light_scale"
+        app:layout_constraintTop_toBottomOf="@+id/humidity_scale" />
+
+    <TextView
+        android:id="@+id/max_moist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/moisture_scale"
+        app:layout_constraintStart_toEndOf="@+id/moisture_scale"
+        app:layout_constraintTop_toTopOf="@+id/moisture_scale" />
+
+    <TextView
+        android:id="@+id/min_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_scale"
+        app:layout_constraintEnd_toStartOf="@+id/temperature_scale"
+        app:layout_constraintTop_toTopOf="@+id/temperature_scale" />
+
+    <TextView
+        android:id="@+id/max_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_scale"
+        app:layout_constraintStart_toEndOf="@+id/temperature_scale"
+        app:layout_constraintTop_toTopOf="@+id/temperature_scale" />
+
+    <TextView
+        android:id="@+id/min_humid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/humidity_scale"
+        app:layout_constraintEnd_toStartOf="@+id/humidity_scale"
+        app:layout_constraintTop_toTopOf="@+id/humidity_scale" />
+
+    <TextView
+        android:id="@+id/max_humid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/humidity_scale"
+        app:layout_constraintStart_toEndOf="@+id/humidity_scale"
+        app:layout_constraintTop_toTopOf="@+id/humidity_scale" />
+
+    <TextView
+        android:id="@+id/min_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/light_scale"
+        app:layout_constraintEnd_toStartOf="@+id/light_scale"
+        app:layout_constraintTop_toTopOf="@+id/light_scale" />
+
+    <TextView
+        android:id="@+id/max_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/title_colour"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/light_scale"
+        app:layout_constraintStart_toEndOf="@+id/light_scale"
+        app:layout_constraintTop_toTopOf="@+id/light_scale" />
+
+    <ImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/qr_scanner"
+        app:layout_constraintEnd_toEndOf="@+id/qr_scanner"
+        app:layout_constraintStart_toStartOf="@+id/qr_scanner"
+        app:layout_constraintTop_toTopOf="@+id/qr_scanner" />
+
+    <View
+        android:id="@+id/moist_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/moisture_scale"
+        app:layout_constraintEnd_toEndOf="@+id/moisture_scale"
+        app:layout_constraintStart_toStartOf="@+id/moisture_scale"
+        app:layout_constraintTop_toTopOf="@+id/moisture_scale" />
+
+    <View
+        android:id="@+id/temp_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_scale"
+        app:layout_constraintEnd_toEndOf="@+id/temperature_scale"
+        app:layout_constraintStart_toStartOf="@+id/temperature_scale"
+        app:layout_constraintTop_toTopOf="@+id/temperature_scale" />
+
+    <View
+        android:id="@+id/humid_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/humidity_scale"
+        app:layout_constraintEnd_toEndOf="@+id/humidity_scale"
+        app:layout_constraintStart_toStartOf="@+id/humidity_scale"
+        app:layout_constraintTop_toTopOf="@+id/humidity_scale" />
+
+    <View
+        android:id="@+id/prev_light_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="#03A9F4"
+        app:layout_constraintBottom_toBottomOf="@+id/light_scale"
+        app:layout_constraintEnd_toEndOf="@+id/light_scale"
+        app:layout_constraintStart_toStartOf="@+id/light_scale"
+        app:layout_constraintTop_toTopOf="@+id/light_scale" />
+
+    <View
+        android:id="@+id/light_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/light_scale"
+        app:layout_constraintEnd_toEndOf="@+id/light_scale"
+        app:layout_constraintStart_toStartOf="@+id/light_scale"
+        app:layout_constraintTop_toTopOf="@+id/light_scale" />
+
+    <Button
+        android:id="@+id/button_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:onClick="buttonConnect"
+        android:text="@string/connect"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/monitor_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/monitor_logo"
+        app:layout_constraintTop_toTopOf="@+id/monitor_logo" />
+
+    <TextView
+        android:id="@+id/plant_health"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_record" />
+
+    <Button
+        android:id="@+id/button_record"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:background="#99B8B7B7"
+        android:onClick="buttonRecord"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/log_the_data"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/light_scale" />
+
+    <TextView
+        android:id="@+id/sensor_readings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/title_colour"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plant_health"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
