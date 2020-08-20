@@ -5,4 +5,155 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context=".Help"/>
+    tools:context=".Help">
+
+    <TextView
+        android:id="@+id/textView43"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:background="#66246424"
+        android:gravity="center"
+        android:text="@string/plantiful"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/help_header"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="92dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="@string/help"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout1"
+        android:layout_width="240dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/help_header"
+        app:layout_constraintVertical_bias="0.0">
+
+        <VideoView
+            android:id="@+id/how_connect"
+            android:layout_width="240dp"
+            android:layout_height="140dp"
+            android:onClick="playVideo1" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="240dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout1"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout1">
+
+        <VideoView
+            android:id="@+id/how_addprofile"
+            android:layout_width="240dp"
+            android:layout_height="140dp"
+            android:onClick="playVideo2" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout3"
+        android:layout_width="240dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
+
+        <VideoView
+            android:id="@+id/how_monitor"
+            android:layout_width="240dp"
+            android:layout_height="140dp"
+            android:onClick="playVideo3" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/help_logo"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:contentDescription="@string/main_logo"
+        app:layout_constraintBottom_toTopOf="@+id/help_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".95"
+        app:srcCompat="@drawable/plant" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:onClick="buttonBack"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/help_logo"
+        app:layout_constraintEnd_toStartOf="@+id/help_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/help_logo" />
+
+    <TextView
+        android:id="@+id/vid1_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/connecting_the_device"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/frameLayout1"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout1"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout1" />
+
+    <TextView
+        android:id="@+id/vid2_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adding_a_plant_profile"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/frameLayout2"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+
+    <TextView
+        android:id="@+id/vid3_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/monitoring_a_plant"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/frameLayout3"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

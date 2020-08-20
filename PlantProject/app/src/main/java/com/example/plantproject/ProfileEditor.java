@@ -48,24 +48,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileEditor extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    ImageView qrViewer, qr_background;
-
-    DatabaseHelper mDatabaseHelper;
-    //SharedPreferences sharedPref;
+    private ImageView qrViewer, qr_background;
+    private DatabaseHelper mDatabaseHelper;
     private ImageButton imageButton;
     private Camera mCamera;
-    private CameraPreview mPreview;
 
     private boolean editFlag = false;
     private int id;
-    EditText plant_name, moist_min, moist_max, temp_min, temp_max,
+    private EditText plant_name, moist_min, moist_max, temp_min, temp_max,
             humid_min, humid_max, light_min, light_max;
-    String plant_type_text, qr_string;
-    Spinner plant_type;
-    TextView button_plant, jpg_name;
+    private String plant_type_text, qr_string;
+    private Spinner plant_type;
+    private TextView button_plant, jpg_name;
     private byte[] pic_data;
     private boolean pic_taken;
     private Map<String, List<String>> plantMap;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -224,7 +222,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         mCamera = getCameraInstance();
         mCamera.setDisplayOrientation(90);
         mCamera.getParameters().setRotation(90);
-        mPreview = new CameraPreview(this, mCamera);
+        CameraPreview mPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = findViewById(R.id.camera_preview);
         preview.addView(mPreview);
         mDatabaseHelper = new DatabaseHelper(this);
@@ -273,7 +271,25 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         plantMap.put("Medium Tolerance", Medium);
         plantMap.put("High Tolerance", High);
 
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                            // Set the content to appear under the system bars so that the
+                            // content doesn't resize when the system bars hide and show.
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            // Hide the nav bar and status bar
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        }
     }
 
     public static Camera getCameraInstance(){
@@ -296,25 +312,6 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         }
     };
 
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_IMMERSIVE
-                            // Set the content to appear under the system bars so that the
-                            // content doesn't resize when the system bars hide and show.
-                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            // Hide the nav bar and status bar
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
-        }
-    }
 
     public void buttonCancel(View view) {
         mCamera.release();
@@ -497,16 +494,6 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-    private void toastMessage(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.rgb(36,100,36));
-        view.setBackground(getResources().getDrawable(R.drawable.btngradient));
-        TextView toastMessage = toast.getView().findViewById(android.R.id.message);
-        toastMessage.setTextColor(Color.WHITE);
-        toast.show();
-    }
-
 
     public void buttonPhoto(View view) {
         mCamera.takePicture(null, null, mPicture);
@@ -585,5 +572,15 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void toastMessage(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.rgb(36,100,36));
+        view.setBackground(getResources().getDrawable(R.drawable.btngradient));
+        TextView toastMessage = toast.getView().findViewById(android.R.id.message);
+        toastMessage.setTextColor(Color.WHITE);
+        toast.show();
     }
 }

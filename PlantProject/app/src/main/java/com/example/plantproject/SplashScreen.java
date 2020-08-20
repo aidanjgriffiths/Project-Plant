@@ -20,10 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SplashScreen extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
-    private final int SPLASH_DISPLAY_LENGTH = 7000;
     private static final int REQUEST_ENABLE_BT = 1;
-    private ImageView logo;
-    private Animation topAnim;
     private MediaPlayer mySong;
 
 
@@ -39,8 +36,8 @@ public class SplashScreen extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_splash_screen);
 
-        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
-        logo = findViewById(R.id.connect_image);
+        Animation topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+        ImageView logo = findViewById(R.id.connect_image);
         logo.setAnimation(topAnim);
 
         mySong = MediaPlayer.create(SplashScreen.this, R.raw.mysong);
@@ -62,6 +59,7 @@ public class SplashScreen extends AppCompatActivity {
             }
         }
 
+        int SPLASH_DISPLAY_LENGTH = 7000;
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -130,7 +128,7 @@ public class SplashScreen extends AppCompatActivity {
         }, 2000);
     }
 
-    private void toastMessage(String message) {
+    public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
         view.setBackgroundColor(Color.rgb(36,100,36));
