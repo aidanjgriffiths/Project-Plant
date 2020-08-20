@@ -64,7 +64,6 @@ import static android.hardware.Sensor.TYPE_LIGHT;
 public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitListener{
 
     private SurfaceView qr_scanner;
-    private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     private String intentData = "";
@@ -167,29 +166,10 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_IMMERSIVE
-                            // Set the content to appear under the system bars so that the
-                            // content doesn't resize when the system bars hide and show.
-                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            // Hide the nav bar and status bar
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
-        }
-    }
-
     private void initialiseDetectorsAndSources() {
 
         //toastMessage("QR code scanner started");
-        barcodeDetector = new BarcodeDetector.Builder(this)
+        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
 
@@ -302,6 +282,25 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                 }
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                            // Set the content to appear under the system bars so that the
+                            // content doesn't resize when the system bars hide and show.
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            // Hide the nav bar and status bar
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        }
     }
 
 
@@ -445,7 +444,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                         toastMessage("Socket creation failed");
                     }
                 }
-                if (fail == false) {
+                if (!fail) {
                     mConnectedThread = new ConnectedThread(mBTSocket);
                     mConnectedThread.start();
                     mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name)
@@ -471,17 +470,15 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
 
 
     private class ConnectedThread extends Thread {
-        private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
 
         public ConnectedThread(BluetoothSocket socket) {
-            mmSocket = socket;
             InputStream tmpIn = null;
 
             // Get the input stream, using temp objects because
             try {
                 tmpIn = socket.getInputStream();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
             mmInStream = tmpIn;
         }
@@ -570,7 +567,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                 max_t, min_h, max_h, min_l, max_l, 0.0, 0.0, 0.0, (double) lightValue);
     }
 
-    private void toastMessage(String message) {
+    public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
         view.setBackgroundColor(Color.rgb(36,100,36));
@@ -579,5 +576,4 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         toastMessage.setTextColor(Color.WHITE);
         toast.show();
     }
-
 }

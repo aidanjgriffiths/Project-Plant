@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 888;
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, 17);
         calendar.set(Calendar.MINUTE, 30);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+AlarmManager.INTERVAL_DAY*7, AlarmManager.INTERVAL_DAY*7, pendingIntent);
-    }
 
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -83,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 2000);
     }
-
-
 
     public void buttonProfiles(View view) {
         Intent intent = new Intent(this, PlantProfiles.class);
@@ -136,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void toastMessage(String message) {
+    public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
         view.setBackgroundColor(Color.rgb(36,100,36));
@@ -145,4 +142,5 @@ public class MainActivity extends AppCompatActivity {
         toastMessage.setTextColor(Color.WHITE);
         toast.show();
     }
+
 }

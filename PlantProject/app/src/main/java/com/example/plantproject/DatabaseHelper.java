@@ -29,8 +29,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL14 = "act_humid";
     private static final String COL15 = "act_light";
 
-
-
     public DatabaseHelper(@Nullable Context context) {
         super(context, TABLE_NAME, null, 1);
     }
@@ -81,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-
+    // adding profiles to the database function
     public boolean editData(int id, String new_name, String class_, Double moist_min, Double moist_max, Double temp_min,
                             Double temp_max, Double humid_min, Double humid_max, Double light_min, Double light_max,
                             Double act_moist, Double act_temp, Double act_humid, Double act_light){

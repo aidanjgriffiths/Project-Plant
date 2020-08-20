@@ -26,7 +26,7 @@ import androidx.core.content.FileProvider;
 
 public class Data extends AppCompatActivity {
 
-    DatabaseHelper mDatabaseHelper;
+    private DatabaseHelper mDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class Data extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_data);
         mDatabaseHelper = new DatabaseHelper(this);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -159,7 +160,7 @@ public class Data extends AppCompatActivity {
         }
     }
 
-    private void toastMessage(String message) {
+    public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
         view.setBackgroundColor(Color.rgb(36,100,36));
@@ -168,4 +169,5 @@ public class Data extends AppCompatActivity {
         toastMessage.setTextColor(Color.WHITE);
         toast.show();
     }
+
 }

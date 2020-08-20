@@ -27,19 +27,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.OnNoteListener{
 
-    RecyclerView profileRecyclerView;
-    ProfileAdapter profileAdapter;
-
-    ArrayList<String> name_profiles = new ArrayList<>();
-    List<BaseProfile> profileList = new ArrayList<>();
-    Button addProfiles;
-
+    private ArrayList<String> name_profiles = new ArrayList<>();
+    private List<BaseProfile> profileList = new ArrayList<>();
     private static final String TAG = "Profile";
-    DatabaseHelper mDatabaseHelper;
+    private DatabaseHelper mDatabaseHelper;
+    private SwipeController swipeController = null;
 
-    SwipeController swipeController = null;
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +45,12 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_plant_profiles);
 
-        addProfiles = findViewById(R.id.profile_add);
+        Button addProfiles = findViewById(R.id.profile_add);
 
         mDatabaseHelper = new DatabaseHelper(this);
         populateProfiles();
 
-        profileRecyclerView = findViewById(R.id.profile_recycler);
+        RecyclerView profileRecyclerView = findViewById(R.id.profile_recycler);
         profileRecyclerView.setHasFixedSize(true);
 
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
@@ -109,20 +103,11 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
             }
         });
 
-        profileAdapter = new ProfileAdapter(profileList, this);
+        ProfileAdapter profileAdapter = new ProfileAdapter(profileList, this);
         profileRecyclerView.setAdapter(profileAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         profileRecyclerView.setLayoutManager(layoutManager);
 
-    }
-
-    private void populateProfiles(){
-        Log.d(TAG, "Display profiles in ProfileViewer");
-        Cursor data = mDatabaseHelper.getData();
-        while(data.moveToNext()){
-            name_profiles.add(data.getString(1));
-
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -134,13 +119,22 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
             decorView.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_IMMERSIVE
                             // Set the content to appear under the system bars so that the
-                            // content doesn't resize when the system bars hide and show
+                            // content doesn't resize when the system bars hide and show.
                             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             // Hide the nav bar and status bar
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        }
+    }
+
+    private void populateProfiles(){
+        Log.d(TAG, "Display profiles in ProfileViewer");
+        Cursor data = mDatabaseHelper.getData();
+        while(data.moveToNext()){
+            name_profiles.add(data.getString(1));
+
         }
     }
 
@@ -193,5 +187,6 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         }
         startActivity(intent);
     }
+
 
 }
