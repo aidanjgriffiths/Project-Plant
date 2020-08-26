@@ -1,4 +1,4 @@
-package com.example.plantproject;
+package com.example.plantproject.View;
 
 import android.app.ActivityOptions;
 import android.content.ContentValues;
@@ -28,6 +28,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.plantproject.DataAccessLayer.DatabaseHelper;
+import com.example.plantproject.R;
 import com.google.zxing.WriterException;
 
 import java.io.File;
@@ -42,11 +47,9 @@ import java.util.Objects;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 
-public class ProfileEditor extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ProfileEditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ImageView qrViewer, qr_background;
     private DatabaseHelper mDatabaseHelper;
@@ -121,7 +124,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     plant_name.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -130,7 +134,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     moist_min.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -139,7 +144,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     moist_max.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -148,7 +154,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     temp_min.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -157,7 +164,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     temp_max.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -166,7 +174,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     humid_min.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -175,7 +184,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     humid_max.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -184,7 +194,8 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     light_min.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
@@ -193,13 +204,14 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
                         (actionId == EditorInfo.IME_ACTION_DONE)) {
                     light_max.clearFocus();
-                } return false;
+                }
+                return false;
             }
         });
 
         Intent incomingData = getIntent();
         editFlag = Objects.requireNonNull(incomingData.getExtras()).getBoolean("edit_flag");
-        if(editFlag) {
+        if (editFlag) {
             id = incomingData.getExtras().getInt("profile_id");
             plant_name.setText(incomingData.getExtras().getString("plant_name"));
             plant_name.setEnabled(false);
@@ -292,11 +304,11 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         }
     }
 
-    public static Camera getCameraInstance(){
+    public static Camera getCameraInstance() {
         Camera c = null;
         try {
             c = Camera.open(); // attempt to get a Camera instance
-        } catch (Exception e){
+        } catch (Exception e) {
             // Camera is not available (in use or does not exist)
         }
         return c; // returns null if camera is unavailable
@@ -315,7 +327,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
 
     public void buttonCancel(View view) {
         mCamera.release();
-        Intent intent = new Intent(this, PlantProfiles.class);
+        Intent intent = new Intent(this, PlantProfilesActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
         }
@@ -328,42 +340,42 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         String name = plant_name.getText().toString();
         String plant_ty = button_plant.getText().toString();
         String moist_mn = moist_min.getText().toString();
-        if(moist_mn.matches("")){
+        if (moist_mn.matches("")) {
             moist_mn = "0.0";
         }
         double m_min = Double.parseDouble(moist_mn);
         String moist_mx = moist_max.getText().toString();
-        if(moist_mx.matches("")){
+        if (moist_mx.matches("")) {
             moist_mx = "100.0";
         }
         double m_max = Double.parseDouble(moist_mx);
         String temp_mn = temp_min.getText().toString();
-        if(temp_mn.matches("")){
+        if (temp_mn.matches("")) {
             temp_mn = "0.0";
         }
         double t_min = Double.parseDouble(temp_mn);
         String temp_mx = temp_max.getText().toString();
-        if(temp_mx.matches("")){
+        if (temp_mx.matches("")) {
             temp_mx = "40.0";
         }
         double t_max = Double.parseDouble(temp_mx);
         String humid_mn = humid_min.getText().toString();
-        if(humid_mn.matches("")){
+        if (humid_mn.matches("")) {
             humid_mn = "0.0";
         }
         double h_min = Double.parseDouble(humid_mn);
         String humid_mx = humid_max.getText().toString();
-        if(humid_mx.matches("")){
+        if (humid_mx.matches("")) {
             humid_mx = "100.0";
         }
         double h_max = Double.parseDouble(humid_mx);
         String light_mn = light_min.getText().toString();
-        if(light_mn.matches("")){
+        if (light_mn.matches("")) {
             light_mn = "0.0";
         }
         double l_min = Double.parseDouble(light_mn);
         String light_mx = light_max.getText().toString();
-        if(light_mx.matches("")){
+        if (light_mx.matches("")) {
             light_mx = "1614.0";
         }
         double l_max = Double.parseDouble(light_mx);
@@ -402,25 +414,25 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
             pic_taken = false;
             pic_data = null;
             finish();
-            Intent intent = new Intent(this, PlantProfiles.class);
+            Intent intent = new Intent(this, PlantProfilesActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
             }
             startActivity(intent);
-        }else if(!editFlag && plant_name.length() != 0 && !pic_taken){
+        } else if (!editFlag && plant_name.length() != 0 && !pic_taken) {
             toastMessage("Please take a photo of your plant");
 
-        } else if (editFlag && plant_name.length()!=0 && !pic_taken) {
+        } else if (editFlag && plant_name.length() != 0 && !pic_taken) {
             editData(id, name, plant_ty, m_min, m_max, t_min, t_max, h_min,
                     h_max, l_min, l_max, a_moist, a_temp, a_humid, a_light);
             mCamera.release();
             finish();
-            Intent intent = new Intent(this, PlantProfiles.class);
+            Intent intent = new Intent(this, PlantProfilesActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
             }
             startActivity(intent);
-        } else if (editFlag && plant_name.length()!=0 && pic_taken) {
+        } else if (editFlag && plant_name.length() != 0 && pic_taken) {
             editData(id, name, plant_ty, m_min, m_max, t_min, t_max, h_min,
                     h_max, l_min, l_max, a_moist, a_temp, a_humid, a_light);
 
@@ -448,19 +460,19 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
             pic_taken = false;
             pic_data = null;
             finish();
-            Intent intent = new Intent(this, PlantProfiles.class);
+            Intent intent = new Intent(this, PlantProfilesActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
             }
             startActivity(intent);
 
-        } else if (m_min > m_max || m_min < 0 || m_max > 100 && plant_name.length()!=0){
+        } else if (m_min > m_max || m_min < 0 || m_max > 100 && plant_name.length() != 0) {
             toastMessage("Please check moisture values");
-        } else if (t_min > t_max && plant_name.length()!=0){
+        } else if (t_min > t_max && plant_name.length() != 0) {
             toastMessage("Please check temperature values");
-        } else if (h_min > h_max || h_min < 0 || h_max > 100 && plant_name.length()!=0){
+        } else if (h_min > h_max || h_min < 0 || h_max > 100 && plant_name.length() != 0) {
             toastMessage("Please check humidity values");
-        } else if (l_min > l_max || l_min < 0 && plant_name.length()!=0){
+        } else if (l_min > l_max || l_min < 0 && plant_name.length() != 0) {
             toastMessage("Please check luminance values");
         } else {
             toastMessage("Please enter a name");
@@ -471,7 +483,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     public void addData(String name, String plant_t, Double mo_min, Double mo_max, Double temp_min,
                         Double temp_max, Double humid_min, Double humid_max, Double light_min, Double light_max,
                         Double act_moist, Double act_temp, Double act_humid, Double act_light) {
-        boolean insertData = mDatabaseHelper.addData(name, plant_t, mo_min , mo_max, temp_min,
+        boolean insertData = mDatabaseHelper.addData(name, plant_t, mo_min, mo_max, temp_min,
                 temp_max, humid_min, humid_max, light_min, light_max, act_moist, act_temp, act_humid, act_light);
         if (insertData) {
             toastMessage("Profile successfully saved");
@@ -501,7 +513,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void buttonGenerate(View view) throws WriterException {
-        if(plant_name.length() != 0){
+        if (plant_name.length() != 0) {
             String qr_name = plant_name.getText().toString();
             QRGEncoder qrgEncoder = new QRGEncoder(qr_name, null, QRGContents.Type.TEXT, 500);
             final Bitmap qrBits = qrgEncoder.getBitmap();
@@ -536,7 +548,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                     startActivity(Intent.createChooser(sharingIntent, "Share via"));
                     Cursor returnCursor = getContentResolver().
                             query(uri, null, null, null, null);
-                    assert returnCursor !=null;
+                    assert returnCursor != null;
                     int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                     returnCursor.moveToFirst();
                     qr_string = returnCursor.getString(nameIndex);
@@ -545,7 +557,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                 }
             });
 
-        }else{
+        } else {
             toastMessage("Please enter a name");
         }
 
@@ -577,7 +589,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
-        view.setBackgroundColor(Color.rgb(36,100,36));
+        view.setBackgroundColor(Color.rgb(36, 100, 36));
         view.setBackground(getResources().getDrawable(R.drawable.btngradient));
         TextView toastMessage = toast.getView().findViewById(android.R.id.message);
         toastMessage.setTextColor(Color.WHITE);

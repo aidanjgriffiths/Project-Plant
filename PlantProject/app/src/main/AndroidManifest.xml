@@ -27,31 +27,31 @@
         android:theme="@style/AppTheme"
         android:allowBackup="true">
         <activity
-            android:name=".ProfileEditor"
+            android:name=".View.ProfileEditorActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Monitor"
+            android:name=".View.MonitorActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Information"
+            android:name=".View.InformationActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Resources"
+            android:name=".View.ResourcesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Help"
+            android:name=".View.HelpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PlantProfiles"
+            android:name=".View.PlantProfilesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Data"
+            android:name=".View.DataActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".View.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".View.SplashScreenActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -72,7 +72,7 @@
         </provider>
 
         <receiver
-            android:name="com.example.plantproject.Receiver">
+            android:name="com.example.plantproject.Controller.Receiver">
         </receiver>
     </application>
 
