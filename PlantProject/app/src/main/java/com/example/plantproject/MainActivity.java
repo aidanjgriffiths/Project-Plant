@@ -1,5 +1,7 @@
 package com.example.plantproject;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -11,6 +13,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.Calendar;
 
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, 17);
         calendar.set(Calendar.MINUTE, 30);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+AlarmManager.INTERVAL_DAY*7, AlarmManager.INTERVAL_DAY*7, pendingIntent);
+
 
     }
 

@@ -1,10 +1,12 @@
 package com.example.plantproject;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,9 +29,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.zxing.WriterException;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,31 +39,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 
 public class ProfileEditor extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
-    private ImageView qrViewer, qr_background;
-    private DatabaseHelper mDatabaseHelper;
+    
+    ImageView qrViewer, qr_background;
+    DatabaseHelper mDatabaseHelper;
     private ImageButton imageButton;
     private Camera mCamera;
 
     private boolean editFlag = false;
     private int id;
-    private EditText plant_name, moist_min, moist_max, temp_min, temp_max,
+    EditText plant_name, moist_min, moist_max, temp_min, temp_max,
             humid_min, humid_max, light_min, light_max;
-    private String plant_type_text, qr_string;
-    private Spinner plant_type;
-    private TextView button_plant, jpg_name;
+    String plant_type_text, qr_string;
+    Spinner plant_type;
+    TextView button_plant, jpg_name;
     private byte[] pic_data;
     private boolean pic_taken;
     private Map<String, List<String>> plantMap;
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -271,7 +272,30 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         plantMap.put("Medium Tolerance", Medium);
         plantMap.put("High Tolerance", High);
 
+
     }
+
+    public Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(); // attempt to get a Camera instance
+
+        } catch (Exception e){
+            // Camera is not available (in use or does not exist)
+        }
+        return c; // returns null if camera is unavailable*/
+    }
+
+    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            pic_data = data;
+            pic_taken = true;
+            imageButton.setEnabled(false);
+
+        }
+    };
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -291,27 +315,6 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
     }
-
-    public static Camera getCameraInstance(){
-        Camera c = null;
-        try {
-            c = Camera.open(); // attempt to get a Camera instance
-        } catch (Exception e){
-            // Camera is not available (in use or does not exist)
-        }
-        return c; // returns null if camera is unavailable
-    }
-
-    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            pic_data = data;
-            pic_taken = true;
-            imageButton.setEnabled(false);
-
-        }
-    };
-
 
     public void buttonCancel(View view) {
         mCamera.release();
@@ -494,6 +497,16 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
+    private void toastMessage(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.rgb(36,100,36));
+        view.setBackground(getResources().getDrawable(R.drawable.btngradient));
+        TextView toastMessage = toast.getView().findViewById(android.R.id.message);
+        toastMessage.setTextColor(Color.WHITE);
+        toast.show();
+    }
+
 
     public void buttonPhoto(View view) {
         mCamera.takePicture(null, null, mPicture);
@@ -572,15 +585,5 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
-
-    public void toastMessage(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.rgb(36,100,36));
-        view.setBackground(getResources().getDrawable(R.drawable.btngradient));
-        TextView toastMessage = toast.getView().findViewById(android.R.id.message);
-        toastMessage.setTextColor(Color.WHITE);
-        toast.show();
     }
 }

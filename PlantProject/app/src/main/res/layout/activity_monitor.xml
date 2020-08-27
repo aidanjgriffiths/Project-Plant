@@ -51,7 +51,7 @@
         android:id="@+id/monitor_header"
         android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="100dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:text="@string/monitor"
@@ -66,8 +66,8 @@
 
     <ImageView
         android:id="@+id/monitor_logo"
-        android:layout_width="59dp"
-        android:layout_height="59dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="@string/monitor"
         app:layout_constraintBottom_toTopOf="@+id/monitor_header"
         app:layout_constraintEnd_toEndOf="parent"
