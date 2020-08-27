@@ -1,4 +1,4 @@
-package com.example.plantproject;
+package com.example.plantproject.View;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -12,6 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import com.example.plantproject.DataAccessLayer.DatabaseHelper;
+import com.example.plantproject.R;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,11 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
-public class Data extends AppCompatActivity {
+public class DataActivity extends AppCompatActivity {
 
     private DatabaseHelper mDatabaseHelper;
 
@@ -62,15 +65,15 @@ public class Data extends AppCompatActivity {
     }
 
     public void buttonReset(View view) {
-        CustomResetData cd = new CustomResetData(Data.this);
-        cd.setDialogResult(new CustomResetData.OnMyDialogResult(){
-            public void finish(String result){
-                if(result == "Delete"){
+        CustomResetDataDialog cd = new CustomResetDataDialog(DataActivity.this);
+        cd.setDialogResult(new CustomResetDataDialog.OnMyDialogResult() {
+            public void finish(String result) {
+                if (result == "Delete") {
                     String db = mDatabaseHelper.getDatabaseName();
                     getApplicationContext().deleteDatabase(db);
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                     File directory = cw.getDir("PlantImages", Context.MODE_PRIVATE);
-                    if(directory.exists()){
+                    if (directory.exists()) {
                         File[] files = directory.listFiles();
                         assert files != null;
                         for (File file : files) {
@@ -80,7 +83,7 @@ public class Data extends AppCompatActivity {
 
 
                     File dir = new File(getFilesDir().getPath()); //find the internal stored txt file
-                    if(dir.isDirectory()){
+                    if (dir.isDirectory()) {
                         String[] children = dir.list();
                         for (String child : children) {
                             new File(dir, child).delete();
@@ -101,7 +104,7 @@ public class Data extends AppCompatActivity {
         if (direc.isDirectory()) {
 
             String[] children = direc.list();
-            if(children.length != 0) {
+            if (children.length != 0) {
                 for (int i = 0; i < children.length; i++) {
                     FileInputStream fis = null;
                     try {
@@ -149,7 +152,7 @@ public class Data extends AppCompatActivity {
                 sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
-            }else toastMessage("No data to export");
+            } else toastMessage("No data to export");
         }
     }
 
@@ -163,7 +166,7 @@ public class Data extends AppCompatActivity {
     public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
-        view.setBackgroundColor(Color.rgb(36,100,36));
+        view.setBackgroundColor(Color.rgb(36, 100, 36));
         view.setBackground(getResources().getDrawable(R.drawable.btngradient));
         TextView toastMessage = toast.getView().findViewById(android.R.id.message);
         toastMessage.setTextColor(Color.WHITE);

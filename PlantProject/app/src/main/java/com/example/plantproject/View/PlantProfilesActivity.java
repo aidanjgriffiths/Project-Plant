@@ -1,4 +1,4 @@
-package com.example.plantproject;
+package com.example.plantproject.View;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -14,18 +14,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.OnNoteListener{
+import com.example.plantproject.Adapter.ProfileAdapter;
+import com.example.plantproject.Controller.SwipeController;
+import com.example.plantproject.DataAccessLayer.DatabaseHelper;
+import com.example.plantproject.Listener.SwipeControllerActions;
+import com.example.plantproject.Model.BaseProfile;
+import com.example.plantproject.R;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlantProfilesActivity extends AppCompatActivity implements ProfileAdapter.OnNoteListener {
 
     private ArrayList<String> name_profiles = new ArrayList<>();
     private List<BaseProfile> profileList = new ArrayList<>();
@@ -70,8 +79,8 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
             }
             assert scaledBitmap != null;
             Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-            com.example.plantproject.BaseProfile profiles =
-                    new com.example.plantproject.BaseProfile(i, rotatedBitmap, R.drawable.open_profile, profile);
+            BaseProfile profiles =
+                    new BaseProfile(i, rotatedBitmap, R.drawable.open_profile, profile);
             profileList.add(profiles);
             }
         swipeController = new SwipeController(new SwipeControllerActions() {
@@ -139,7 +148,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
     }
 
     public void buttonBack(View view) {
-        Intent intent = new Intent(this, com.example.plantproject.MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
         }
@@ -148,7 +157,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
 
 
     public void buttonAdd(View view) {
-        Intent intent = new Intent(this, ProfileEditor.class);
+        Intent intent = new Intent(this, ProfileEditorActivity.class);
         intent.putExtra("edit_flag", false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
@@ -163,7 +172,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         String profile_edit = profileList.get(position).getProfile();
         Cursor profile = mDatabaseHelper.getSingleProfile(profile_edit);
 
-        Intent intent = new Intent(this, ProfileEditor.class);
+        Intent intent = new Intent(this, ProfileEditorActivity.class);
         intent.putExtra("edit_flag", true);
         finish();
         if (profile.moveToFirst()){

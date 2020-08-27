@@ -1,4 +1,4 @@
-package com.example.plantproject;
+package com.example.plantproject.View;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
@@ -36,6 +36,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import com.example.plantproject.DataAccessLayer.DatabaseHelper;
+import com.example.plantproject.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -54,14 +60,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import static android.hardware.Sensor.TYPE_LIGHT;
 
 
-public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitListener{
+public class MonitorActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private SurfaceView qr_scanner;
     private CameraSource cameraSource;
@@ -142,18 +144,18 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         button_record.setVisibility(View.INVISIBLE);
         sensorReadings = findViewById(R.id.sensor_readings);
 
-        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
-        if (lightSensor == null){
+        if (lightSensor == null) {
             toastMessage("This device does not have a light sensor");
 
         }
         lightEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                lightValue = (int)((((Double.parseDouble(Float.toString(sensorEvent.values[0])))-min_l)/(max_l-min_l))*100);
-                int light_deltaX = ((light_scale.getRight()-light_scale.getLeft())*lightValue/100)+light_scale.getLeft()
-                        -(((light_div.getRight()-light_div.getLeft())/2)+light_div.getLeft());
+                lightValue = (int) ((((Double.parseDouble(Float.toString(sensorEvent.values[0]))) - min_l) / (max_l - min_l)) * 100);
+                int light_deltaX = ((light_scale.getRight() - light_scale.getLeft()) * lightValue / 100) + light_scale.getLeft()
+                        - (((light_div.getRight() - light_div.getLeft()) / 2) + light_div.getLeft());
                 light_translateX = ObjectAnimator.ofFloat(light_div, "translationX", light_deltaX);
                 light_translateX.start();
             }
@@ -182,10 +184,10 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
-                    if (ActivityCompat.checkSelfPermission(Monitor.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(MonitorActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(qr_scanner.getHolder());
                     } else {
-                        ActivityCompat.requestPermissions(Monitor.this, new
+                        ActivityCompat.requestPermissions(MonitorActivity.this, new
                                 String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
 
@@ -220,9 +222,9 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                         @Override
                         public void run() {
                             intentData = barcodes.valueAt(0).displayValue;
-                            if(mDatabaseHelper.checkSingleProfile(intentData)){
+                            if (mDatabaseHelper.checkSingleProfile(intentData)) {
                                 Cursor profile = mDatabaseHelper.getSingleProfile(intentData);
-                                if(profile.moveToFirst()) {
+                                if (profile.moveToFirst()) {
                                     do {
                                         id_plant = profile.getInt(0);
                                         txtBarcodeValue.setText(profile.getString(1)); // display profile name
@@ -247,15 +249,15 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                                         previous_t = profile.getDouble(12);
                                         previous_h = profile.getDouble(13);
                                         previous_l = profile.getDouble(14);
-                                        prev_lightValue = (int)previous_l;
-                                        int prev_light_deltaX = ((light_scale.getRight()-light_scale.getLeft())*prev_lightValue/100)+light_scale.getLeft()
-                                                -(((light_div.getRight()-light_div.getLeft())/2)+light_div.getLeft());
+                                        prev_lightValue = (int) previous_l;
+                                        int prev_light_deltaX = ((light_scale.getRight() - light_scale.getLeft()) * prev_lightValue / 100) + light_scale.getLeft()
+                                                - (((light_div.getRight() - light_div.getLeft()) / 2) + light_div.getLeft());
                                         prev_light_translateX = ObjectAnimator.ofFloat(prev_light_div, "translationX", prev_light_deltaX);
                                         prev_light_translateX.start();
 
                                     } while (profile.moveToNext());
                                 }
-                                try{
+                                try {
                                     ContextWrapper cw = new ContextWrapper(getApplicationContext());
                                     File directory = cw.getDir("PlantImages", Context.MODE_PRIVATE);
                                     File imagePath = new File(directory, txtBarcodeValue.getText() + ".jpg");
@@ -264,7 +266,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                                     Bitmap scaledBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(new FileInputStream(imagePath)), 500, 500, true);
                                     Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                                     profile_pic.setImageBitmap(rotatedBitmap);
-                                }catch (FileNotFoundException e){
+                                } catch (FileNotFoundException e) {
                                     e.printStackTrace();
                                 }
 
@@ -404,15 +406,15 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                         speakWords("Device has disconnected");
                         button_connect.setText("Reconnect");
                     }
-                },3000);
+                }, 3000);
 
             }
         }
     };
 
 
-    private void connect(){
-        if(!bluetoothAdapter.isEnabled()) {
+    private void connect() {
+        if (!bluetoothAdapter.isEnabled()) {
             toastMessage("Bluetooth not on");
             return;
         }
@@ -453,17 +455,20 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             }
         }.start();
     }
+
     // reset the bluetooth connection
     private void resetConnection() {
         if (mBTSocket != null) {
             try {
                 mBTSocket.close();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             mBTSocket = null;
         }
 
     }
-    private BluetoothSocket createBluetoothSocket (BluetoothDevice device) throws IOException {
+
+    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         //creates secure outgoing connection with BT device using UUID
         return device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
     }
@@ -516,8 +521,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         if (requestCode == 0) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 myTTS = new TextToSpeech(this, this);
-            }
-            else {
+            } else {
                 Intent installTTSIntent = new Intent();
                 installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installTTSIntent);
@@ -528,32 +532,31 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     public void onInit(int initStatus) {
         if (initStatus == TextToSpeech.SUCCESS) {
             myTTS.setLanguage(Locale.US);
-        }
-        else if (initStatus == TextToSpeech.ERROR) {
+        } else if (initStatus == TextToSpeech.ERROR) {
             toastMessage("Sorry! Text To Speech failed...");
         }
     }
 
-    public void buttonRecord(View view){
-        toastMessage("Sensor Data Logged");
+    public void buttonRecord(View view) {
+        toastMessage("Sensor DataActivity Logged");
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         String sensorData = dateFormat.format(date) + ", Moisture: "
-                + "0," +" Temperature: " + "0," +" Humidity: "+ "0," +" Light: " +lightValue + "\n";
-        String healthData = "Estimated Health: "+ plantHealth.getText()+"\n\n";
+                + "0," + " Temperature: " + "0," + " Humidity: " + "0," + " Light: " + lightValue + "\n";
+        String healthData = "Estimated Health: " + plantHealth.getText() + "\n\n";
 
         FileOutputStream fos = null;
         try {
-            fos = openFileOutput(txtBarcodeValue.getText()+".txt", MODE_APPEND);
+            fos = openFileOutput(txtBarcodeValue.getText() + ".txt", MODE_APPEND);
             fos.write(sensorData.getBytes());
             fos.write(healthData.getBytes());
             //Toast.makeText(this, "Saved to "+ getFilesDir() + "/" + txtBarcodeValue.getText()+".txt", Toast.LENGTH_LONG).show();
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally{
-            if(fos!= null){
+        } finally {
+            if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
@@ -570,7 +573,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
-        view.setBackgroundColor(Color.rgb(36,100,36));
+        view.setBackgroundColor(Color.rgb(36, 100, 36));
         view.setBackground(getResources().getDrawable(R.drawable.btngradient));
         TextView toastMessage = toast.getView().findViewById(android.R.id.message);
         toastMessage.setTextColor(Color.WHITE);
