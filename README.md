@@ -6,6 +6,8 @@ This page aims to document the source code, software and hardware incorporated i
 ### Android Studio  
 Used for developing a mobile app that will collect sensor data and provide information to the user regarding the state of their plants. 
 Many people possess Android phones. Group members have experience programming in Java on this platform. 
+### PHP Storm  
+Modern PHP IDE for developing Web Applications within several Web Environment's. This provides our Users with a Convenient platform for viewing Plant Data, with regard to the health status of their plants, the weekly requirements from the User in terms of providing the appropriate nourishments for the Plants, and the projected requirement's in the future.
 ### Arduino IDE 
 IDE provides a coding platform for writing high level C/C++ based code that can be flashed to an Arduino board. 
 Accessible coding platform. Runs on Windows. Basic setup and looping format. Many well-established libraries available. USB flashing. Debugging is simple using the provided serial terminal.
