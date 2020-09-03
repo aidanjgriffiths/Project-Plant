@@ -1,4 +1,4 @@
-package com.example.plantproject.View;
+package com.example.plantproject;
 
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
@@ -12,13 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.plantproject.Controller.Receiver;
-import com.example.plantproject.R;
-
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, Receiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_CODE, intent, 0);
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 17);
         calendar.set(Calendar.MINUTE, 30);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+AlarmManager.INTERVAL_DAY*7, AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
     }
 
@@ -81,61 +78,57 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce = false;
+                doubleBackToExitPressedOnce=false;
             }
         }, 2000);
     }
 
     public void buttonProfiles(View view) {
-        Intent intent = new Intent(this, PlantProfilesActivity.class);
+        Intent intent = new Intent(this, PlantProfiles.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        } else {
+        }else{
             startActivity(intent);
         }
     }
 
     public void buttonData(View view) {
-        Intent intent = new Intent(this, DataActivity.class);
+        Intent intent = new Intent(this, Data.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        } else {
+        }else{
             startActivity(intent);
         }
     }
-
     public void buttonResources(View view) {
-        Intent intent = new Intent(this, ResourcesActivity.class);
+        Intent intent = new Intent(this, Resources.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        } else {
+        }else{
             startActivity(intent);
         }
     }
-
     public void buttonHelp(View view) {
-        Intent intent = new Intent(this, HelpActivity.class);
+        Intent intent = new Intent(this, Help.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        } else {
+        }else{
             startActivity(intent);
         }
     }
-
     public void buttonInformation(View view) {
-        Intent intent = new Intent(this, InformationActivity.class);
+        Intent intent = new Intent(this, Information.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        } else {
+        }else{
             startActivity(intent);
         }
     }
-
     public void buttonMonitor(View view) {
-        Intent intent = new Intent(this, MonitorActivity.class);
+        Intent intent = new Intent(this, Monitor.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        } else {
+        }else{
             startActivity(intent);
         }
     }
@@ -143,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
-        view.setBackgroundColor(Color.rgb(36, 100, 36));
+        view.setBackgroundColor(Color.rgb(36,100,36));
         view.setBackground(getResources().getDrawable(R.drawable.btngradient));
         TextView toastMessage = toast.getView().findViewById(android.R.id.message);
         toastMessage.setTextColor(Color.WHITE);

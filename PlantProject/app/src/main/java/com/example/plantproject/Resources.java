@@ -1,4 +1,4 @@
-package com.example.plantproject.View;
+package com.example.plantproject;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -10,9 +10,7 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.plantproject.R;
-
-public class ResourcesActivity extends AppCompatActivity {
+public class Resources extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

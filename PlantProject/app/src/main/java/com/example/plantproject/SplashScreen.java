@@ -1,4 +1,4 @@
-package com.example.plantproject.View;
+package com.example.plantproject;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -17,9 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.plantproject.R;
-
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -42,31 +40,33 @@ public class SplashScreenActivity extends AppCompatActivity {
         ImageView logo = findViewById(R.id.connect_image);
         logo.setAnimation(topAnim);
 
-        mySong = MediaPlayer.create(SplashScreenActivity.this, R.raw.mysong);
+        mySong = MediaPlayer.create(SplashScreen.this, R.raw.mysong);
         mySong.start();
 
         // Turn on Bluetooth
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
+        if(bluetoothAdapter == null){
             toastMessage("Bluetooth is not supported on this device");
             System.exit(0);
-        } else {
-            if (!bluetoothAdapter.isEnabled()) {
+        }
+        else{
+            if(!bluetoothAdapter.isEnabled()) {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            } else {
+            }
+            else{
                 toastMessage("Bluetooth is ON");
             }
         }
 
         int SPLASH_DISPLAY_LENGTH = 7000;
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(SplashScreenActivity.this, MainActivity.class);
-                SplashScreenActivity.this.startActivity(mainIntent);
-                SplashScreenActivity.this.finish();
+                Intent mainIntent = new Intent(SplashScreen.this, com.example.plantproject.MainActivity.class);
+                SplashScreen.this.startActivity(mainIntent);
+                SplashScreen.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
     }
@@ -103,7 +103,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause(){
         super.onPause();
         mySong.release();
     }
@@ -123,7 +123,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce = false;
+                doubleBackToExitPressedOnce=false;
             }
         }, 2000);
     }
@@ -131,7 +131,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
-        view.setBackgroundColor(Color.rgb(36, 100, 36));
+        view.setBackgroundColor(Color.rgb(36,100,36));
         view.setBackground(getResources().getDrawable(R.drawable.btngradient));
         TextView toastMessage = toast.getView().findViewById(android.R.id.message);
         toastMessage.setTextColor(Color.WHITE);

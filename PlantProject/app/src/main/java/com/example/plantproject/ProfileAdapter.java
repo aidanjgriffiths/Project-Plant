@@ -1,4 +1,4 @@
-package com.example.plantproject.Adapter;
+package com.example.plantproject;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,21 +6,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.plantproject.Model.BaseProfile;
-import com.example.plantproject.R;
-
-import java.util.List;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
     private List<BaseProfile> prof;
 
     private OnNoteListener mOnNoteListener;
-
     // Provide a suitable constructor (depends on the kind of dataSet)
-    public ProfileAdapter(List<BaseProfile> prof, OnNoteListener onNoteListener) {
+    public ProfileAdapter(List<BaseProfile> prof,  OnNoteListener onNoteListener) {
         this.prof = prof;
         this.mOnNoteListener = onNoteListener;
     }
@@ -45,8 +41,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             onNoteListener.onNoteClick(getAdapterPosition());
         }
     }
-
-    public interface OnNoteListener {
+    public interface OnNoteListener{
         void onNoteClick(int position);
     }
 

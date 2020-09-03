@@ -1,18 +1,19 @@
-package com.example.plantproject.View;
-
-
-import android.app.ActivityOptions;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+package com.example.plantproject;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.ActivityOptions;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
-import com.example.plantproject.R;
+public class Help extends AppCompatActivity {
 
-public class InformationActivity extends AppCompatActivity {
+    private VideoView vid1, vid2, vid3;
+    private MediaController mController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +24,13 @@ public class InformationActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-        setContentView(R.layout.activity_information);
+        setContentView(R.layout.activity_help);
 
-        TextView softwareVersion = findViewById(R.id.software_version);
-        String softVersion = "0.0.0";
-        softwareVersion.setText("Software Version: " + softVersion);
+        vid1 = findViewById(R.id.how_connect);
+        vid2 = findViewById(R.id.how_addprofile);
+        vid3 = findViewById(R.id.how_monitor);
 
-        TextView hardwareID = findViewById(R.id.hardware_id);
-        String hardID = "1.0";
-        hardwareID.setText("Hardware ID: " + hardID);
+        mController = new MediaController(this);
 
     }
 
@@ -52,6 +51,33 @@ public class InformationActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
+    }
+
+    public void playVideo1(View v) {
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.vid1;
+        Uri u = Uri.parse((path));
+        vid1.setVideoURI(u);
+        vid1.setMediaController(mController);
+        mController.setAnchorView(vid1);
+
+    }
+
+    public void playVideo2(View v) {
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.vid1;
+        Uri u = Uri.parse((path));
+        vid2.setVideoURI(u);
+        vid2.setMediaController(mController);
+        mController.setAnchorView(vid2);
+
+    }
+
+    public void playVideo3(View v) {
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.vid1;
+        Uri u = Uri.parse((path));
+        vid3.setVideoURI(u);
+        vid3.setMediaController(mController);
+        mController.setAnchorView(vid3);
+
     }
 
     public void buttonBack(View view) {

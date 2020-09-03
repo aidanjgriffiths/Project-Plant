@@ -1,4 +1,4 @@
-package com.example.plantproject.View;
+package com.example.plantproject;
 
 import android.content.Context;
 import android.hardware.Camera;
@@ -41,7 +41,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.
 
-        if (mHolder.getSurface() == null) {
+        if (mHolder.getSurface() == null){
             // preview surface does not exist
             return;
         }
@@ -49,7 +49,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         // stop preview before making changes
         try {
             mCamera.stopPreview();
-        } catch (Exception e) {
+        } catch (Exception e){
             // ignore: tried to stop a non-existent preview
         }
 
@@ -58,7 +58,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
 
-        } catch (Exception e) {
+        } catch (Exception e){
             e.getMessage();
         }
     }

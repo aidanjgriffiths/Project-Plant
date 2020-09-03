@@ -1,26 +1,21 @@
-package com.example.plantproject.View;
+package com.example.plantproject;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.example.plantproject.R;
+public class CustomResetWarning extends Dialog {
 
-import java.util.Objects;
-
-public class CustomResetDataDialog extends Dialog implements View.OnClickListener {
-
-    public Button yes, no;
-    OnMyDialogResult mDialogResult; // the callback
-
-    public CustomResetDataDialog(@NonNull Context context) {
+    public CustomResetWarning(@NonNull Context context) {
         super(context);
     }
 
@@ -35,21 +30,15 @@ public class CustomResetDataDialog extends Dialog implements View.OnClickListene
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-        setContentView(R.layout.custom_resetdata);
+        setContentView(R.layout.custom_resetwarning);
 
-        yes = findViewById(R.id.button_yes);
-        no = findViewById(R.id.button_no);
-        yes.setOnClickListener(this);
-        no.setOnClickListener(this);
+        new Handler().postDelayed(new Runnable() {
 
-    }
-
-    public void setDialogResult(OnMyDialogResult dialogResult) {
-        mDialogResult = dialogResult;
-    }
-
-    public interface OnMyDialogResult {
-        void finish(String result);
+            @Override
+            public void run() {
+                dismiss();
+            }
+        }, 2000);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -68,23 +57,6 @@ public class CustomResetDataDialog extends Dialog implements View.OnClickListene
                             // Hide the nav bar and status bar
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.button_yes:
-                dismiss();
-                mDialogResult.finish("Delete");
-                CustomResetWarningDialog cw = new CustomResetWarningDialog(getContext());
-                cw.show();
-                break;
-            case R.id.button_no:
-                dismiss();
-                break;
-            default:
-                break;
         }
     }
 }

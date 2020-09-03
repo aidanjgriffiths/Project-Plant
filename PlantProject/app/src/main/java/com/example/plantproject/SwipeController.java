@@ -1,4 +1,4 @@
-package com.example.plantproject.Controller;
+package com.example.plantproject;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
@@ -10,8 +10,6 @@ import android.view.View;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.plantproject.Listener.SwipeControllerActions;
 
 enum ButtonsState {
     GONE,
