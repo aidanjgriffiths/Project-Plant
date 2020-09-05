@@ -1,4 +1,6 @@
-<?php include './Header.php'; ?>
+<?php
+include './Header.php';
+include '../DAL/DatabaseConnector.php' ?>
     <!DOCTYPE html>
     <html lang="en">
     <head>
