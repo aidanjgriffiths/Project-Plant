@@ -1,9 +1,11 @@
-<?php include './Header.php'; ?>
+<?php
+include './Header.php';
+include '../Root/DatabaseConnector.php' ?>
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <script src="../Dependencies/qrcode.js"></script>
+        <script src="../Resources/Dependencies/qrcode.js"></script>
         <title>Home</title>
     </head>
     <body>
