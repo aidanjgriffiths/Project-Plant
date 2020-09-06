@@ -13,10 +13,10 @@ CREATE TABLE PWebConnector (
 );
 
 CREATE TABLE PUser (
-    user_id_pk INT NOT NULL AUTO_INCREMENT,
-    web_connect_token_fk INT NOT NULL,
-    PRIMARY KEY (user_id_pk),
-    FOREIGN KEY (web_connect_token_fk)
+    user_id_pk INT NOT NULL,
+    web_connect_token_pk_fk INT NOT NULL,
+    PRIMARY KEY (user_id_pk, web_connect_token_pk_fk),
+    FOREIGN KEY (web_connect_token_pk_fk)
         REFERENCES PWebConnector (web_connect_token_pk)
 );
 
@@ -106,28 +106,14 @@ BEGIN
 END//
 
 DELIMITER ;
--- USP_INSERT_PUSER --
-DELIMITER //
-
-CREATE PROCEDURE usp_insert_PUser(IN pweb_connect_token_fk INT)
-BEGIN
-    INSERT 
-    INTO PUser (`web_connect_token_fk`)
-    VALUES (pweb_connect_token_fk);
-
-    SELECT LAST_INSERT_ID() as Last_Inserted_Id;
-END//
-
-DELIMITER ;
-
 -- USP_READ_PUSER --
 DELIMITER //
 
-CREATE PROCEDURE usp_read_PUser(IN puser_id_pk INT)
+CREATE PROCEDURE usp_read_PUser(IN puser_id_pk INT, IN pweb_connect_token_pk_fk INT)
 BEGIN
     SELECT * 
     FROM PUser 
-    WHERE `user_id_pk` = puser_id_pk;
+    WHERE `user_id_pk` = puser_id_pk AND `web_connect_token_pk_fk` = pweb_connect_token_pk_fk;
 END//
 
 DELIMITER ;
@@ -143,26 +129,14 @@ END//
 
 DELIMITER ;
 
--- USP_UPDATE_PUSER --
-DELIMITER //
-
-CREATE PROCEDURE usp_update_PUser(IN puser_id_pk INT, IN pweb_connect_token_fk INT)
-BEGIN
-    UPDATE PUser
-    SET `web_connect_token_fk` = pweb_connect_token_fk
-    WHERE `user_id_pk` = puser_id_pk;
-END//
-
-DELIMITER ;
-
 -- USP_DELETE_PUSER --
 DELIMITER //
 
-CREATE PROCEDURE usp_delete_PUser(IN puser_id_pk INT)
+CREATE PROCEDURE usp_delete_PUser(IN puser_id_pk INT, IN pweb_connect_token_pk_fk INT)
 BEGIN
 	DELETE 
 	FROM PUser 
-	WHERE `user_id_pk` = puser_id_pk;
+	WHERE `user_id_pk` = puser_id_pk AND `web_connect_token_pk_fk` = pweb_connect_token_pk_fk;
 END//
 
 DELIMITER ;
