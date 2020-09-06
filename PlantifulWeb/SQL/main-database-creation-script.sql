@@ -7,17 +7,17 @@ USE Main;
 -- #### TABLE CREATION ####
 
 CREATE TABLE PWebConnector (
-    web_connect_token_pk INT NOT NULL AUTO_INCREMENT,
+    web_connect_pk INT NOT NULL AUTO_INCREMENT,
     web_connect_key VARCHAR(30) NOT NULL,
-    PRIMARY KEY (web_connect_token_pk)
+    PRIMARY KEY (web_connect_pk)
 );
 
 CREATE TABLE PUser (
-    user_id_pk INT NOT NULL AUTO_INCREMENT,
-    web_connect_token_fk INT NOT NULL,
-    PRIMARY KEY (user_id_pk),
-    FOREIGN KEY (web_connect_token_fk)
-        REFERENCES PWebConnector (web_connect_token_pk)
+    user_id_pk INT NOT NULL,
+    web_connect_key_pk_fk INT NOT NULL,
+    PRIMARY KEY (user_id_pk, web_connect_key_pk_fk),
+    FOREIGN KEY (web_connect_key_pk_fk)
+        REFERENCES PWebConnector (web_connect_pk)
 );
 
 CREATE TABLE PMeasurement (
@@ -46,126 +46,6 @@ CREATE TABLE PProfile (
 
 -- #### STORED PROCEDURES ####
 
--- USP_INSERT_PWEBCONNECTOR --
-DELIMITER //
-
-CREATE PROCEDURE usp_insert_PWebConnector(IN pweb_connect_key VARCHAR(30))
-BEGIN
-    INSERT 
-    INTO PWebConnector (`web_connect_key`)
-    VALUES (pweb_connect_key);
-
-    SELECT LAST_INSERT_ID() as Last_Inserted_Id;
-END//
-
-DELIMITER ;
-
--- USP_READ_PWEBCONNECTOR --
-DELIMITER //
-
-CREATE PROCEDURE usp_read_PWebConnector(IN pweb_connect_token_pk INT)
-BEGIN
-    SELECT * 
-    FROM PWebConnector 
-    WHERE `web_connect_token_pk` = pweb_connect_token_pk;
-END//
-
-DELIMITER ;
-
--- USP_READ_ALL_PWEBCONNECTOR --
-DELIMITER //
-
-CREATE PROCEDURE usp_read_all_PWebConnector()
-BEGIN
-    SELECT * 
-    FROM PWebConnector;
-END//
-
-DELIMITER ;
-
--- USP_UPDATE_PWEBCONNECTOR --
-DELIMITER //
-
-CREATE PROCEDURE usp_update_PWebConnector(IN pweb_connect_token_pk INT, IN pweb_connect_key VARCHAR(30))
-BEGIN
-    UPDATE PWebConnector
-    SET `web_connect_key` = pweb_connect_key
-    WHERE `web_connect_token_pk` = pweb_connect_token_pk;
-END//
-
-DELIMITER ;
-
--- USP_DELETE_PWEBCONNECTOR --
-DELIMITER //
-
-CREATE PROCEDURE usp_delete_PWebConnector(IN pweb_connect_token_pk INT)
-BEGIN
-	DELETE 
-	FROM PWebConnector 
-	WHERE `web_connect_token_pk` = pweb_connect_token_pk;
-END//
-
-DELIMITER ;
--- USP_INSERT_PUSER --
-DELIMITER //
-
-CREATE PROCEDURE usp_insert_PUser(IN pweb_connect_token_fk INT)
-BEGIN
-    INSERT 
-    INTO PUser (`web_connect_token_fk`)
-    VALUES (pweb_connect_token_fk);
-
-    SELECT LAST_INSERT_ID() as Last_Inserted_Id;
-END//
-
-DELIMITER ;
-
--- USP_READ_PUSER --
-DELIMITER //
-
-CREATE PROCEDURE usp_read_PUser(IN puser_id_pk INT)
-BEGIN
-    SELECT * 
-    FROM PUser 
-    WHERE `user_id_pk` = puser_id_pk;
-END//
-
-DELIMITER ;
-
--- USP_READ_ALL_PUSER --
-DELIMITER //
-
-CREATE PROCEDURE usp_read_all_PUser()
-BEGIN
-    SELECT * 
-    FROM PUser;
-END//
-
-DELIMITER ;
-
--- USP_UPDATE_PUSER --
-DELIMITER //
-
-CREATE PROCEDURE usp_update_PUser(IN puser_id_pk INT, IN pweb_connect_token_fk INT)
-BEGIN
-    UPDATE PUser
-    SET `web_connect_token_fk` = pweb_connect_token_fk
-    WHERE `user_id_pk` = puser_id_pk;
-END//
-
-DELIMITER ;
-
--- USP_DELETE_PUSER --
-DELIMITER //
-
-CREATE PROCEDURE usp_delete_PUser(IN puser_id_pk INT)
-BEGIN
-	DELETE 
-	FROM PUser 
-	WHERE `user_id_pk` = puser_id_pk;
-END//
-
-DELIMITER ;
 -- USP_INSERT_PMEASUREMENT --
 DELIMITER //
 
@@ -283,6 +163,124 @@ BEGIN
 	DELETE 
 	FROM PProfile 
 	WHERE `profile_id_pk` = pprofile_id_pk;
+END//
+
+DELIMITER ;
+-- USP_INSERT_PWEBCONNECTOR --
+DELIMITER //
+
+CREATE PROCEDURE usp_insert_PWebConnector(IN pweb_connect_key VARCHAR(30))
+BEGIN
+    INSERT 
+    INTO PWebConnector (`web_connect_key`)
+    VALUES (pweb_connect_key);
+
+    SELECT LAST_INSERT_ID() as Last_Inserted_Id;
+END//
+
+DELIMITER ;
+
+-- USP_READ_PWEBCONNECTOR --
+DELIMITER //
+
+CREATE PROCEDURE usp_read_PWebConnector(IN pweb_connect_pk INT)
+BEGIN
+    SELECT * 
+    FROM PWebConnector 
+    WHERE `web_connect_pk` = pweb_connect_pk;
+END//
+
+DELIMITER ;
+
+-- USP_READ_ALL_PWEBCONNECTOR --
+DELIMITER //
+
+CREATE PROCEDURE usp_read_all_PWebConnector()
+BEGIN
+    SELECT * 
+    FROM PWebConnector;
+END//
+
+DELIMITER ;
+
+-- USP_UPDATE_PWEBCONNECTOR --
+DELIMITER //
+
+CREATE PROCEDURE usp_update_PWebConnector(IN pweb_connect_pk INT, IN pweb_connect_key VARCHAR(30))
+BEGIN
+    UPDATE PWebConnector
+    SET `web_connect_key` = pweb_connect_key
+    WHERE `web_connect_pk` = pweb_connect_pk;
+END//
+
+DELIMITER ;
+
+-- USP_DELETE_PWEBCONNECTOR --
+DELIMITER //
+
+CREATE PROCEDURE usp_delete_PWebConnector(IN pweb_connect_pk INT)
+BEGIN
+	DELETE 
+	FROM PWebConnector 
+	WHERE `web_connect_pk` = pweb_connect_pk;
+END//
+
+DELIMITER ;
+-- USP_INSERT_PUSER --
+DELIMITER //
+
+CREATE PROCEDURE usp_insert_PUser(IN puser_id_pk INT, IN pweb_connect_key_pk_fk INT)
+BEGIN
+    INSERT 
+    INTO PUser (`user_id_pk`, `web_connect_key_pk_fk`)
+    VALUES (puser_id_pk, pweb_connect_key_pk_fk);
+END//
+
+DELIMITER ;
+
+-- USP_READ_PUSER --
+DELIMITER //
+
+CREATE PROCEDURE usp_read_PUser(IN puser_id_pk INT, IN pweb_connect_key_pk_fk INT)
+BEGIN
+    SELECT * 
+    FROM PUser 
+    WHERE `user_id_pk` = puser_id_pk AND `web_connect_key_pk_fk` = pweb_connect_key_pk_fk;
+END//
+
+DELIMITER ;
+
+-- USP_READ_ALL_PUSER --
+DELIMITER //
+
+CREATE PROCEDURE usp_read_all_PUser()
+BEGIN
+    SELECT * 
+    FROM PUser;
+END//
+
+DELIMITER ;
+
+-- USP_UPDATE_PUSER --
+DELIMITER //
+
+CREATE PROCEDURE usp_update_PUser(IN pOlduser_id_pk INT, IN pNewuser_id_pk INT, IN pOldweb_connect_key_pk_fk INT, IN pNewweb_connect_key_pk_fk INT)
+BEGIN
+    UPDATE PUser
+    SET `user_id_pk` = pNewuser_id_pk, `web_connect_key_pk_fk` = pNewweb_connect_key_pk_fk
+    WHERE `user_id_pk` = pOlduser_id_pk AND `web_connect_key_pk_fk` = pOldweb_connect_key_pk_fk;
+END//
+
+DELIMITER ;
+
+-- USP_DELETE_PUSER --
+DELIMITER //
+
+CREATE PROCEDURE usp_delete_PUser(IN puser_id_pk INT, IN pweb_connect_key_pk_fk INT)
+BEGIN
+	DELETE 
+	FROM PUser 
+	WHERE `user_id_pk` = puser_id_pk AND `web_connect_key_pk_fk` = pweb_connect_key_pk_fk;
 END//
 
 DELIMITER ;

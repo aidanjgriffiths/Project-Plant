@@ -2,11 +2,11 @@
 
 class PWebConnector
 {
-	private $web_connect_token_pk, $web_connect_key;
+	private $web_connect_pk, $web_connect_key;
 
-	public function __construct($web_connect_key, $web_connect_token_pk = null)
+	public function __construct($web_connect_key, $web_connect_pk = null)
 	{
-		$this->web_connect_token_pk = $web_connect_token_pk;
+		$this->web_connect_pk = $web_connect_pk;
 		$this->web_connect_key = $web_connect_key;
 	}
 
@@ -16,7 +16,7 @@ class PWebConnector
 		$result = query($insert_pwebconnector_query);
 
 		$last_inserted_id = mysqli_fetch_assoc($result)['Last_Inserted_Id'];
-		$this->web_connect_token_pk = $last_inserted_id;
+		$this->web_connect_pk = $last_inserted_id;
 
 		return $last_inserted_id;
 	}
@@ -29,29 +29,29 @@ class PWebConnector
 
 		while ($row = mysqli_fetch_assoc($result))
 		{
-			array_push($pwebconnectors, new PWebConnector($row['web_connect_key'], $row['web_connect_token_pk']));
+			array_push($pwebconnectors, new PWebConnector($row['web_connect_key'], $row['web_connect_pk']));
 		}
-		
+
 		return $pwebconnectors;
 	}
 
-	public static function read_pwebconnector($web_connect_token_pk)
+	public static function read_pwebconnector($web_connect_pk)
 	{
-		$read_pwebconnector_query = "CALL usp_read_pwebconnector('{$web_connect_token_pk}');";
+		$read_pwebconnector_query = "CALL usp_read_pwebconnector('{$web_connect_pk}');";
 		$row = mysqli_fetch_assoc(query($read_pwebconnector_query));
-		$pwebconnector = new PWebConnector($row['web_connect_key'], $row['web_connect_token_pk']);
+		$pwebconnector = new PWebConnector($row['web_connect_key'], $row['web_connect_pk']);
 		return $pwebconnector;
 	}
 
 	public function update_pwebconnector()
 	{
-		$update_pwebconnector_query = "CALL usp_update_pwebconnector('{$this->web_connect_token_pk}', '{$this->web_connect_key}');";
+		$update_pwebconnector_query = "CALL usp_update_pwebconnector('{$this->web_connect_pk}', '{$this->web_connect_key}');";
 		query($update_pwebconnector_query);
 	}
 
 	public function delete_pwebconnector()
 	{
-		$delete_pwebconnector_query = "CALL usp_delete_pwebconnector('{$this->old_web_connect_token_pk}');";
+		$delete_pwebconnector_query = "CALL usp_delete_pwebconnector('{$this->old_web_connect_pk}');";
 		query($delete_pwebconnector_query);
 	}
 
@@ -66,14 +66,14 @@ class PWebConnector
 			return null;
 		}
 	}
-	
+
 	public function __set($property, $value)
 	{
 		if (property_exists($this, $property))
 		{
 			$this->$property = $value;
 		}
-		
+
 		return $this;
 	}
 }
