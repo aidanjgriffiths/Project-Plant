@@ -11,8 +11,15 @@ include '../Root/DatabaseConnector.php' ?>
     <body>
     <h1>Hello From Body</h1>
     <div id="qr-test">
+        <form method="post" action="../Stem/UACStem.php">
+            <input id="uid" name="uac_w_uid" type="number" maxlength="6" placeholder="UID">
+            <input id="wid" name="uac_w_wid" type="number" maxlength="6" placeholder="WID">
+            <input id="submit" type="submit">
+        </form>
         <script type="text/javascript">
-            new QRCode(document.getElementById("qr-test"), "12345678910121242342353463645");
+            document.getElementById("post").onsubmit = function () {
+                new QRCode(document.getElementById("qr-test"), document.getElementById("wid").toString());
+            }
         </script>
     </div>
     </body>

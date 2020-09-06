@@ -4,9 +4,9 @@ include 'AUTH.php';
 
 function connect()
 {
-	global $HOST, $USER, $PASS;
+	global $DATABASE, $HOST, $USER, $PASS;
 
-	$conn = new mysqli($HOST, $USER, $PASS);
+	$conn = new mysqli($HOST, $USER, $PASS, $DATABASE);
 	if ($conn->connect_error)
 		die("Unable to Establish a Connection: " . $conn->connect_error);
 
@@ -19,6 +19,8 @@ function query($query_string)
 
 	$conn = connect();
 	$result = $conn->query($query_string);
+	if (!$result)
+		$result = $conn->error;
 	$conn->close();
 
 	return $result;
