@@ -4,6 +4,12 @@
 
 This document will outline the total list of parts required for each variation/version of the hardware, including testers and intermediate revisions. This document will only detail the materials required. Connection and operation will be left to the design document.
 
+## Suppliers
+
+Most of the components in the below lists can be found from:
+- Jaycar
+- Core Electronics
+
 ## Testers
 ### Bluetooth Tester
 
