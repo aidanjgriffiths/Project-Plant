@@ -70,6 +70,14 @@
     <string name="channel_description">Time to check your plants!</string>
     <string name="log_the_data">Log the Data</string>
     <string name="profile_pic">profile_pic</string>
+    <string name="connected">Connected</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connecting">Connecting...</string>
+    <string name="read_the_sensors">Read the Sensors</string>
+    <string name="plant_health">Plant Health</string>
+    <string name="web_sync">Web Sync</string>
+    <string name="qr_scanner">QR Scanner</string>
 
 
     <string-array name="plants">

@@ -1,5 +1,7 @@
 package com.example.plantproject;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -8,12 +10,18 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,16 +32,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.disposables.Disposable;
 
 public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.OnNoteListener{
 
-    private ArrayList<String> name_profiles = new ArrayList<>();
-    private List<BaseProfile> profileList = new ArrayList<>();
+    RecyclerView profileRecyclerView;
+    ProfileAdapter profileAdapter;
+    ArrayList<String> name_profiles = new ArrayList<>();
+    List<BaseProfile> profileList = new ArrayList<>();
+    Button addProfiles;
+
     private static final String TAG = "Profile";
-    private DatabaseHelper mDatabaseHelper;
-    private SwipeController swipeController = null;
+    DatabaseHelper mDatabaseHelper;
 
+    SwipeController swipeController = null;
 
+    @SuppressLint("CheckResult")
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +60,22 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_plant_profiles);
 
-        Button addProfiles = findViewById(R.id.profile_add);
+        addProfiles = findViewById(R.id.profile_add);
 
         mDatabaseHelper = new DatabaseHelper(this);
         populateProfiles();
 
-        RecyclerView profileRecyclerView = findViewById(R.id.profile_recycler);
+        profileRecyclerView = findViewById(R.id.profile_recycler);
         profileRecyclerView.setHasFixedSize(true);
+
+        new RxPermissions(this)
+                .request(Manifest.permission.CAMERA) // ask single or multiple permission once
+                .subscribe(granted -> {
+                    if (!granted) {
+                        toastMessage("Camera permission not granted");
+                    }
+                });
+
 
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("PlantImages", Context.MODE_PRIVATE);
@@ -73,7 +97,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
             com.example.plantproject.BaseProfile profiles =
                     new com.example.plantproject.BaseProfile(i, rotatedBitmap, R.drawable.open_profile, profile);
             profileList.add(profiles);
-            }
+        }
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
@@ -103,10 +127,25 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
             }
         });
 
-        ProfileAdapter profileAdapter = new ProfileAdapter(profileList, this);
+        profileAdapter = new ProfileAdapter(profileList, this);
         profileRecyclerView.setAdapter(profileAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         profileRecyclerView.setLayoutManager(layoutManager);
+
+    }
+
+    private void populateProfiles(){
+        Log.d(TAG, "Display profiles in ProfileViewer");
+        Cursor data = mDatabaseHelper.getData();
+        while(data.moveToNext()){
+            name_profiles.add(data.getString(1));
+
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
 
     }
 
@@ -119,7 +158,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
             decorView.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_IMMERSIVE
                             // Set the content to appear under the system bars so that the
-                            // content doesn't resize when the system bars hide and show.
+                            // content doesn't resize when the system bars hide and show
                             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -129,22 +168,15 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         }
     }
 
-    private void populateProfiles(){
-        Log.d(TAG, "Display profiles in ProfileViewer");
-        Cursor data = mDatabaseHelper.getData();
-        while(data.moveToNext()){
-            name_profiles.add(data.getString(1));
-
-        }
-    }
-
     public void buttonBack(View view) {
-        Intent intent = new Intent(this, com.example.plantproject.MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
         }
         startActivity(intent);
     }
+
+
 
 
     public void buttonAdd(View view) {
@@ -155,6 +187,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         }else{
             startActivity(intent);
         }
+
     }
 
 
@@ -188,5 +221,14 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         startActivity(intent);
     }
 
+    public void toastMessage(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.rgb(36,100,36));
+        view.setBackground(getResources().getDrawable(R.drawable.btngradient));
+        TextView toastMessage = toast.getView().findViewById(android.R.id.message);
+        toastMessage.setTextColor(Color.WHITE);
+        toast.show();
+    }
 
 }

@@ -1,17 +1,26 @@
 package com.example.plantproject;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.SparseArray;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,14 +28,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 public class Data extends AppCompatActivity {
 
     private DatabaseHelper mDatabaseHelper;
+    private SurfaceView qr_scanner;
+    private CameraSource cameraSource;
+    private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +51,18 @@ public class Data extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_data);
         mDatabaseHelper = new DatabaseHelper(this);
+        qr_scanner = findViewById(R.id.webconnect);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        cameraSource.release();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        initialiseDetectorsAndSources();
 
     }
 
@@ -60,6 +84,72 @@ public class Data extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
     }
+
+    private void initialiseDetectorsAndSources() {
+
+        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build();
+
+        cameraSource = new CameraSource.Builder(this, barcodeDetector)
+                .setRequestedPreviewSize(960, 540) //1920, 1080
+                .setAutoFocusEnabled(true)
+                .build();
+
+        qr_scanner.getHolder().addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                try {
+                    if (ActivityCompat.checkSelfPermission(Data.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        cameraSource.start(qr_scanner.getHolder());
+                    } else {
+                        ActivityCompat.requestPermissions(Data.this, new
+                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                cameraSource.stop();
+            }
+        });
+
+
+        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+            @Override
+            public void release() {
+                //toastMessage("QR scanner stopped");
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                if (barcodes.size() != 0) {
+                    Handler txtBarcodeValue = null;
+                    txtBarcodeValue.post(new Runnable() {
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void run() {
+                            String intentData = barcodes.valueAt(0).displayValue;
+                            /////
+                            cameraSource.stop();
+                            toastMessage("QR scanner stopped");
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 
     public void buttonReset(View view) {
         CustomResetData cd = new CustomResetData(Data.this);

@@ -15,7 +15,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     private List<BaseProfile> prof;
 
     private OnNoteListener mOnNoteListener;
-    // Provide a suitable constructor (depends on the kind of dataSet)
     public ProfileAdapter(List<BaseProfile> prof,  OnNoteListener onNoteListener) {
         this.prof = prof;
         this.mOnNoteListener = onNoteListener;

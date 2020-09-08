@@ -12,11 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:background="#66246424"
+        android:fontFamily="@font/lilita_one"
         android:gravity="center"
         android:text="@string/plantiful"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,31 +27,33 @@
         android:id="@+id/divider5"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginTop="16dp"
         android:background="@color/title_colour"
         app:layout_constraintBottom_toTopOf="@+id/button_record"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/light_scale"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/read_sensors"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/divider4"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginBottom="3dp"
         android:background="@color/title_colour"
         app:layout_constraintBottom_toTopOf="@+id/textView32"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_pic"
+        app:layout_constraintTop_toBottomOf="@+id/textView49"
         app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/monitor_header"
         android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="100dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:text="@string/monitor"
@@ -66,8 +68,8 @@
 
     <ImageView
         android:id="@+id/monitor_logo"
-        android:layout_width="59dp"
-        android:layout_height="59dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="@string/monitor"
         app:layout_constraintBottom_toTopOf="@+id/monitor_header"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,13 +126,13 @@
         android:layout_height="wrap_content"
         android:text="Moisture (%)"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qr_scanner"
-        app:layout_constraintVertical_bias="0.06" />
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <ImageView
         android:id="@+id/moisture_scale"
@@ -141,7 +143,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView32"
-        app:srcCompat="@drawable/scale_nb" />
+        app:srcCompat="@drawable/scale_nb1" />
 
     <ImageView
         android:id="@+id/temperature_scale"
@@ -151,7 +153,7 @@
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/moisture_scale"
         app:layout_constraintTop_toBottomOf="@+id/textView33"
-        app:srcCompat="@drawable/scale_nb" />
+        app:srcCompat="@drawable/scale_nb1" />
 
     <TextView
         android:id="@+id/textView33"
@@ -160,7 +162,7 @@
         android:layout_marginTop="10dp"
         android:text="Temperature (\u2103)"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/temperature_scale"
         app:layout_constraintStart_toStartOf="@+id/temperature_scale"
@@ -187,7 +189,7 @@
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/temperature_scale"
         app:layout_constraintTop_toBottomOf="@+id/textView35"
-        app:srcCompat="@drawable/scale_nb" />
+        app:srcCompat="@drawable/scale_nb1" />
 
     <TextView
         android:id="@+id/textView35"
@@ -196,7 +198,7 @@
         android:layout_marginTop="10dp"
         android:text="Humidity (%)"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/humidity_scale"
         app:layout_constraintStart_toStartOf="@+id/humidity_scale"
@@ -210,7 +212,7 @@
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/humidity_scale"
         app:layout_constraintTop_toBottomOf="@+id/textView36"
-        app:srcCompat="@drawable/scale_nb" />
+        app:srcCompat="@drawable/scale_nb1" />
 
     <TextView
         android:id="@+id/textView36"
@@ -219,7 +221,7 @@
         android:layout_marginTop="10dp"
         android:text="Light (lx)"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/light_scale"
         app:layout_constraintStart_toStartOf="@+id/light_scale"
@@ -326,6 +328,16 @@
         app:layout_constraintTop_toTopOf="@+id/qr_scanner" />
 
     <View
+        android:id="@+id/prev_moist_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="#03A9F4"
+        app:layout_constraintBottom_toBottomOf="@+id/moist_div"
+        app:layout_constraintEnd_toEndOf="@+id/moisture_scale"
+        app:layout_constraintStart_toStartOf="@+id/moisture_scale"
+        app:layout_constraintTop_toTopOf="@+id/moist_div" />
+
+    <View
         android:id="@+id/moist_div"
         android:layout_width="5dp"
         android:layout_height="25dp"
@@ -336,6 +348,16 @@
         app:layout_constraintTop_toTopOf="@+id/moisture_scale" />
 
     <View
+        android:id="@+id/prev_temp_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="#03A9F4"
+        app:layout_constraintBottom_toBottomOf="@+id/temp_div"
+        app:layout_constraintEnd_toEndOf="@+id/temperature_scale"
+        app:layout_constraintStart_toStartOf="@+id/temperature_scale"
+        app:layout_constraintTop_toTopOf="@+id/temp_div" />
+
+    <View
         android:id="@+id/temp_div"
         android:layout_width="5dp"
         android:layout_height="25dp"
@@ -344,6 +366,16 @@
         app:layout_constraintEnd_toEndOf="@+id/temperature_scale"
         app:layout_constraintStart_toStartOf="@+id/temperature_scale"
         app:layout_constraintTop_toTopOf="@+id/temperature_scale" />
+
+    <View
+        android:id="@+id/prev_humid_div"
+        android:layout_width="5dp"
+        android:layout_height="25dp"
+        android:background="#03A9F4"
+        app:layout_constraintBottom_toBottomOf="@+id/humid_div"
+        app:layout_constraintEnd_toEndOf="@+id/humidity_scale"
+        app:layout_constraintStart_toStartOf="@+id/humidity_scale"
+        app:layout_constraintTop_toTopOf="@+id/humid_div" />
 
     <View
         android:id="@+id/humid_div"
@@ -395,19 +427,18 @@
         android:id="@+id/plant_health"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_record" />
+        app:layout_constraintTop_toBottomOf="@+id/textView48" />
 
     <Button
         android:id="@+id/button_record"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="30dp"
-        android:layout_marginTop="30dp"
         android:background="#99B8B7B7"
         android:onClick="buttonRecord"
         android:paddingLeft="10dp"
@@ -415,22 +446,53 @@
         android:text="@string/log_the_data"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/read_sensors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/read_sensors" />
+
+    <Button
+        android:id="@+id/read_sensors"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        android:background="#99B8B7B7"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/read_the_sensors"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/light_scale" />
 
     <TextView
-        android:id="@+id/sensor_readings"
+        android:id="@+id/textView48"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/title_colour"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:text="@string/plant_health"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plant_health"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+
+    <TextView
+        android:id="@+id/textView49"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:text="@string/qr_scanner"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/qr_scanner"
+        app:layout_constraintStart_toStartOf="@+id/qr_scanner"
+        app:layout_constraintTop_toBottomOf="@+id/qr_scanner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

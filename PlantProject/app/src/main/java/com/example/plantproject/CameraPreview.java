@@ -1,7 +1,6 @@
 package com.example.plantproject;
 
 import android.content.Context;
-import android.hardware.Camera;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -10,9 +9,9 @@ import java.io.IOException;
 class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
     private SurfaceHolder mHolder;
-    private Camera mCamera;
+    private android.hardware.Camera mCamera;
 
-    public CameraPreview(Context context, Camera camera) {
+    public CameraPreview(Context context, android.hardware.Camera camera) {
         super(context);
         mCamera = camera;
 
@@ -24,7 +23,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        // The surface has been created, now tell the camera where to draw the preview.
+        // The Surface has been created, now tell the camera where to draw the preview.
         try {
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
@@ -34,7 +33,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // empty
+        // empty. Take care of releasing the Camera preview in your activity.
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
