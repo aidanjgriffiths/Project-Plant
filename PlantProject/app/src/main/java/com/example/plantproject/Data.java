@@ -1,6 +1,7 @@
 package com.example.plantproject;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -8,9 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -21,13 +24,22 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -39,7 +51,7 @@ public class Data extends AppCompatActivity {
     private SurfaceView qr_scanner;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +64,7 @@ public class Data extends AppCompatActivity {
         setContentView(R.layout.activity_data);
         mDatabaseHelper = new DatabaseHelper(this);
         qr_scanner = findViewById(R.id.webconnect);
+
     }
     @Override
     protected void onPause() {
@@ -135,11 +148,45 @@ public class Data extends AppCompatActivity {
                 if (barcodes.size() != 0) {
                     Handler txtBarcodeValue = null;
                     txtBarcodeValue.post(new Runnable() {
+                        @SuppressLint("StaticFieldLeak")
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         @Override
                         public void run() {
                             String intentData = barcodes.valueAt(0).displayValue;
-                            /////
+                            new AsyncTask<Void, Void, Void>() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @SuppressLint("StaticFieldLeak")
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+
+                                    // request arguments
+                                    String uid = "100";
+                                    String wid = "200";
+
+                                    HttpURLConnection urlConnection = null;
+
+                                    try {
+                                        URL url = new URL("http://www.mdlproto.com/Stem/UACStem.php");
+                                        urlConnection = (HttpURLConnection) url.openConnection();
+                                        urlConnection.setRequestMethod("POST");
+                                        // write arguments to the output stream of HTTPUrlConnection
+                                        OutputStream outputStream = new BufferedOutputStream(urlConnection.getOutputStream());
+                                        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                                        bufferedWriter.write("uac_w_uid=" + uid + "&uac_w_wid=" + wid);
+                                        bufferedWriter.flush();
+                                        bufferedWriter.close();
+                                        outputStream.close();
+                                        urlConnection.connect(); // connect to website and execute HTTP POST request
+                                        int responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
+                                    } catch (Exception e) {
+                                        Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
+                                    } finally {
+                                        urlConnection.disconnect();
+                                    }
+
+                                    return null;
+                                }
+                            }.execute();
                             cameraSource.stop();
                             toastMessage("QR scanner stopped");
 
