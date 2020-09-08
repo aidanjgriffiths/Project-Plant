@@ -12,11 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:background="#66246424"
+        android:fontFamily="@font/lilita_one"
         android:gravity="center"
         android:text="@string/plantiful"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:id="@+id/help_header"
         android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="100dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:text="@string/help"
@@ -40,62 +40,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout1"
-        android:layout_width="240dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/help_header"
-        app:layout_constraintVertical_bias="0.0">
-
-        <VideoView
-            android:id="@+id/how_connect"
-            android:layout_width="240dp"
-            android:layout_height="140dp"
-            android:onClick="playVideo1" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="240dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/frameLayout1"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout1">
-
-        <VideoView
-            android:id="@+id/how_addprofile"
-            android:layout_width="240dp"
-            android:layout_height="140dp"
-            android:onClick="playVideo2" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout3"
-        android:layout_width="240dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/frameLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
-
-        <VideoView
-            android:id="@+id/how_monitor"
-            android:layout_width="240dp"
-            android:layout_height="140dp"
-            android:onClick="playVideo3" />
-    </FrameLayout>
-
     <ImageView
         android:id="@+id/help_logo"
-        android:layout_width="59dp"
-        android:layout_height="59dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="@string/main_logo"
         app:layout_constraintBottom_toTopOf="@+id/help_header"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,39 +69,95 @@
         app:layout_constraintTop_toTopOf="@+id/help_logo" />
 
     <TextView
-        android:id="@+id/vid1_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/connecting_the_device"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/frameLayout1"
-        app:layout_constraintStart_toStartOf="@+id/frameLayout1"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout1" />
-
-    <TextView
         android:id="@+id/vid2_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/adding_a_plant_profile"
+        android:layout_marginTop="16dp"
+        android:text="2. Connecting the hardware"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/frameLayout2"
-        app:layout_constraintStart_toStartOf="@+id/frameLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/vid1_label"
+        app:layout_constraintTop_toBottomOf="@+id/adding_plant_help" />
 
     <TextView
         android:id="@+id/vid3_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/monitoring_a_plant"
+        android:layout_marginTop="16dp"
+        android:text="3. Monitoring a plant"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/frameLayout3"
-        app:layout_constraintStart_toStartOf="@+id/frameLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout3" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/vid2_label"
+        app:layout_constraintTop_toBottomOf="@+id/connecting_help" />
+
+    <TextView
+        android:id="@+id/vid1_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="14dp"
+        android:text="1. Adding a plant profile"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/help_header" />
+
+    <TextView
+        android:id="@+id/adding_plant_help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vid1_label" />
+
+    <TextView
+        android:id="@+id/connecting_help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vid2_label" />
+
+    <TextView
+        android:id="@+id/monitoring_help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vid3_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,17 @@ public class Resources extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+    }
+
     public void Resource1(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);

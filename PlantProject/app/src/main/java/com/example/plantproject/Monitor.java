@@ -47,8 +47,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -67,7 +70,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     private String intentData = "";
-    private TextView txtBarcodeValue, plantHealth, sensorReadings;
+    private TextView txtBarcodeValue, plantHealth;
     private TextView min_moist, max_moist, min_temp, max_temp, min_humid, max_humid, min_light, max_light;
     private ImageView profile_pic;
     private View moist_div, temp_div, humid_div, light_div;
@@ -77,10 +80,11 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private ObjectAnimator moist_translateX, temp_translateX, humid_translateX, light_translateX;
     private ObjectAnimator prev_moist_translateX, prev_temp_translateX, prev_humid_translateX, prev_light_translateX;
     private String p_type;
-    private SensorManager sensorManager;
-    private Sensor lightSensor;
-    private SensorEventListener lightEventListener;
-    private int lightValue, prev_lightValue, id_plant;
+    //private SensorManager sensorManager;
+    //private Sensor lightSensor;
+    //private SensorEventListener lightEventListener;
+    private int moistValue, tempValue, humidValue, lightValue, prev_moistValue, prev_tempValue, prev_humidValue, prev_lightValue, id_plant;
+    private int moistValue_, tempValue_, humidValue_, lightValue_;
     private double min_m, max_m, min_t, max_t, min_h, max_h, previous_m, previous_t, previous_h, previous_l;
     private double min_l = 0.0;
     private double max_l = 1614.0;
@@ -92,8 +96,9 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private TextToSpeech myTTS;
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
-    private Button button_connect, button_record;
-
+    private Button button_connect, button_record, read_sensors;
+    private String strIncom;
+    private ArrayList<String> ar = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,11 +131,17 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         humid_div = findViewById(R.id.humid_div);
         light_div = findViewById(R.id.light_div);
         prev_light_div = findViewById(R.id.prev_light_div);
+        prev_humid_div = findViewById(R.id.prev_humid_div);
+        prev_temp_div = findViewById(R.id.prev_temp_div);
+        prev_moist_div = findViewById(R.id.prev_moist_div);
         moist_div.setVisibility(View.INVISIBLE);
         temp_div.setVisibility(View.INVISIBLE);
         humid_div.setVisibility(View.INVISIBLE);
         light_div.setVisibility(View.INVISIBLE);
         prev_light_div.setVisibility(View.INVISIBLE);
+        prev_humid_div.setVisibility(View.INVISIBLE);
+        prev_temp_div.setVisibility(View.INVISIBLE);
+        prev_moist_div.setVisibility(View.INVISIBLE);
         moist_scale = findViewById(R.id.moisture_scale);
         temp_scale = findViewById(R.id.temperature_scale);
         humid_scale = findViewById(R.id.humidity_scale);
@@ -140,9 +151,10 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         button_record = findViewById(R.id.button_record);
         button_connect.setVisibility(View.INVISIBLE);
         button_record.setVisibility(View.INVISIBLE);
-        sensorReadings = findViewById(R.id.sensor_readings);
+        read_sensors = findViewById(R.id.read_sensors);
+        read_sensors.setVisibility(View.INVISIBLE);
 
-        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        /*sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
         if (lightSensor == null){
             toastMessage("This device does not have a light sensor");
@@ -162,7 +174,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             public void onAccuracyChanged(Sensor sensor, int i) {
 
             }
-        };
+        };*/
     }
 
 
@@ -247,9 +259,41 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                                         previous_t = profile.getDouble(12);
                                         previous_h = profile.getDouble(13);
                                         previous_l = profile.getDouble(14);
-                                        prev_lightValue = (int)previous_l;
+
+
+                                        prev_moistValue = (int)(((previous_m-min_m)/(max_m-min_m))*100);
+                                        if(prev_moistValue<0)prev_moistValue = 0;
+                                        if(prev_moistValue>100)prev_moistValue = 100;
+                                        int prev_moist_deltaX = ((moist_scale.getRight()-moist_scale.getLeft())*prev_moistValue/100)+moist_scale.getLeft()
+                                                -(((moist_div.getRight()-moist_div.getLeft())/2)+moist_div.getLeft());
+                                        //if(prev_moist_deltaX > (moist_div.getRight()-moist_div.getLeft())/2) prev_moist_deltaX = (moist_div.getRight()-moist_div.getLeft())/2;
+                                        prev_moist_translateX = ObjectAnimator.ofFloat(prev_moist_div, "translationX", prev_moist_deltaX);
+                                        prev_moist_translateX.start();
+
+                                        prev_tempValue = (int)(((previous_t-min_t)/(max_t-min_t))*100);
+                                        if(prev_tempValue<0)prev_tempValue = 0;
+                                        if(prev_tempValue>100)prev_tempValue = 100;
+                                        int prev_temp_deltaX = ((temp_scale.getRight()-temp_scale.getLeft())*prev_tempValue/100)+temp_scale.getLeft()
+                                                -(((temp_div.getRight()-temp_div.getLeft())/2)+temp_div.getLeft());
+                                        //if(prev_temp_deltaX > (temp_div.getRight()-temp_div.getLeft())/2) prev_temp_deltaX = (temp_div.getRight()-temp_div.getLeft())/2;
+                                        prev_temp_translateX = ObjectAnimator.ofFloat(prev_temp_div, "translationX", prev_temp_deltaX);
+                                        prev_temp_translateX.start();
+
+                                        prev_humidValue = (int)(((previous_h-min_h)/(max_h-min_h))*100);
+                                        if(prev_humidValue<0)prev_humidValue = 0;
+                                        if(prev_humidValue>100)prev_humidValue = 100;
+                                        int prev_humid_deltaX = ((humid_scale.getRight()-humid_scale.getLeft())*prev_humidValue/100)+humid_scale.getLeft()
+                                                -(((humid_div.getRight()-humid_div.getLeft())/2)+humid_div.getLeft());
+                                        //if(prev_humid_deltaX > (humid_div.getRight()-humid_div.getLeft())/2) prev_humid_deltaX = (humid_div.getRight()-humid_div.getLeft())/2;
+                                        prev_humid_translateX = ObjectAnimator.ofFloat(prev_humid_div, "translationX", prev_humid_deltaX);
+                                        prev_humid_translateX.start();
+
+                                        prev_lightValue = (int)(((previous_l-min_l)/(max_l-min_l))*100);
+                                        if(prev_lightValue<0)prev_lightValue = 0;
+                                        if(prev_lightValue>100)prev_lightValue = 100;
                                         int prev_light_deltaX = ((light_scale.getRight()-light_scale.getLeft())*prev_lightValue/100)+light_scale.getLeft()
                                                 -(((light_div.getRight()-light_div.getLeft())/2)+light_div.getLeft());
+                                        //if(prev_light_deltaX > (light_div.getRight()-light_div.getLeft())/2) prev_light_deltaX = (light_div.getRight()-light_div.getLeft())/2;
                                         prev_light_translateX = ObjectAnimator.ofFloat(prev_light_div, "translationX", prev_light_deltaX);
                                         prev_light_translateX.start();
 
@@ -273,8 +317,11 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                                 qr_scanner.setVisibility(View.INVISIBLE);
                                 profile_pic.setVisibility(View.VISIBLE);
                                 button_connect.setVisibility(View.VISIBLE);
-
                                 prev_light_div.setVisibility(View.VISIBLE);
+                                prev_temp_div.setVisibility(View.VISIBLE);
+                                prev_moist_div.setVisibility(View.VISIBLE);
+                                prev_humid_div.setVisibility(View.VISIBLE);
+
                             } else toastMessage("QR code does not have a profile");
 
                         }
@@ -308,14 +355,14 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     protected void onPause() {
         super.onPause();
         cameraSource.release();
-        sensorManager.unregisterListener(lightEventListener);
+        //sensorManager.unregisterListener(lightEventListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         initialiseDetectorsAndSources();
-        sensorManager.registerListener(lightEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        //sensorManager.registerListener(lightEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     public void buttonBack(View view) {
@@ -347,22 +394,17 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         connect(); //connect to the device via bluetooth
         mHandler = new Handler() {
             public void handleMessage(android.os.Message msg) {
-
                 // connection to bluetooth
                 if (msg.what == CONNECTING_STATUS) {
                     if (msg.arg1 == 1) {
                         //Toast.makeText(getBaseContext(), "Device connected", Toast.LENGTH_SHORT).show();
                         speakWords("Device connected");
-                        button_connect.setText("Connected");
-                        button_record.setVisibility(View.VISIBLE);
-                        moist_div.setVisibility(View.VISIBLE);
-                        temp_div.setVisibility(View.VISIBLE);
-                        humid_div.setVisibility(View.VISIBLE);
-                        light_div.setVisibility(View.VISIBLE);
+                        button_connect.setText(R.string.connected);
+                        read_sensors.setVisibility(View.VISIBLE);
 
                     } else {
                         //Toast.makeText(getBaseContext(), "Connection failed", Toast.LENGTH_SHORT).show();
-                        button_connect.setText("Reconnect");
+                        button_connect.setText(R.string.reconnect);
                         speakWords("Connection not established");
                         button_record.setVisibility(View.INVISIBLE);
 
@@ -371,11 +413,68 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
 
                 if (msg.what == MESSAGE_READ) {
                     byte[] readBuf = (byte[]) msg.obj;
-                    String strIncom = new String(readBuf, 0, msg.arg1);
-                    sensorReadings.setText(strIncom);
+                    strIncom = new String(readBuf, 0, msg.arg1);
+                    String[] strings =  strIncom.split("T");
+                    String[] strings_ =  strings[1].split("H");
+                    ar.add(strings_[0]);
+                    String[] strings__ =  strings_[1].split("L");
+                    ar.add(strings__[0]);
+                    String[] strings___ =  strings__[1].split("M");
+                    ar.add(strings___[0]);
+                    ar.add(strings___[1]);
+
+                    moistValue = (int)((((Double.parseDouble(ar.get(3)))-min_m)/(max_m-min_m))*100);
+                    moistValue_= moistValue;
+                    if(moistValue<0)moistValue_ = 0;
+                    if(moistValue>100)moistValue_ = 100;
+                    int moist_deltaX = ((moist_scale.getRight()-moist_scale.getLeft())*moistValue_/100)+moist_scale.getLeft()
+                            -(((moist_div.getRight()-moist_div.getLeft())/2)+moist_div.getLeft());
+                    moist_translateX = ObjectAnimator.ofFloat(moist_div, "translationX", moist_deltaX);
+                    moist_translateX.start();
+
+                    tempValue = (int)((((Double.parseDouble(ar.get(0)))-min_t)/(max_t-min_t))*100);
+                    tempValue_ = tempValue;
+                    if(tempValue<0)tempValue_ = 0;
+                    if(tempValue>100)tempValue_ = 100;
+                    int temp_deltaX = ((temp_scale.getRight()-temp_scale.getLeft())*tempValue_/100)+temp_scale.getLeft()
+                            -(((temp_div.getRight()-temp_div.getLeft())/2)+temp_div.getLeft());
+                    temp_translateX = ObjectAnimator.ofFloat(temp_div, "translationX", temp_deltaX);
+                    temp_translateX.start();
+
+                    humidValue = (int)((((Double.parseDouble(ar.get(1)))-min_h)/(max_h-min_h))*100);
+                    humidValue_ = humidValue;
+                    if(humidValue<0)humidValue_ = 0;
+                    if(humidValue>100)humidValue_ = 100;
+                    int humid_deltaX = ((humid_scale.getRight()-humid_scale.getLeft())*humidValue_/100)+humid_scale.getLeft()
+                            -(((humid_div.getRight()-humid_div.getLeft())/2)+humid_div.getLeft());
+                    humid_translateX = ObjectAnimator.ofFloat(humid_div, "translationX", humid_deltaX);
+                    humid_translateX.start();
+
+                    lightValue = (int)((((Double.parseDouble(ar.get(2)))-min_l)/(max_l-min_l))*100);
+                    lightValue_ = lightValue;
+                    if(lightValue<0)lightValue_ = 0;
+                    if(lightValue>100)lightValue_ = 100;
+                    int light_deltaX = ((light_scale.getRight()-light_scale.getLeft())*lightValue_/100)+light_scale.getLeft()
+                            -(((light_div.getRight()-light_div.getLeft())/2)+light_div.getLeft());
+                    light_translateX = ObjectAnimator.ofFloat(light_div, "translationX", light_deltaX);
+                    light_translateX.start();
+                    moist_div.setVisibility(View.VISIBLE);
+                    temp_div.setVisibility(View.VISIBLE);
+                    humid_div.setVisibility(View.VISIBLE);
+                    light_div.setVisibility(View.VISIBLE);
+                    button_record.setVisibility(View.VISIBLE);
+                    read_sensors.setVisibility(View.INVISIBLE);
+
                 }
             }
         };
+        if (bluetoothAdapter != null) {
+            read_sensors.setOnClickListener(v -> {
+                if(mConnectedThread != null) //First check to make sure thread created
+                    mConnectedThread.write("r");
+            });
+        }
+
     }
 
     BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -390,7 +489,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             // handle disconnect from bluetooth device
             else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
                 toastMessage("Device has disconnected");
-                button_connect.setText("Disconnected");
+                speakWords("Device has disconnected");
+                button_connect.setText(R.string.disconnected);
                 button_record.setVisibility(View.INVISIBLE);
                 moist_div.setVisibility(View.INVISIBLE);
                 temp_div.setVisibility(View.INVISIBLE);
@@ -401,8 +501,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     @Override
                     public void run() {
                         resetConnection();
-                        speakWords("Device has disconnected");
-                        button_connect.setText("Reconnect");
+                        //speakWords("Device has disconnected");
+                        button_connect.setText(R.string.reconnect);
                     }
                 },3000);
 
@@ -416,7 +516,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             toastMessage("Bluetooth not on");
             return;
         }
-        button_connect.setText("Connecting...");
+        button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
         final String name = "Adafruit EZ-Link 8e6a";
         final String address = "98:76:B6:00:8E:6A";
@@ -470,17 +570,22 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
 
 
     private class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
 
         public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = socket;
             InputStream tmpIn = null;
-
+            OutputStream tmpOut = null;
             // Get the input stream, using temp objects because
             try {
                 tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
             } catch (IOException ignored) {
             }
             mmInStream = tmpIn;
+            mmOutStream = tmpOut;
         }
 
         public void run() {
@@ -503,6 +608,13 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     break;
                 }
             }
+        }
+        /* Call this from the main activity to send data to the remote device */
+        public void write(String input) {
+            byte[] bytes = input.getBytes();           //converts entered String into bytes
+            try {
+                mmOutStream.write(bytes);
+            } catch (IOException e) { }
         }
     }
 
@@ -539,8 +651,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         String sensorData = dateFormat.format(date) + ", Moisture: "
-                + "0," +" Temperature: " + "0," +" Humidity: "+ "0," +" Light: " +lightValue + "\n";
-        String healthData = "Estimated Health: "+ plantHealth.getText()+"\n\n";
+                + ar.get(3) + "," +" Temperature: " + ar.get(0)+ "," +" Humidity: "+ ar.get(1) + "," +" Light: " + ar.get(2) + "\n";
+        String healthData = "Estimated Plant Health: "+ plantHealth.getText()+"\n\n";
 
         FileOutputStream fos = null;
         try {
@@ -564,7 +676,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
 
         mDatabaseHelper.editData(id_plant, String.valueOf(txtBarcodeValue.getText()), p_type, min_m, max_m, min_t,
-                max_t, min_h, max_h, min_l, max_l, 0.0, 0.0, 0.0, (double) lightValue);
+                max_t, min_h, max_h, min_l, max_l, Double.parseDouble(ar.get(3)), Double.parseDouble(ar.get(0)), Double.parseDouble(ar.get(1)), Double.parseDouble(ar.get(2)));
     }
 
     public void toastMessage(String message) {

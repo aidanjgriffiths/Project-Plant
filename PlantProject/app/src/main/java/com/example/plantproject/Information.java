@@ -31,6 +31,16 @@ public class Information extends AppCompatActivity {
         hardwareID.setText("Hardware ID: " + hardID);
 
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
