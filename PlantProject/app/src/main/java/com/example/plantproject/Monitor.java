@@ -85,9 +85,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     //private SensorEventListener lightEventListener;
     private int moistValue, tempValue, humidValue, lightValue, prev_moistValue, prev_tempValue, prev_humidValue, prev_lightValue, id_plant;
     private int moistValue_, tempValue_, humidValue_, lightValue_;
-    private double min_m, max_m, min_t, max_t, min_h, max_h, previous_m, previous_t, previous_h, previous_l;
-    private double min_l = 0.0;
-    private double max_l = 1614.0;
+    private double min_m, max_m, min_t, max_t, min_h, max_h, min_l, max_l, previous_m, previous_t, previous_h, previous_l;
+
     private Handler mHandler; // Our main handler that will receive callback notifications
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
@@ -674,6 +673,24 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
 
             }
         }
+
+        double mse_c = 1.0/5.0 *(Math.pow(Double.parseDouble(ar.get(3))-((max_m-min_m)/2), 2.0) +
+                Math.pow(Double.parseDouble(ar.get(0))-((max_t-min_t)/2), 2.0)+
+                Math.pow(Double.parseDouble(ar.get(1))-((max_h-min_h)/2),2.0)+
+                Math.pow(Double.parseDouble(ar.get(2))-((max_l-min_l)/2), 2.0));
+        double mse_p = 1.0/5.0 *(Math.pow(previous_m-((max_m-min_m)/2), 2.0) +
+                Math.pow(previous_t-((max_t-min_t)/2), 2.0)+
+                Math.pow(previous_h-((max_h-min_h)/2),2.0)+
+                Math.pow(previous_l-((max_l-min_l)/2), 2.0));
+
+        if(mse_c < 0.2 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are optimal");
+        else if(mse_c < 0.2 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are optimal but declining since the last measurement");
+        else if(mse_c > 0.2 && mse_c < 0.4 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are good and improving");
+        else if(mse_c > 0.2 && mse_c < 0.4 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are good but declining since the last measurement");
+        else if(mse_c > 0.4 && mse_c < 0.7 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are reasonable but improving since the last measurement");
+        else if(mse_c > 0.4 && mse_c < 0.7 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are reasonable but declining since the last measurement");
+        else if(mse_c > 0.7 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are less than optimal but improving since the last measurement");
+        else if(mse_c > 0.7 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are less than optimal and declining. Action required");
 
         mDatabaseHelper.editData(id_plant, String.valueOf(txtBarcodeValue.getText()), p_type, min_m, max_m, min_t,
                 max_t, min_h, max_h, min_l, max_l, Double.parseDouble(ar.get(3)), Double.parseDouble(ar.get(0)), Double.parseDouble(ar.get(1)), Double.parseDouble(ar.get(2)));
