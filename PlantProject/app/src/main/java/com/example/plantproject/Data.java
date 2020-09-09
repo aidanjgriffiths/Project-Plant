@@ -48,7 +48,9 @@ import androidx.core.content.FileProvider;
 public class Data extends AppCompatActivity {
 
     private DatabaseHelper mDatabaseHelper;
-    private SurfaceView qr_scanner;
+    private String intentData = "";
+    private TextView debugConnection;
+    private SurfaceView qr_scan;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     
@@ -63,7 +65,8 @@ public class Data extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_data);
         mDatabaseHelper = new DatabaseHelper(this);
-        qr_scanner = findViewById(R.id.webconnect);
+        qr_scan = findViewById(R.id.webconnect);
+        debugConnection = findViewById(R.id.debug);
 
     }
     @Override
@@ -109,12 +112,12 @@ public class Data extends AppCompatActivity {
                 .setAutoFocusEnabled(true)
                 .build();
 
-        qr_scanner.getHolder().addCallback(new SurfaceHolder.Callback() {
+        qr_scan.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
                     if (ActivityCompat.checkSelfPermission(Data.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        cameraSource.start(qr_scanner.getHolder());
+                        cameraSource.start(qr_scan.getHolder());
                     } else {
                         ActivityCompat.requestPermissions(Data.this, new
                                 String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
@@ -146,47 +149,50 @@ public class Data extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
-                    Handler txtBarcodeValue = null;
-                    txtBarcodeValue.post(new Runnable() {
+                    debugConnection.post(new Runnable() {
                         @SuppressLint("StaticFieldLeak")
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         @Override
                         public void run() {
-                            String intentData = barcodes.valueAt(0).displayValue;
-                            new AsyncTask<Void, Void, Void>() {
-                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                                @SuppressLint("StaticFieldLeak")
-                                @Override
-                                protected Void doInBackground(Void... voids) {
+                            intentData = barcodes.valueAt(0).displayValue;
+                            if (intentData.equals("123456789")){
 
-                                    // request arguments
-                                    String uid = "100";
-                                    String wid = "200";
+                                new AsyncTask<Void, Void, Void>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                    @SuppressLint("StaticFieldLeak")
+                                    @Override
+                                    protected Void doInBackground(Void... voids) {
 
-                                    HttpURLConnection urlConnection = null;
+                                        // request arguments
+                                        String uid = "100";
+                                        String wid = "200";
 
-                                    try {
-                                        URL url = new URL("http://www.mdlproto.com/Stem/UACStem.php");
-                                        urlConnection = (HttpURLConnection) url.openConnection();
-                                        urlConnection.setRequestMethod("POST");
-                                        // write arguments to the output stream of HTTPUrlConnection
-                                        OutputStream outputStream = new BufferedOutputStream(urlConnection.getOutputStream());
-                                        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                                        bufferedWriter.write("uac_w_uid=" + uid + "&uac_w_wid=" + wid);
-                                        bufferedWriter.flush();
-                                        bufferedWriter.close();
-                                        outputStream.close();
-                                        urlConnection.connect(); // connect to website and execute HTTP POST request
-                                        int responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
-                                    } catch (Exception e) {
-                                        Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
-                                    } finally {
-                                        urlConnection.disconnect();
+                                        HttpURLConnection urlConnection = null;
+
+                                        try {
+                                            URL url = new URL("http://www.mdlproto.com/Stem/UACStem.php");
+                                            urlConnection = (HttpURLConnection) url.openConnection();
+                                            urlConnection.setRequestMethod("POST");
+                                            // write arguments to the output stream of HTTPUrlConnection
+                                            OutputStream outputStream = new BufferedOutputStream(urlConnection.getOutputStream());
+                                            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                                            bufferedWriter.write("uac_w_uid=" + uid + "&uac_w_wid=" + wid);
+                                            bufferedWriter.flush();
+                                            bufferedWriter.close();
+                                            outputStream.close();
+                                            urlConnection.connect(); // connect to website and execute HTTP POST request
+                                            int responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
+                                            debugConnection.setText(responseCode);
+                                        } catch (Exception e) {
+                                            Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
+                                        } finally {
+                                            urlConnection.disconnect();
+                                        }
+
+                                        return null;
                                     }
-
-                                    return null;
-                                }
-                            }.execute();
+                                }.execute();
+                            }
                             cameraSource.stop();
                             toastMessage("QR scanner stopped");
 

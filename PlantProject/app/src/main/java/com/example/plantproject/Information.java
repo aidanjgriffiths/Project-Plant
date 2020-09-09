@@ -23,11 +23,11 @@ public class Information extends AppCompatActivity {
         setContentView(R.layout.activity_information);
 
         TextView softwareVersion = findViewById(R.id.software_version);
-        String softVersion = "0.0.0";
+        String softVersion = "1.7.23";
         softwareVersion.setText("Software Version: " + softVersion);
 
         TextView hardwareID = findViewById(R.id.hardware_id);
-        String hardID = "1.0";
+        String hardID = "1.3";
         hardwareID.setText("Hardware ID: " + hardID);
 
     }

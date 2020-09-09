@@ -110,10 +110,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:fontFamily="@font/lilita_one"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +136,7 @@
 
     <ImageView
         android:id="@+id/moisture_scale"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:scaleType="fitXY"
@@ -147,7 +147,7 @@
 
     <ImageView
         android:id="@+id/temperature_scale"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:scaleType="fitXY"
@@ -174,16 +174,16 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/moisture_scale"
         app:layout_constraintEnd_toStartOf="@+id/moisture_scale"
         app:layout_constraintTop_toTopOf="@+id/moisture_scale" />
 
     <ImageView
         android:id="@+id/humidity_scale"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:scaleType="fitXY"
@@ -206,7 +206,7 @@
 
     <ImageView
         android:id="@+id/light_scale"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:scaleType="fitXY"
@@ -233,9 +233,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/moisture_scale"
         app:layout_constraintStart_toEndOf="@+id/moisture_scale"
         app:layout_constraintTop_toTopOf="@+id/moisture_scale" />
@@ -246,9 +246,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/temperature_scale"
         app:layout_constraintEnd_toStartOf="@+id/temperature_scale"
         app:layout_constraintTop_toTopOf="@+id/temperature_scale" />
@@ -259,9 +259,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/temperature_scale"
         app:layout_constraintStart_toEndOf="@+id/temperature_scale"
         app:layout_constraintTop_toTopOf="@+id/temperature_scale" />
@@ -272,9 +272,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/humidity_scale"
         app:layout_constraintEnd_toStartOf="@+id/humidity_scale"
         app:layout_constraintTop_toTopOf="@+id/humidity_scale" />
@@ -285,9 +285,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/humidity_scale"
         app:layout_constraintStart_toEndOf="@+id/humidity_scale"
         app:layout_constraintTop_toTopOf="@+id/humidity_scale" />
@@ -298,9 +298,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/light_scale"
         app:layout_constraintEnd_toStartOf="@+id/light_scale"
         app:layout_constraintTop_toTopOf="@+id/light_scale" />
@@ -311,9 +311,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:fontFamily="@font/lilita_one"
         android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/light_scale"
         app:layout_constraintStart_toEndOf="@+id/light_scale"
         app:layout_constraintTop_toTopOf="@+id/light_scale" />
@@ -425,12 +425,13 @@
 
     <TextView
         android:id="@+id/plant_health"
-        android:layout_width="wrap_content"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/lilita_one"
+        android:gravity="center_horizontal"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView48" />
@@ -474,9 +475,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/lilita_one"
-        android:text="@string/plant_health"
+        android:text="Assesssment of Growing Conditions"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider5" />
