@@ -1,0 +1,13 @@
+@font-face {
+    font-family: Quicksand-Light;
+    src: url("../Fonts/Quicksand_Light.otf");
+}
+
+html, button, input {
+    font-family: Quicksand-Light, sans-serif;
+}
+
+body.foot-head-cls {
+    background: #14b33b;
+    color: #ffffff;
+}

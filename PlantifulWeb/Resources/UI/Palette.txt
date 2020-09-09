@@ -1,0 +1,4 @@
+Primary=#25e625
+Secondary=#20d426
+Foreground=#ffffff
+Background=#14b33b

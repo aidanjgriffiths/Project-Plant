@@ -1,0 +1,5 @@
+body.foot-head-cls #hd-body {
+    box-shadow: 0 10px 0 0 black;
+    height: 15%;
+    max-height: 50px;
+}
