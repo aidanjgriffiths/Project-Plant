@@ -530,8 +530,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "Adafruit EZ-Link 8e6a";
-        final String address = "98:76:B6:00:8E:6A";
+        final String name = "HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
