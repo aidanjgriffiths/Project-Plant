@@ -1,6 +1,21 @@
 #ft-div {
-    box-shadow: 10px 10px 10px 10px black;
-    height: 50px;
+    background: white;
+    color: #20d426;
+    width: 100%;
+    align-content: center;
+    border-top: 2px solid darkgreen;
+    align-items: center;
+    text-align: center;
+    display: block;
+    min-height: 50px;
+    bottom: 0;
     position: fixed;
-    bottom: 0%;
+    box-shadow: 0 -5px 15px 0 rgba(0,0,0,0.3);
+}
+
+#ft-div h1 {
+    margin: auto;
+    vertical-align: middle;
+    text-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+    font-size: 10pt;
 }

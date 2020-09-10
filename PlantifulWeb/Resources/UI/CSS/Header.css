@@ -1,5 +1,42 @@
-body.foot-head-cls #hd-body {
-    box-shadow: 0 10px 0 0 black;
-    height: 15%;
+#hd-div {
+    background: linear-gradient(#20d426, #14b33b);
+    min-height: 50px;
     max-height: 50px;
+    width: 100%;
+    align-content: center;
+    border-bottom: 3px solid darkgreen;
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+    font-family: sans-serif;
+    vertical-align: center;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
+}
+
+#heading-div {
+    background-color: white;
+    margin: auto;
+    width: fit-content;
+    position: relative;
+    top: 20px;
+    display: inline-block;
+    padding: 10px;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
+    border: 3px solid darkgreen;
+}
+
+#phome-header {
+    font-weight: bold;
+    font-size: 22pt;
+    color: #20d426;
+    margin: 0;
+}
+
+#user-det-div {
+    display: inline-block;
+    position: fixed;
+    right: 0;
+    margin-right: 20px;
 }

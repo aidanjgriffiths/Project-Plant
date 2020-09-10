@@ -3,11 +3,21 @@
     src: url("../Fonts/Quicksand_Light.otf");
 }
 
-html, button, input {
-    font-family: Quicksand-Light, sans-serif;
+@font-face {
+    font-family: Quicksand-Bold;
+    src: url("../Fonts/Quicksand_Bold.otf");
 }
 
-body.foot-head-cls {
-    background: #14b33b;
-    color: #ffffff;
+html, body, button, input {
+    font-family: sans-serif;
+    color: white;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-block: 0 !important;
+    overflow: hidden;
+}
+
+body {
+    position: fixed;
+    width: 100%
 }
