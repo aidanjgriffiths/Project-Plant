@@ -98,6 +98,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private Button button_connect, button_record, read_sensors;
     private String strIncom;
     private ArrayList<String> ar = new ArrayList<>();
+    private ArrayList<String> ar_saved = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -400,6 +401,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                         speakWords("Device connected");
                         button_connect.setText(R.string.connected);
                         read_sensors.setVisibility(View.VISIBLE);
+                        plantHealth.setText("");
 
                     } else {
                         //Toast.makeText(getBaseContext(), "Connection failed", Toast.LENGTH_SHORT).show();
@@ -413,56 +415,66 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                 if (msg.what == MESSAGE_READ) {
                     byte[] readBuf = (byte[]) msg.obj;
                     strIncom = new String(readBuf, 0, msg.arg1);
-                    String[] strings =  strIncom.split("T");
-                    String[] strings_ =  strings[1].split("H");
-                    ar.add(strings_[0]);
-                    String[] strings__ =  strings_[1].split("L");
-                    ar.add(strings__[0]);
-                    String[] strings___ =  strings__[1].split("M");
-                    ar.add(strings___[0]);
-                    ar.add(strings___[1]);
+                    if (!strIncom.contains("-")) {
+                        //plantHealth.setText(strIncom);
+                        String[] strings = strIncom.split("T");
+                        String[] strings_ = strings[1].split("H");
+                        ar.add(strings_[0]);
+                        String[] strings__ = strings_[1].split("L");
+                        ar.add(strings__[0]);
+                        String[] strings___ = strings__[1].split("M");
+                        ar.add(strings___[0]);
+                        ar.add(strings___[1]);
 
-                    moistValue = (int)((((Double.parseDouble(ar.get(3)))-min_m)/(max_m-min_m))*100);
-                    moistValue_= moistValue;
-                    if(moistValue<0)moistValue_ = 0;
-                    if(moistValue>100)moistValue_ = 100;
-                    int moist_deltaX = ((moist_scale.getRight()-moist_scale.getLeft())*moistValue_/100)+moist_scale.getLeft()
-                            -(((moist_div.getRight()-moist_div.getLeft())/2)+moist_div.getLeft());
-                    moist_translateX = ObjectAnimator.ofFloat(moist_div, "translationX", moist_deltaX);
-                    moist_translateX.start();
+                        moistValue = (int) ((((Double.parseDouble(ar.get(3))) - min_m) / (max_m - min_m)) * 100);
+                        moistValue_ = moistValue;
+                        if (moistValue < 0) moistValue_ = 0;
+                        if (moistValue > 100) moistValue_ = 100;
+                        int moist_deltaX = ((moist_scale.getRight() - moist_scale.getLeft()) * moistValue_ / 100) + moist_scale.getLeft()
+                                - (((moist_div.getRight() - moist_div.getLeft()) / 2) + moist_div.getLeft());
+                        moist_translateX = ObjectAnimator.ofFloat(moist_div, "translationX", moist_deltaX);
+                        moist_translateX.start();
 
-                    tempValue = (int)((((Double.parseDouble(ar.get(0)))-min_t)/(max_t-min_t))*100);
-                    tempValue_ = tempValue;
-                    if(tempValue<0)tempValue_ = 0;
-                    if(tempValue>100)tempValue_ = 100;
-                    int temp_deltaX = ((temp_scale.getRight()-temp_scale.getLeft())*tempValue_/100)+temp_scale.getLeft()
-                            -(((temp_div.getRight()-temp_div.getLeft())/2)+temp_div.getLeft());
-                    temp_translateX = ObjectAnimator.ofFloat(temp_div, "translationX", temp_deltaX);
-                    temp_translateX.start();
+                        tempValue = (int) ((((Double.parseDouble(ar.get(0))) - min_t) / (max_t - min_t)) * 100);
+                        tempValue_ = tempValue;
+                        if (tempValue < 0) tempValue_ = 0;
+                        if (tempValue > 100) tempValue_ = 100;
+                        int temp_deltaX = ((temp_scale.getRight() - temp_scale.getLeft()) * tempValue_ / 100) + temp_scale.getLeft()
+                                - (((temp_div.getRight() - temp_div.getLeft()) / 2) + temp_div.getLeft());
+                        temp_translateX = ObjectAnimator.ofFloat(temp_div, "translationX", temp_deltaX);
+                        temp_translateX.start();
 
-                    humidValue = (int)((((Double.parseDouble(ar.get(1)))-min_h)/(max_h-min_h))*100);
-                    humidValue_ = humidValue;
-                    if(humidValue<0)humidValue_ = 0;
-                    if(humidValue>100)humidValue_ = 100;
-                    int humid_deltaX = ((humid_scale.getRight()-humid_scale.getLeft())*humidValue_/100)+humid_scale.getLeft()
-                            -(((humid_div.getRight()-humid_div.getLeft())/2)+humid_div.getLeft());
-                    humid_translateX = ObjectAnimator.ofFloat(humid_div, "translationX", humid_deltaX);
-                    humid_translateX.start();
+                        humidValue = (int) ((((Double.parseDouble(ar.get(1))) - min_h) / (max_h - min_h)) * 100);
+                        humidValue_ = humidValue;
+                        if (humidValue < 0) humidValue_ = 0;
+                        if (humidValue > 100) humidValue_ = 100;
+                        int humid_deltaX = ((humid_scale.getRight() - humid_scale.getLeft()) * humidValue_ / 100) + humid_scale.getLeft()
+                                - (((humid_div.getRight() - humid_div.getLeft()) / 2) + humid_div.getLeft());
+                        humid_translateX = ObjectAnimator.ofFloat(humid_div, "translationX", humid_deltaX);
+                        humid_translateX.start();
 
-                    lightValue = (int)((((Double.parseDouble(ar.get(2)))-min_l)/(max_l-min_l))*100);
-                    lightValue_ = lightValue;
-                    if(lightValue<0)lightValue_ = 0;
-                    if(lightValue>100)lightValue_ = 100;
-                    int light_deltaX = ((light_scale.getRight()-light_scale.getLeft())*lightValue_/100)+light_scale.getLeft()
-                            -(((light_div.getRight()-light_div.getLeft())/2)+light_div.getLeft());
-                    light_translateX = ObjectAnimator.ofFloat(light_div, "translationX", light_deltaX);
-                    light_translateX.start();
-                    moist_div.setVisibility(View.VISIBLE);
-                    temp_div.setVisibility(View.VISIBLE);
-                    humid_div.setVisibility(View.VISIBLE);
-                    light_div.setVisibility(View.VISIBLE);
-                    button_record.setVisibility(View.VISIBLE);
-                    read_sensors.setVisibility(View.INVISIBLE);
+                        lightValue = (int) ((((Double.parseDouble(ar.get(2))) - min_l) / (max_l - min_l)) * 100);
+                        lightValue_ = lightValue;
+                        if (lightValue < 0) lightValue_ = 0;
+                        if (lightValue > 100) lightValue_ = 100;
+                        int light_deltaX = ((light_scale.getRight() - light_scale.getLeft()) * lightValue_ / 100) + light_scale.getLeft()
+                                - (((light_div.getRight() - light_div.getLeft()) / 2) + light_div.getLeft());
+                        light_translateX = ObjectAnimator.ofFloat(light_div, "translationX", light_deltaX);
+                        light_translateX.start();
+                        moist_div.setVisibility(View.VISIBLE);
+                        temp_div.setVisibility(View.VISIBLE);
+                        humid_div.setVisibility(View.VISIBLE);
+                        light_div.setVisibility(View.VISIBLE);
+                        button_record.setVisibility(View.VISIBLE);
+                        read_sensors.setVisibility(View.INVISIBLE);
+                        ar_saved.add(ar.get(0));
+                        ar_saved.add(ar.get(1));
+                        ar_saved.add(ar.get(2));
+                        ar_saved.add(ar.get(3));
+
+                    }
+                    ar.clear();
+                    mConnectedThread.write("r");
 
                 }
             }
@@ -487,14 +499,14 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
 
             // handle disconnect from bluetooth device
             else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                toastMessage("Device has disconnected");
+                //toastMessage("Device has disconnected");
                 speakWords("Device has disconnected");
                 button_connect.setText(R.string.disconnected);
                 button_record.setVisibility(View.INVISIBLE);
-                moist_div.setVisibility(View.INVISIBLE);
-                temp_div.setVisibility(View.INVISIBLE);
-                humid_div.setVisibility(View.INVISIBLE);
-                light_div.setVisibility(View.INVISIBLE);
+                //moist_div.setVisibility(View.INVISIBLE);
+                //temp_div.setVisibility(View.INVISIBLE);
+                //humid_div.setVisibility(View.INVISIBLE);
+                //light_div.setVisibility(View.INVISIBLE);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -502,9 +514,10 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                         resetConnection();
                         //speakWords("Device has disconnected");
                         button_connect.setText(R.string.reconnect);
+
                     }
                 },3000);
-
+                //plantHealth.setText("");
             }
         }
     };
@@ -517,8 +530,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "Adafruit EZ-Link 8e6a";
-        final String address = "98:76:B6:00:8E:6A";
+        final String name = "HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
@@ -646,11 +659,12 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     }
 
     public void buttonRecord(View view){
-        toastMessage("Sensor Data Logged");
+        resetConnection();
+        //toastMessage("Sensor Data Logged");
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         String sensorData = dateFormat.format(date) + ", Moisture: "
-                + ar.get(3) + "," +" Temperature: " + ar.get(0)+ "," +" Humidity: "+ ar.get(1) + "," +" Light: " + ar.get(2) + "\n";
+                + ar_saved.get(ar_saved.size()-1) + "," +" Temperature: " + ar_saved.get(ar_saved.size()-4)+ "," +" Humidity: "+ ar_saved.get(ar_saved.size()-3) + "," +" Light: " + ar_saved.get(ar_saved.size()-2) + "\n";
         String healthData = "Estimated Plant Health: "+ plantHealth.getText()+"\n\n";
 
         FileOutputStream fos = null;
@@ -673,27 +687,32 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
 
             }
         }
+        // normalized current values
+        double mse_c= (Math.pow(((Double.parseDouble(ar_saved.get(ar_saved.size()-1))-min_m)/(max_m-min_m))-0.5,2)+
+                Math.pow(((Double.parseDouble(ar_saved.get(ar_saved.size()-4))-min_t)/(max_t-min_t))-0.5,2)+
+                Math.pow(((Double.parseDouble(ar_saved.get(ar_saved.size()-3))-min_h)/(max_h-min_h))-0.5,2)+
+                Math.pow(((Double.parseDouble(ar_saved.get(ar_saved.size()-2))-min_l)/(max_l-min_l))-0.5,2))/4.0;
 
-        double mse_c = 1.0/5.0 *(Math.pow(Double.parseDouble(ar.get(3))-((max_m-min_m)/2), 2.0) +
-                Math.pow(Double.parseDouble(ar.get(0))-((max_t-min_t)/2), 2.0)+
-                Math.pow(Double.parseDouble(ar.get(1))-((max_h-min_h)/2),2.0)+
-                Math.pow(Double.parseDouble(ar.get(2))-((max_l-min_l)/2), 2.0));
-        double mse_p = 1.0/5.0 *(Math.pow(previous_m-((max_m-min_m)/2), 2.0) +
-                Math.pow(previous_t-((max_t-min_t)/2), 2.0)+
-                Math.pow(previous_h-((max_h-min_h)/2),2.0)+
-                Math.pow(previous_l-((max_l-min_l)/2), 2.0));
 
-        if(mse_c < 0.2 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are optimal");
-        else if(mse_c < 0.2 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are optimal but declining since the last measurement");
-        else if(mse_c > 0.2 && mse_c < 0.4 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are good and improving");
-        else if(mse_c > 0.2 && mse_c < 0.4 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are good but declining since the last measurement");
-        else if(mse_c > 0.4 && mse_c < 0.7 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are reasonable but improving since the last measurement");
-        else if(mse_c > 0.4 && mse_c < 0.7 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are reasonable but declining since the last measurement");
-        else if(mse_c > 0.7 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are less than optimal but improving since the last measurement");
-        else if(mse_c > 0.7 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are less than optimal and declining. Action required");
+        // normalized previous values
+        double mse_p = (Math.pow(((previous_m-min_m)/(max_m-min_m))-0.5, 2.0) +
+                Math.pow(((previous_t-min_t)/(max_t-min_t))-0.5, 2.0)+
+                Math.pow(((previous_h-min_h)/(max_h-min_h))-0.5, 2.0)+
+                Math.pow(((previous_l-min_l)/(max_l-min_l))-0.5, 2.0))/4.0;
+
+        if(mse_c < 0.02 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are optimal");
+        else if(mse_c < 0.02 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are optimal but declining. Check back soon!");
+        else if(mse_c >= 0.02 && mse_c < 0.06 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are good and improving");
+        else if(mse_c >= 0.02 && mse_c < 0.06 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are good but declining. Check back soon!");
+        else if(mse_c >= 0.06 && mse_c < 0.1 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are reasonable and improving");
+        else if(mse_c >= 0.06 && mse_c < 0.1 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are reasonable but declining. Action required!");
+        else if(mse_c >= 0.1 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are far from optimal but improving");
+        else if(mse_c >= 0.1 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are far from optimal and declining. Action required!");
 
         mDatabaseHelper.editData(id_plant, String.valueOf(txtBarcodeValue.getText()), p_type, min_m, max_m, min_t,
-                max_t, min_h, max_h, min_l, max_l, Double.parseDouble(ar.get(3)), Double.parseDouble(ar.get(0)), Double.parseDouble(ar.get(1)), Double.parseDouble(ar.get(2)));
+                max_t, min_h, max_h, min_l, max_l, Double.parseDouble(ar_saved.get(ar_saved.size()-1)),
+                Double.parseDouble(ar_saved.get(ar_saved.size()-4)), Double.parseDouble(ar_saved.get(ar_saved.size()-3)),
+                Double.parseDouble(ar_saved.get(ar_saved.size()-2)));
     }
 
     public void toastMessage(String message) {

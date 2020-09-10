@@ -475,7 +475,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/lilita_one"
-        android:text="Assesssment of Growing Conditions"
+        android:text="Assessment of Growing Conditions"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
