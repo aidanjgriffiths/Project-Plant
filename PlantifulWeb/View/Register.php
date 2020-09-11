@@ -29,9 +29,9 @@
             Plantiful Team<br>
         </p>
         <p id="plantiful-dev-team-names-p">
-            Ash,
-            <br>Mario,
-            <br>Aidan,
+            Ash Phillips,
+            <br>Mario Manitta,
+            <br>Aidan Griffiths,
             <br>Miles Danswan
         </p>
     </div>
