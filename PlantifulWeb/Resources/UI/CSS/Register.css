@@ -1,0 +1,135 @@
+body {
+    /*background: linear-gradient(to bottom right, #20d426, #14b33b);*/
+    background-image: url("../../bg.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(10px);
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+#qr-cont {
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    margin: auto;
+    align-self: center;
+    pointer-events: none;
+}
+
+#plantiful-div {
+    color: white;
+    margin: auto;
+    align-self: center;
+    position: relative;
+    left: 32px;
+}
+
+#plantiful-hd {
+    font-family: sans-serif;
+    font-size: 72pt;
+    text-align: center;
+    align-self: center;
+    width: calc(100% - 64);
+    white-space: nowrap;
+}
+
+#plantiful-hd .img {
+    display: inline-block;
+}
+
+#plantiful-direct {
+    font-family: sans-serif;
+    font-size: 18pt;
+    color: white;
+    margin: auto;
+    align-self: center;
+    text-align: center;
+    padding: 5px;
+}
+
+#plantiful-leaf {
+    width: 64px;
+    height: auto;
+    position: relative;
+    right: 35px;
+    bottom: 40px;
+    filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.15));
+    -webkit-filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.15));
+}
+
+#contributor-det-div {
+    color: white;
+    display: block;
+    position: absolute;
+    top: calc(100% - 42px);
+    left: 10px;
+    margin: 0;
+}
+
+#contributor-det-inner-div {
+    visibility: hidden;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.0);
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0);
+    width: 0;
+    height: 0;
+    transition: width 1s, height 2s, color 2s, bottom 2s, visibility 2s, border 2s, background 2s;
+    color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    bottom: 64px;
+    white-space: nowrap;
+    word-wrap: unset;
+    left: 38px;
+}
+
+#plantiful-dev-team-p {
+    font-weight: bold;
+    font-size: 14pt;
+    height: 40px;
+    margin: 5px;
+    padding: 0;
+    display: inline-block;
+}
+
+#plantiful-dev-team-names-p {
+    margin: 0;
+}
+
+#dev-team-img {
+    filter: invert(100%);
+    width: 32px;
+    height: auto;
+}
+
+#dev-team-img:hover ~ #contributor-det-inner-div {
+    visibility: visible;
+    color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 0);
+    background: rgba(255, 255, 255, 0.1);
+    width: 150px;
+    height: 30px;
+    bottom: calc(150px + 64px);
+    transition: width 1s, height 2s, color 2s, bottom 2s, visibility 2s, border 2s, background 2s;
+}
+
+#contributor-det-inner-div:hover #contributor-det-inner-div {
+    visibility: visible;
+    color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 0);
+    background: rgba(255, 255, 255, 0.1);
+    width: 150px;
+    height: 45px;
+    bottom: calc(150px + 64px);
+    transition: width 1s, height 2s, color 2s, bottom 2s, visibility 2s, border 2s, background 2s;
+}

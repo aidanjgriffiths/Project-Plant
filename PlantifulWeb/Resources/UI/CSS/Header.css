@@ -1,0 +1,40 @@
+#hd-div {
+    background: linear-gradient(darkgray, gray);
+    min-height: 50px;
+    max-height: 50px;
+    width: 100%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+    font-family: sans-serif;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+#heading-div {
+    background-color: rgba(255, 255, 255, 1);
+    margin: auto;
+    width: fit-content;
+    position: relative;
+    top: 20px;
+    display: inline-block;
+    padding: 10px;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+#phome-header {
+    font-weight: bold;
+    font-size: 22pt;
+    color: #14b33b;
+    margin: 0;
+}
+
+#user-det-div {
+    display: inline-block;
+    position: fixed;
+    right: 0;
+    margin-right: 20px;
+    font-size: 10pt;
+}

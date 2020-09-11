@@ -1,5 +1,12 @@
-<?php
-
-echo "<h1>Hello From Header</h1>";
-
-?>
+<div id="hd-div" class="foot-head-cls">
+    <div id="heading-div">
+        <h1 id="phome-header"><?php echo $_POST['W_NAME'] ?></h1>
+    </div>
+    <div id="user-det-div">
+        <p>User ID: <?php
+			if (isset($_POST['web_assoc_uid']))
+				echo $_POST['web_assoc_uid'];
+			else
+				echo 'No User Active'; ?></p>
+    </div>
+</div>
