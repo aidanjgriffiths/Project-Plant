@@ -1,3 +1,3 @@
 <?php
-$REG_PAGE = "Register.php";
+$REG_PAGE = "View/Register.php";
 ?>
