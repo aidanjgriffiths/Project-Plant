@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>
-#define VERSION "SIM0.1"
+#define VERSION "SIM0.2"
 #define BLUETOOTH_RX 11
 #define BLUETOOTH_TX 10
 #define BLUETOOTH_BAUD 9600
@@ -24,19 +24,19 @@ void adjustValues()
   int adjustLight = random(0, 100);
   int adjustMoisture = random(0, 100);
 
-  adjustValue(temp, adjustTemp);
-  adjustValue(humidity, adjustHumidity);
-  adjustValue(light, adjustLight);
-  adjustValue(moisture, adjustMoisture);
+  adjustValue(temp, adjustTemp, 15, 35);
+  adjustValue(humidity, adjustHumidity, 20, 80);
+  adjustValue(light, adjustLight, 100, 5000);
+  adjustValue(moisture, adjustMoisture, 20, 80);
 }
 
-void adjustValue(int &adjustVariable, int &adjustPressure)
+void adjustValue(int &adjustVariable, int &adjustPressure, int minimum, int maximum)
 {
-  if (adjustPressure < 33)
+  if (adjustPressure < 33 && adjustVariable > minimum)
   {
     adjustVariable = adjustVariable - 2;
   }
-  else if (adjustPressure > 66)
+  else if (adjustPressure > 66 && adjustVariable < maximum)
   {
     adjustVariable = adjustVariable + 2;
   }
