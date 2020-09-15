@@ -31,7 +31,7 @@ class PWebConnector
 		{
 			array_push($pwebconnectors, new PWebConnector($row['web_connect_key'], $row['web_connect_pk']));
 		}
-
+		
 		return $pwebconnectors;
 	}
 
@@ -66,14 +66,14 @@ class PWebConnector
 			return null;
 		}
 	}
-
+	
 	public function __set($property, $value)
 	{
 		if (property_exists($this, $property))
 		{
 			$this->$property = $value;
 		}
-
+		
 		return $this;
 	}
 }

@@ -8,6 +8,12 @@ Used for developing a mobile app that will collect sensor data and provide infor
 Many people possess Android phones. Group members have experience programming in Java on this platform. 
 ### PHP Storm  
 Modern PHP IDE for developing Web Applications within several Web Environment's. This provides our Users with a Convenient platform for viewing Plant Data, with regard to the health status of their plants, the weekly requirements from the User in terms of providing the appropriate nourishments for the Plants, and the projected requirement's in the future.
+### MySQL Workbench
+Interface directly to the Database hosted in the cloud, allowing for effective and simple queries and modifications to the Database
+### AWS Lightsail
+Web Sever Hosting Service on Amazon Web Services, which hosts the Virtual Web Server, running a Headless Ubuntu Instance, with a LAMP (LAMP) stack pre-installed on the operating system  
+### AWS MySQL RDS
+Relational Database Service for the Cloud MySQL Database, for access from the Web Application and Android Application. This is the central point for the back-end configuration of the MySQL Database Instance
 ### Arduino IDE 
 IDE provides a coding platform for writing high level C/C++ based code that can be flashed to an Arduino board. 
 Accessible coding platform. Runs on Windows. Basic setup and looping format. Many well-established libraries available. USB flashing. Debugging is simple using the provided serial terminal.

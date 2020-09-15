@@ -1,0 +1,23 @@
+@font-face {
+    font-family: Quicksand-Light;
+    src: url("../Fonts/Quicksand_Light.otf");
+}
+
+@font-face {
+    font-family: Quicksand-Bold;
+    src: url("../Fonts/Quicksand_Bold.otf");
+}
+
+html, body, button, input {
+    font-family: sans-serif;
+    color: white;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-block: 0 !important;
+    overflow: hidden;
+}
+
+body {
+    position: fixed;
+    width: 100%
+}

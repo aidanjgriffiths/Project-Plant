@@ -8,25 +8,16 @@ USE Main;
 
 CREATE TABLE PWebConnector (
     web_connect_pk INT NOT NULL AUTO_INCREMENT,
-    web_connect_key VARCHAR(30) NOT NULL,
+    web_connect_key VARCHAR(30) NOT NULL UNIQUE,
     PRIMARY KEY (web_connect_pk)
 );
 
 CREATE TABLE PUser (
-    user_id_pk INT NOT NULL,
-    web_connect_key_pk_fk INT NOT NULL,
+    user_id_pk INT NOT NULL UNIQUE,
+    web_connect_key_pk_fk INT NOT NULL UNIQUE,
     PRIMARY KEY (user_id_pk, web_connect_key_pk_fk),
     FOREIGN KEY (web_connect_key_pk_fk)
         REFERENCES PWebConnector (web_connect_pk)
-);
-
-CREATE TABLE PMeasurement (
-    measurement_id_pk INT NOT NULL AUTO_INCREMENT,
-    moisture DOUBLE NOT NULL,	
-    temperature DOUBLE NOT NULL,
-    light DOUBLE NOT NULL,
-    humidity DOUBLE NOT NULL,
-    PRIMARY KEY (measurement_id_pk)
 );
 
 CREATE TABLE PProfile (
@@ -44,68 +35,23 @@ CREATE TABLE PProfile (
     PRIMARY KEY (profile_id_pk)
 );
 
+CREATE TABLE PMeasurement (
+    measurement_id_pk INT NOT NULL AUTO_INCREMENT,
+    moisture DOUBLE NOT NULL,
+    temperature DOUBLE NOT NULL,
+    light DOUBLE NOT NULL,
+    humidity DOUBLE NOT NULL,
+    profile_id_fk INT NOT NULL,
+    user_id_fk INT NOT NULL,
+    PRIMARY KEY (measurement_id_pk),
+    FOREIGN KEY (profile_id_fk)
+        REFERENCES PProfile (profile_id_pk),
+    FOREIGN KEY (user_id_fk)
+        REFERENCES PUser (user_id_pk)
+);
+
 -- #### STORED PROCEDURES ####
 
--- USP_INSERT_PMEASUREMENT --
-DELIMITER //
-
-CREATE PROCEDURE usp_insert_PMeasurement(IN pmoisture DOUBLE(4, 0), IN ptemperature DOUBLE(4, 0), IN plight DOUBLE(4, 0), IN phumidity DOUBLE(4, 0))
-BEGIN
-    INSERT 
-    INTO PMeasurement (`moisture`, `temperature`, `light`, `humidity`)
-    VALUES (pmoisture, ptemperature, plight, phumidity);
-
-    SELECT LAST_INSERT_ID() as Last_Inserted_Id;
-END//
-
-DELIMITER ;
-
--- USP_READ_PMEASUREMENT --
-DELIMITER //
-
-CREATE PROCEDURE usp_read_PMeasurement(IN pmeasurement_id_pk INT)
-BEGIN
-    SELECT * 
-    FROM PMeasurement 
-    WHERE `measurement_id_pk` = pmeasurement_id_pk;
-END//
-
-DELIMITER ;
-
--- USP_READ_ALL_PMEASUREMENT --
-DELIMITER //
-
-CREATE PROCEDURE usp_read_all_PMeasurement()
-BEGIN
-    SELECT * 
-    FROM PMeasurement;
-END//
-
-DELIMITER ;
-
--- USP_UPDATE_PMEASUREMENT --
-DELIMITER //
-
-CREATE PROCEDURE usp_update_PMeasurement(IN pmeasurement_id_pk INT, IN pmoisture DOUBLE(4, 0), IN ptemperature DOUBLE(4, 0), IN plight DOUBLE(4, 0), IN phumidity DOUBLE(4, 0))
-BEGIN
-    UPDATE PMeasurement
-    SET `moisture` = pmoisture, `temperature` = ptemperature, `light` = plight, `humidity` = phumidity
-    WHERE `measurement_id_pk` = pmeasurement_id_pk;
-END//
-
-DELIMITER ;
-
--- USP_DELETE_PMEASUREMENT --
-DELIMITER //
-
-CREATE PROCEDURE usp_delete_PMeasurement(IN pmeasurement_id_pk INT)
-BEGIN
-	DELETE 
-	FROM PMeasurement 
-	WHERE `measurement_id_pk` = pmeasurement_id_pk;
-END//
-
-DELIMITER ;
 -- USP_INSERT_PPROFILE --
 DELIMITER //
 
@@ -281,6 +227,66 @@ BEGIN
 	DELETE 
 	FROM PUser 
 	WHERE `user_id_pk` = puser_id_pk AND `web_connect_key_pk_fk` = pweb_connect_key_pk_fk;
+END//
+
+DELIMITER ;
+-- USP_INSERT_PMEASUREMENT --
+DELIMITER //
+
+CREATE PROCEDURE usp_insert_PMeasurement(IN pmoisture DOUBLE(7, 2), IN ptemperature DOUBLE(7, 2), IN plight DOUBLE(7, 2), IN phumidity DOUBLE(7, 2), IN pprofile_id_fk INT, IN puser_id_fk INT)
+BEGIN
+    INSERT 
+    INTO PMeasurement (`moisture`, `temperature`, `light`, `humidity`, `profile_id_fk`, `user_id_fk`)
+    VALUES (pmoisture, ptemperature, plight, phumidity, pprofile_id_fk, puser_id_fk);
+
+    SELECT LAST_INSERT_ID() as Last_Inserted_Id;
+END//
+
+DELIMITER ;
+
+-- USP_READ_PMEASUREMENT --
+DELIMITER //
+
+CREATE PROCEDURE usp_read_PMeasurement(IN pmeasurement_id_pk INT)
+BEGIN
+    SELECT * 
+    FROM PMeasurement 
+    WHERE `measurement_id_pk` = pmeasurement_id_pk;
+END//
+
+DELIMITER ;
+
+-- USP_READ_ALL_PMEASUREMENT --
+DELIMITER //
+
+CREATE PROCEDURE usp_read_all_PMeasurement()
+BEGIN
+    SELECT * 
+    FROM PMeasurement;
+END//
+
+DELIMITER ;
+
+-- USP_UPDATE_PMEASUREMENT --
+DELIMITER //
+
+CREATE PROCEDURE usp_update_PMeasurement(IN pmeasurement_id_pk INT, IN pmoisture DOUBLE(7, 2), IN ptemperature DOUBLE(7, 2), IN plight DOUBLE(7, 2), IN phumidity DOUBLE(7, 2), IN pprofile_id_fk INT, IN puser_id_fk INT)
+BEGIN
+    UPDATE PMeasurement
+    SET `moisture` = pmoisture, `temperature` = ptemperature, `light` = plight, `humidity` = phumidity, `profile_id_fk` = pprofile_id_fk, `user_id_fk` = puser_id_fk
+    WHERE `measurement_id_pk` = pmeasurement_id_pk;
+END//
+
+DELIMITER ;
+
+-- USP_DELETE_PMEASUREMENT --
+DELIMITER //
+
+CREATE PROCEDURE usp_delete_PMeasurement(IN pmeasurement_id_pk INT)
+BEGIN
+	DELETE 
+	FROM PMeasurement 
+	WHERE `measurement_id_pk` = pmeasurement_id_pk;
 END//
 
 DELIMITER ;
