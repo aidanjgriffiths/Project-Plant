@@ -1,12 +1,10 @@
 package com.example.plantproject;
 
-import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,11 +39,8 @@ import java.util.Map;
 import java.util.Objects;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 
 public class ProfileEditor extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -61,7 +56,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
             humid_min, humid_max, light_min, light_max;
     String plant_type_text, qr_string;
     Spinner plant_type;
-    TextView button_plant, jpg_name;
+    TextView jpg_name;
     private byte[] pic_data;
     private boolean pic_taken;
     private Map<String, List<String>> plantMap;
@@ -89,7 +84,6 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         plant_type.setBackgroundColor(Color.parseColor("White"));
         plant_type.setOnItemSelectedListener(this);
 
-        button_plant = findViewById(R.id.plant_picker);
 
         moist_min = findViewById(R.id.moisture_min);
         //moist_min.setText("0.0");
@@ -329,7 +323,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
 
     public void buttonDone(View view) {
         String name = plant_name.getText().toString();
-        String plant_ty = button_plant.getText().toString();
+        String plant_ty = plant_type_text;
         String moist_mn = moist_min.getText().toString();
         if(moist_mn.matches("")){
             moist_mn = "0.0";
@@ -568,7 +562,6 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         plant_type_text = adapterView.getItemAtPosition(i).toString();
-        button_plant.setText(plant_type_text);
         List<String> values = plantMap.get(plant_type_text);
         assert values != null;
         moist_min.setText(values.get(0));

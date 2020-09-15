@@ -430,7 +430,7 @@
         android:layout_marginTop="6dp"
         android:fontFamily="@font/lilita_one"
         android:gravity="center_horizontal"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#4CAF50"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -497,5 +497,52 @@
         app:layout_constraintEnd_toEndOf="@+id/qr_scanner"
         app:layout_constraintStart_toStartOf="@+id/qr_scanner"
         app:layout_constraintTop_toBottomOf="@+id/qr_scanner" />
+
+    <TextView
+        android:id="@+id/tempdebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/title_colour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile_pic"
+        app:layout_constraintTop_toTopOf="@+id/profile_pic" />
+
+    <TextView
+        android:id="@+id/humiddebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/title_colour"
+        app:layout_constraintStart_toStartOf="@+id/tempdebug"
+        app:layout_constraintTop_toBottomOf="@+id/tempdebug" />
+
+    <TextView
+        android:id="@+id/moistdebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/title_colour"
+        app:layout_constraintStart_toStartOf="@+id/humiddebug"
+        app:layout_constraintTop_toBottomOf="@+id/humiddebug" />
+
+    <TextView
+        android:id="@+id/lightdebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/title_colour"
+        app:layout_constraintStart_toStartOf="@+id/moistdebug"
+        app:layout_constraintTop_toBottomOf="@+id/moistdebug" />
+
+    <TextView
+        android:id="@+id/arsize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/title_colour"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/lightdebug"
+        app:layout_constraintTop_toBottomOf="@+id/lightdebug" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

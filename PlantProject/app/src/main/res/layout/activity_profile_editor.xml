@@ -433,22 +433,6 @@
         app:layout_constraintStart_toStartOf="@+id/moisture_max"
         app:layout_constraintTop_toTopOf="@+id/textView30" />
 
-    <TextView
-        android:id="@+id/plant_picker"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:focusable="auto"
-        android:textColor="@color/title_colour"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView21"
-        app:layout_constraintEnd_toEndOf="@+id/plant_type"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/plant_type"
-        app:layout_constraintTop_toTopOf="@+id/textView21"
-        app:layout_constraintVertical_bias="0.5" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"

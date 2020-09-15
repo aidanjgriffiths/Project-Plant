@@ -71,6 +71,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     private String intentData = "";
     private TextView txtBarcodeValue, plantHealth;
+    private TextView tempdebug, humiddebug, moistdebug, lightdebug, arsize;
     private TextView min_moist, max_moist, min_temp, max_temp, min_humid, max_humid, min_light, max_light;
     private ImageView profile_pic;
     private View moist_div, temp_div, humid_div, light_div;
@@ -153,7 +154,11 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         button_record.setVisibility(View.INVISIBLE);
         read_sensors = findViewById(R.id.read_sensors);
         read_sensors.setVisibility(View.INVISIBLE);
-
+        tempdebug = findViewById(R.id.tempdebug);
+        humiddebug = findViewById(R.id.humiddebug);
+        moistdebug = findViewById(R.id.moistdebug);
+        lightdebug = findViewById(R.id.lightdebug);
+        arsize = findViewById(R.id.arsize);
         /*sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
         if (lightSensor == null){
@@ -323,7 +328,6 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                                 prev_humid_div.setVisibility(View.VISIBLE);
 
                             } else toastMessage("QR code does not have a profile");
-
                         }
                     });
                 }
@@ -415,17 +419,26 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                 if (msg.what == MESSAGE_READ) {
                     byte[] readBuf = (byte[]) msg.obj;
                     strIncom = new String(readBuf, 0, msg.arg1);
+                    strIncom = strIncom.replace("\r", "");
+                    strIncom = strIncom.replace("\n", "");
                     if (!strIncom.contains("-")) {
-                        //plantHealth.setText(strIncom);
+                        plantHealth.setText(strIncom);
                         String[] strings = strIncom.split("T");
                         String[] strings_ = strings[1].split("H");
                         ar.add(strings_[0]);
+                        //tempdebug.setText(strings_[0]);
                         String[] strings__ = strings_[1].split("L");
                         ar.add(strings__[0]);
+                        //humiddebug.setText(strings__[0]);
                         String[] strings___ = strings__[1].split("M");
                         ar.add(strings___[0]);
+                        //lightdebug.setText(strings___[0]);
                         ar.add(strings___[1]);
-
+                        //moistdebug.setText(strings___[1]);
+                        //tempdebug.setText(ar.get(0));
+                        //humiddebug.setText(ar.get(1));
+                        //lightdebug.setText(ar.get(2));
+                        //moistdebug.setText(ar.get(3));
                         moistValue = (int) ((((Double.parseDouble(ar.get(3))) - min_m) / (max_m - min_m)) * 100);
                         moistValue_ = moistValue;
                         if (moistValue < 0) moistValue_ = 0;
@@ -471,7 +484,14 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                         ar_saved.add(ar.get(1));
                         ar_saved.add(ar.get(2));
                         ar_saved.add(ar.get(3));
-
+                        //arsize.setText(String.valueOf(ar_saved.size()));
+                        if (ar_saved.size()>4){
+                            ar_saved.remove(0);
+                            ar_saved.remove(0);
+                            ar_saved.remove(0);
+                            ar_saved.remove(0);
+                            //arsize.setText(String.valueOf(ar_saved.size()));
+                        }
                     }
                     ar.clear();
                     mConnectedThread.write("r");
@@ -530,8 +550,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "HC-05";//"Adafruit EZ-Link 8e6a";
-        final String address = "98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
+        final String name = "Adafruit EZ-Link 8e6a";//"HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:76:B6:00:8E:6A";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
@@ -601,7 +621,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
 
         public void run() {
-            byte[] buffer = new byte[1024];  // buffer store for the stream
+            byte[] buffer = new byte[30];  // buffer store for the stream
             int bytes; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
@@ -609,7 +629,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     // Read from the InputStream
                     bytes = mmInStream.available();
                     if (bytes != 0) {
-                        SystemClock.sleep(100); //pause and wait for rest of data. Adjust this depending on your sending speed.
+                        SystemClock.sleep(200); //pause and wait for rest of data. Adjust this depending on your sending speed.
                         bytes = mmInStream.available(); // how many bytes are ready to be read?
                         bytes = mmInStream.read(buffer, 0, bytes); // record how many bytes we actually read
                         mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
