@@ -232,7 +232,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         Optional.add("0.0");
         Optional.add("100.0");
         Optional.add("0.0");
-        Optional.add("1614.0");
+        Optional.add("100000.0");
         List<String> Low = new ArrayList<>();
         Low.add("0.0");
         Low.add("80.0");
@@ -241,7 +241,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         Low.add("10.0");
         Low.add("100.0");
         Low.add("100.0");
-        Low.add("1000.0");
+        Low.add("80000.0");
         List<String> Medium = new ArrayList<>();
         Medium.add("35.0");
         Medium.add("100.0");
@@ -250,7 +250,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         Medium.add("20.0");
         Medium.add("100.0");
         Medium.add("200.0");
-        Medium.add("1400.0");
+        Medium.add("100000.0");
         List<String> High = new ArrayList<>();
         High.add("50.0");
         High.add("100.0");
@@ -259,7 +259,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         High.add("30.0");
         High.add("100.0");
         High.add("400.0");
-        High.add("1614.0");
+        High.add("120000.0");
 
         plantMap.put("(Optional)", Optional);
         plantMap.put("Low Tolerance", Low);
@@ -361,7 +361,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         double l_min = Double.parseDouble(light_mn);
         String light_mx = light_max.getText().toString();
         if(light_mx.matches("")){
-            light_mx = "1614.0";
+            light_mx = "100000.0";
         }
         double l_max = Double.parseDouble(light_mx);
 

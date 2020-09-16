@@ -71,7 +71,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     private String intentData = "";
     private TextView txtBarcodeValue, plantHealth;
-    private TextView tempdebug, humiddebug, moistdebug, lightdebug, arsize;
+    private TextView tempdebug, humiddebug, moistdebug, lightdebug;
     private TextView min_moist, max_moist, min_temp, max_temp, min_humid, max_humid, min_light, max_light;
     private ImageView profile_pic;
     private View moist_div, temp_div, humid_div, light_div;
@@ -158,7 +158,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         humiddebug = findViewById(R.id.humiddebug);
         moistdebug = findViewById(R.id.moistdebug);
         lightdebug = findViewById(R.id.lightdebug);
-        arsize = findViewById(R.id.arsize);
+
         /*sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
         if (lightSensor == null){
@@ -421,81 +421,79 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     strIncom = new String(readBuf, 0, msg.arg1);
                     strIncom = strIncom.replace("\r", "");
                     strIncom = strIncom.replace("\n", "");
-                    if (!strIncom.contains("-")) {
-                        plantHealth.setText(strIncom);
-                        String[] strings = strIncom.split("T");
-                        String[] strings_ = strings[1].split("H");
-                        ar.add(strings_[0]);
-                        //tempdebug.setText(strings_[0]);
-                        String[] strings__ = strings_[1].split("L");
-                        ar.add(strings__[0]);
-                        //humiddebug.setText(strings__[0]);
-                        String[] strings___ = strings__[1].split("M");
-                        ar.add(strings___[0]);
-                        //lightdebug.setText(strings___[0]);
-                        ar.add(strings___[1]);
-                        //moistdebug.setText(strings___[1]);
-                        //tempdebug.setText(ar.get(0));
-                        //humiddebug.setText(ar.get(1));
-                        //lightdebug.setText(ar.get(2));
-                        //moistdebug.setText(ar.get(3));
-                        moistValue = (int) ((((Double.parseDouble(ar.get(3))) - min_m) / (max_m - min_m)) * 100);
-                        moistValue_ = moistValue;
-                        if (moistValue < 0) moistValue_ = 0;
-                        if (moistValue > 100) moistValue_ = 100;
-                        int moist_deltaX = ((moist_scale.getRight() - moist_scale.getLeft()) * moistValue_ / 100) + moist_scale.getLeft()
-                                - (((moist_div.getRight() - moist_div.getLeft()) / 2) + moist_div.getLeft());
-                        moist_translateX = ObjectAnimator.ofFloat(moist_div, "translationX", moist_deltaX);
-                        moist_translateX.start();
 
-                        tempValue = (int) ((((Double.parseDouble(ar.get(0))) - min_t) / (max_t - min_t)) * 100);
-                        tempValue_ = tempValue;
-                        if (tempValue < 0) tempValue_ = 0;
-                        if (tempValue > 100) tempValue_ = 100;
-                        int temp_deltaX = ((temp_scale.getRight() - temp_scale.getLeft()) * tempValue_ / 100) + temp_scale.getLeft()
-                                - (((temp_div.getRight() - temp_div.getLeft()) / 2) + temp_div.getLeft());
-                        temp_translateX = ObjectAnimator.ofFloat(temp_div, "translationX", temp_deltaX);
-                        temp_translateX.start();
+                    plantHealth.setText(strIncom);
+                    String[] strings = strIncom.split("T");
+                    String[] strings_ = strings[1].split("H");
+                    ar.add(strings_[0]);
+                    tempdebug.setText(strings_[0]);
+                    String[] strings__ = strings_[1].split("L");
+                    ar.add(strings__[0]);
+                    humiddebug.setText(strings__[0]);
+                    String[] strings___ = strings__[1].split("M");
+                    ar.add(strings___[0]);
+                    lightdebug.setText(strings___[0]);
+                    ar.add(strings___[1]);
+                    moistdebug.setText(strings___[1]);
+                    //tempdebug.setText(ar.get(0));
+                    //humiddebug.setText(ar.get(1));
+                    //lightdebug.setText(ar.get(2));
+                    //moistdebug.setText(ar.get(3));
+                    moistValue = (int) ((((Double.parseDouble(ar.get(3))) - min_m) / (max_m - min_m)) * 100);
+                    moistValue_ = moistValue;
+                    if (moistValue < 0) moistValue_ = 0;
+                    if (moistValue > 100) moistValue_ = 100;
+                    int moist_deltaX = ((moist_scale.getRight() - moist_scale.getLeft()) * moistValue_ / 100) + moist_scale.getLeft()
+                            - (((moist_div.getRight() - moist_div.getLeft()) / 2) + moist_div.getLeft());
+                    moist_translateX = ObjectAnimator.ofFloat(moist_div, "translationX", moist_deltaX);
+                    moist_translateX.start();
 
-                        humidValue = (int) ((((Double.parseDouble(ar.get(1))) - min_h) / (max_h - min_h)) * 100);
-                        humidValue_ = humidValue;
-                        if (humidValue < 0) humidValue_ = 0;
-                        if (humidValue > 100) humidValue_ = 100;
-                        int humid_deltaX = ((humid_scale.getRight() - humid_scale.getLeft()) * humidValue_ / 100) + humid_scale.getLeft()
-                                - (((humid_div.getRight() - humid_div.getLeft()) / 2) + humid_div.getLeft());
-                        humid_translateX = ObjectAnimator.ofFloat(humid_div, "translationX", humid_deltaX);
-                        humid_translateX.start();
+                    tempValue = (int) ((((Double.parseDouble(ar.get(0))) - min_t) / (max_t - min_t)) * 100);
+                    tempValue_ = tempValue;
+                    if (tempValue < 0) tempValue_ = 0;
+                    if (tempValue > 100) tempValue_ = 100;
+                    int temp_deltaX = ((temp_scale.getRight() - temp_scale.getLeft()) * tempValue_ / 100) + temp_scale.getLeft()
+                            - (((temp_div.getRight() - temp_div.getLeft()) / 2) + temp_div.getLeft());
+                    temp_translateX = ObjectAnimator.ofFloat(temp_div, "translationX", temp_deltaX);
+                    temp_translateX.start();
 
-                        lightValue = (int) ((((Double.parseDouble(ar.get(2))) - min_l) / (max_l - min_l)) * 100);
-                        lightValue_ = lightValue;
-                        if (lightValue < 0) lightValue_ = 0;
-                        if (lightValue > 100) lightValue_ = 100;
-                        int light_deltaX = ((light_scale.getRight() - light_scale.getLeft()) * lightValue_ / 100) + light_scale.getLeft()
-                                - (((light_div.getRight() - light_div.getLeft()) / 2) + light_div.getLeft());
-                        light_translateX = ObjectAnimator.ofFloat(light_div, "translationX", light_deltaX);
-                        light_translateX.start();
-                        moist_div.setVisibility(View.VISIBLE);
-                        temp_div.setVisibility(View.VISIBLE);
-                        humid_div.setVisibility(View.VISIBLE);
-                        light_div.setVisibility(View.VISIBLE);
-                        button_record.setVisibility(View.VISIBLE);
-                        read_sensors.setVisibility(View.INVISIBLE);
-                        ar_saved.add(ar.get(0));
-                        ar_saved.add(ar.get(1));
-                        ar_saved.add(ar.get(2));
-                        ar_saved.add(ar.get(3));
+                    humidValue = (int) ((((Double.parseDouble(ar.get(1))) - min_h) / (max_h - min_h)) * 100);
+                    humidValue_ = humidValue;
+                    if (humidValue < 0) humidValue_ = 0;
+                    if (humidValue > 100) humidValue_ = 100;
+                    int humid_deltaX = ((humid_scale.getRight() - humid_scale.getLeft()) * humidValue_ / 100) + humid_scale.getLeft()
+                            - (((humid_div.getRight() - humid_div.getLeft()) / 2) + humid_div.getLeft());
+                    humid_translateX = ObjectAnimator.ofFloat(humid_div, "translationX", humid_deltaX);
+                    humid_translateX.start();
+
+                    lightValue = (int) ((((Double.parseDouble(ar.get(2))) - min_l) / (max_l - min_l)) * 100);
+                    lightValue_ = lightValue;
+                    if (lightValue < 0) lightValue_ = 0;
+                    if (lightValue > 100) lightValue_ = 100;
+                    int light_deltaX = ((light_scale.getRight() - light_scale.getLeft()) * lightValue_ / 100) + light_scale.getLeft()
+                            - (((light_div.getRight() - light_div.getLeft()) / 2) + light_div.getLeft());
+                    light_translateX = ObjectAnimator.ofFloat(light_div, "translationX", light_deltaX);
+                    light_translateX.start();
+                    moist_div.setVisibility(View.VISIBLE);
+                    temp_div.setVisibility(View.VISIBLE);
+                    humid_div.setVisibility(View.VISIBLE);
+                    light_div.setVisibility(View.VISIBLE);
+                    button_record.setVisibility(View.VISIBLE);
+                    read_sensors.setVisibility(View.INVISIBLE);
+                    ar_saved.add(ar.get(0));
+                    ar_saved.add(ar.get(1));
+                    ar_saved.add(ar.get(2));
+                    ar_saved.add(ar.get(3));
+                    //arsize.setText(String.valueOf(ar_saved.size()));
+                    if (ar_saved.size() > 4) {
+                        ar_saved.remove(0);
+                        ar_saved.remove(0);
+                        ar_saved.remove(0);
+                        ar_saved.remove(0);
                         //arsize.setText(String.valueOf(ar_saved.size()));
-                        if (ar_saved.size()>4){
-                            ar_saved.remove(0);
-                            ar_saved.remove(0);
-                            ar_saved.remove(0);
-                            ar_saved.remove(0);
-                            //arsize.setText(String.valueOf(ar_saved.size()));
-                        }
                     }
                     ar.clear();
                     mConnectedThread.write("r");
-
                 }
             }
         };
@@ -550,8 +548,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "Adafruit EZ-Link 8e6a";//"HC-05";//"Adafruit EZ-Link 8e6a";
-        final String address = "98:76:B6:00:8E:6A";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
+        final String name = "HC-05";//"HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:D3:A1:FD:5C:B6";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
@@ -629,7 +627,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     // Read from the InputStream
                     bytes = mmInStream.available();
                     if (bytes != 0) {
-                        SystemClock.sleep(200); //pause and wait for rest of data. Adjust this depending on your sending speed.
+                        SystemClock.sleep(300); //pause and wait for rest of data. Adjust this depending on your sending speed.
                         bytes = mmInStream.available(); // how many bytes are ready to be read?
                         bytes = mmInStream.read(buffer, 0, bytes); // record how many bytes we actually read
                         mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
