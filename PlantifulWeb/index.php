@@ -5,11 +5,11 @@ include 'Root/WebReferences.php';
 // set the name of this website
 $_POST['W_NAME'] = "Plantiful - Home";
 // check if user cookie is set, if not, go to the registration page
-if (!isset($_COOKIE['web_assoc_uid']))
-{
-	header("Location: " . $REG_PAGE);
-	exit;
-}
+//if (!isset($_COOKIE['web_assoc_uid']))
+//{
+//	header("Location: " . $REG_PAGE);
+//	exit;
+//}
 ?>
 <!doctype html>
 <html lang="en">
