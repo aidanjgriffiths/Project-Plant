@@ -1,6 +1,8 @@
-#include <DHT.h>; //Adafruit DHT library
+#include <DHT.h> //Adafruit DHT library
 #include <SoftwareSerial.h>
-#define VERSION "0.1"
+#define VERSION "0.2"
+//Comment this out when NOT debugging the hardware.
+//#define DEBUG 1
 #define BLUETOOTH_RX 11
 #define BLUETOOTH_TX 10
 #define BLUETOOTH_BAUD 9600
@@ -28,6 +30,10 @@ char buf[30];
 
 
 void setup() {
+  #ifdef DEBUG
+    Serial.begin(9600);
+    Serial.println("Debug Enabled");
+  #endif
   bluetooth.begin(BLUETOOTH_BAUD);
   dht.begin();
   delay(2000); //This is required to give the DHT time to start/stabilise
@@ -42,6 +48,7 @@ void loop() {
     rawLight = min(RAW_LIGHT_MAX, rawLight);
     light = map(rawLight, RAW_LIGHT_MIN, RAW_LIGHT_MAX, ADJ_LIGHT_MIN, ADJ_LIGHT_MAX);
     moisture = map(rawMoisture, RAW_SOIL_MIN, RAW_SOIL_MAX, ADJ_SOIL_MIN, ADJ_SOIL_MAX);
+
     if (bluetooth.available())
     {
       char c = bluetooth.read();
@@ -55,6 +62,11 @@ void loop() {
       else if (c == 'r')
       {
         char numbers[5];
+
+        temperature = 26;
+        humidity = 70;
+        light = 600;
+        moisture = 80;
         
         strcpy(buf, "T");
         strcat(buf, itoa(temperature, numbers, 10));
@@ -64,11 +76,12 @@ void loop() {
         strcat(buf, ltoa(light, numbers, 10));
         strcat(buf, "M");
         strcat(buf, itoa(moisture, numbers, 10));
+        
+        #ifdef DEBUG
+          Serial.println(buf);
+        #endif
+        
         bluetooth.println(buf);
-      }
-      else
-      {
-        delay(100); 
       }
     }
 }
