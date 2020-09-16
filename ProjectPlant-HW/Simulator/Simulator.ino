@@ -38,10 +38,10 @@ void loop()
         bluetooth.print(buf);
         break;
       case 'r':
-        adjustValue(temp, random(15, 35));
-        adjustValue(humidity, random(20, 80));
-        adjustValue(light, random(100, 5000));
-        adjustValue(moisture, random(20, 80));
+        adjustValue(temp, random(15, 36));
+        adjustValue(humidity, random(20, 81));
+        adjustValue(light, random(100, 5001));
+        adjustValue(moisture, random(20, 81));
 
         strcpy(buf, "T");
         strcat(buf, itoa(temp, numbers, 10));
