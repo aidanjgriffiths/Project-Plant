@@ -17,9 +17,11 @@ Relational Database Service for the Cloud MySQL Database, for access from the We
 ### Arduino IDE 
 IDE provides a coding platform for writing high level C/C++ based code that can be flashed to an Arduino board. 
 Accessible coding platform. Runs on Windows. Basic setup and looping format. Many well-established libraries available. USB flashing. Debugging is simple using the provided serial terminal.
-### Fusion 360 
+### AutoDesk Fusion 360 
 Used for developing 3D designs for the hardware enclosure (prototype and final design). 
 Accessible. At least one group member has experience developing models with this software. Parts can be assembled and animated. Enable direct export of 3D printing file. Schematic drawings are available for large scale production. 
+### AutoDesk Eagle
+Used for developing CAD schematic and printed circuit board designs for the embedded system final design. Program works in conjunction with Fusion 360 to purpose fit to the hardware shell.
 ### Cura 
 Enables slicing and positioning of component pieces on 3D printing platform. 
 Group member is in possession of this software and has experience using it for printing prototypes. 
