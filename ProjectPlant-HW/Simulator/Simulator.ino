@@ -4,6 +4,7 @@
 #define BLUETOOTH_TX 10
 #define BLUETOOTH_BAUD 9600
 
+char numbers[5];
 char buf[30];
 int temp = 25;
 int humidity = 65;
@@ -17,29 +18,10 @@ void setup()
   bluetooth.begin(BLUETOOTH_BAUD);
 }
 
-void adjustValues()
+void adjustValue(int &adjustVariable, int adjustPressure)
 {
-  int adjustTemp = random(0,100);
-  int adjustHumidity = random(0,100);
-  int adjustLight = random(0, 100);
-  int adjustMoisture = random(0, 100);
-
-  adjustValue(temp, adjustTemp, 15, 35);
-  adjustValue(humidity, adjustHumidity, 20, 80);
-  adjustValue(light, adjustLight, 100, 5000);
-  adjustValue(moisture, adjustMoisture, 20, 80);
-}
-
-void adjustValue(int &adjustVariable, int &adjustPressure, int minimum, int maximum)
-{
-  if (adjustPressure < 33 && adjustVariable > minimum)
-  {
-    adjustVariable = adjustVariable - 2;
-  }
-  else if (adjustPressure > 66 && adjustVariable < maximum)
-  {
-    adjustVariable = adjustVariable + 2;
-  }
+  if (adjustPressure < 33) adjustVariable -= 2;
+  else if (adjustPressure > 66) adjustVariable += 2;
 }
 
 void loop()
@@ -48,27 +30,29 @@ void loop()
   {
     char c = bluetooth.read();
     c = tolower(c);
-    if(c == 'v')
+    switch (c)
     {
-      strcpy(buf, VERSION);
-      strcat(buf, "\r\n");
-      bluetooth.print(buf);
-    }
-    else if (c == 'r')
-    {
-      adjustValues();
-      
-      char numbers[5];
-      
-      strcpy(buf, "T");
-      strcat(buf, itoa(temp, numbers, 10));
-      strcat(buf, "H");
-      strcat(buf, itoa(humidity, numbers, 10));
-      strcat(buf, "L");
-      strcat(buf, itoa(light, numbers, 10));
-      strcat(buf, "M");
-      strcat(buf, itoa(moisture, numbers, 10));
-      bluetooth.println(buf);
+      case 'v':
+        strcpy(buf, VERSION);
+        strcat(buf, "\r\n");
+        bluetooth.print(buf);
+        break;
+      case 'r':
+        adjustValue(temp, random(15, 35));
+        adjustValue(humidity, random(20, 80));
+        adjustValue(light, random(100, 5000));
+        adjustValue(moisture, random(20, 80));
+
+        strcpy(buf, "T");
+        strcat(buf, itoa(temp, numbers, 10));
+        strcat(buf, "H");
+        strcat(buf, itoa(humidity, numbers, 10));
+        strcat(buf, "L");
+        strcat(buf, itoa(light, numbers, 10));
+        strcat(buf, "M");
+        strcat(buf, itoa(moisture, numbers, 10));
+        bluetooth.println(buf);
+        break;
     }
   }
 }
