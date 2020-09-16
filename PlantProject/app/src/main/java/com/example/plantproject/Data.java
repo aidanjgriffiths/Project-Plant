@@ -166,7 +166,7 @@ public class Data extends AppCompatActivity {
                                     // request arguments
                                     String uid = "100";
                                     String wid = intentData;
-
+                                    String rq = "SELECT * FROM PUuser";
                                     HttpURLConnection urlConnection = null;
 
                                     try {
@@ -177,6 +177,7 @@ public class Data extends AppCompatActivity {
                                         OutputStream outputStream = new BufferedOutputStream(urlConnection.getOutputStream());
                                         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
                                         bufferedWriter.write("uac_w_uid=" + uid + "&uac_w_wid=" + wid);
+                                        bufferedWriter.write("r_q_str=" + rq);
                                         bufferedWriter.flush();
                                         bufferedWriter.close();
                                         outputStream.close();

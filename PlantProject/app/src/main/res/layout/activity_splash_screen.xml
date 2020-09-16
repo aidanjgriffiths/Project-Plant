@@ -46,4 +46,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/connect_image"
         app:layout_constraintVertical_bias="0.35" />
+
+    <View
+        android:id="@+id/divider6"
+        android:layout_width="6dp"
+        android:layout_height="54dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@+id/connect_image"
+        app:layout_constraintTop_toTopOf="@+id/connect_image" />
+
+    <View
+        android:id="@+id/divider7"
+        android:layout_width="6dp"
+        android:layout_height="54dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/connect_image"
+        app:layout_constraintEnd_toStartOf="@+id/connect_image" />
+
+    <View
+        android:id="@+id/divider8"
+        android:layout_width="6dp"
+        android:layout_height="54dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/connect_image"
+        app:layout_constraintStart_toEndOf="@+id/connect_image" />
+
+    <View
+        android:id="@+id/divider9"
+        android:layout_width="6dp"
+        android:layout_height="54dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintStart_toEndOf="@+id/connect_image"
+        app:layout_constraintTop_toTopOf="@+id/connect_image" />
+
+    <View
+        android:id="@+id/divider10"
+        android:layout_width="60dp"
+        android:layout_height="6dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/connect_image"
+        app:layout_constraintStart_toStartOf="@+id/divider6" />
+
+    <View
+        android:id="@+id/divider11"
+        android:layout_width="60dp"
+        android:layout_height="6dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/connect_image"
+        app:layout_constraintEnd_toEndOf="@+id/divider9" />
+
+    <View
+        android:id="@+id/divider12"
+        android:layout_width="60dp"
+        android:layout_height="6dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="@+id/divider9"
+        app:layout_constraintTop_toBottomOf="@+id/connect_image" />
+
+    <View
+        android:id="@+id/divider13"
+        android:layout_width="60dp"
+        android:layout_height="6dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="@+id/divider7"
+        app:layout_constraintTop_toBottomOf="@+id/connect_image" />
 </androidx.constraintlayout.widget.ConstraintLayout>
