@@ -1,3 +1,18 @@
+<script>
+    function changesrc(direction) {
+        switch (direction) {
+            case 0:
+                document.getElementById("root-display").src = "View/Content/Overview.php";
+                break;
+            case 1:
+                document.getElementById("root-display").src = "View/Content/Calendar.php";
+                break;
+        }
+    }
+</script>
 <div id="ft-div" class="foot-head-cls">
-    <h1>Hello from Footer</h1>
+    <input id="overview-img" type="image" src="Resources/UI/Overview.png"
+           onclick="changesrc(0)" alt="Overview">
+    <input id="overview-img" type="image" src="Resources/UI/Calendar.png"
+           onclick="changesrc(1)" alt="Calendar">
 </div>

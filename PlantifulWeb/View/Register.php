@@ -23,7 +23,7 @@
     </script>
 </div>
 <div id="contributor-det-div">
-    <img id="dev-team-img" src="../Resources/dev-team.png" alt="Development Team">
+    <img id="dev-team-img" src="../Resources/UI/Dev-Team.png" alt="Development Team">
     <div id="contributor-det-inner-div">
         <p id="plantiful-dev-team-p">
             Plantiful Team<br>
