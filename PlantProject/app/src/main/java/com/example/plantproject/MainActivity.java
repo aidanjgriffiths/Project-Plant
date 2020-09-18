@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void toastMessage(String message) {
+    public void toastMessage(String message) {    // themed toast message function
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
         view.setBackgroundColor(Color.rgb(36,100,36));

@@ -41,6 +41,8 @@ public class CustomResetWarning extends Dialog {
         }, 2000);
     }
 
+
+    // fullscreen mode
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

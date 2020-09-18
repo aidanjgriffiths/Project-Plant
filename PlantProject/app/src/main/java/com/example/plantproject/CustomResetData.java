@@ -69,6 +69,7 @@ public class CustomResetData extends Dialog implements View.OnClickListener  {
         }
     }
 
+    //reset dialog popup
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

@@ -33,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, TABLE_NAME, null, 1);
     }
 
+    // create the database
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME + " (" + COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -48,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // add single profile to the database
     public boolean addData(String name, String class_, Double moist_min, Double moist_max, Double temp_min,
                            Double temp_max, Double humid_min, Double humid_max, Double light_min, Double light_max,
                            Double act_moist, Double act_temp, Double act_humid, Double act_light){
@@ -118,13 +120,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COL2 + " COLLATE NOCASE ASC";
         return db.rawQuery(query, null);
     }
-
+    // returns single profile from the database
     public Cursor getSingleProfile(String prof) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL2 + "= '" + prof + "'";
         return db.rawQuery(query, null);
     }
-
+    // queries single profile from the database
     public Boolean checkSingleProfile(String prof) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL2 + "= '" + prof + "'";
@@ -134,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return true;
     }
-
+    // delete single profile from the database
     public void deleteSingleProfile(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME+ " WHERE " + COL2 + "= '" + name + "'");
