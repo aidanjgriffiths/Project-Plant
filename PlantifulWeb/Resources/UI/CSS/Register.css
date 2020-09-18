@@ -1,6 +1,6 @@
 body {
     /*background: linear-gradient(to bottom right, #20d426, #14b33b);*/
-    background-image: url("../../bg.jpg");
+    background-image: url("../Bg.jpg");
     background-size: cover;
     background-attachment: fixed;
     backdrop-filter: blur(10px);

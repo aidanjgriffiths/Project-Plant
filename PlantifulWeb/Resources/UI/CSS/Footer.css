@@ -4,10 +4,11 @@
     width: 100%;
     align-content: center;
     border-top: 2px solid darkgreen;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
-    display: block;
-    min-height: 50px;
+    display: flex;
+    flex-direction: row;
+    max-height: 50px;
     bottom: 0;
     position: fixed;
     box-shadow: 0 -5px 15px 0 rgba(0,0,0,0.3);
@@ -18,4 +19,10 @@
     vertical-align: middle;
     text-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
     font-size: 10pt;
+}
+
+#overview-img
+{
+    height: 45px;
+    width: auto;
 }
