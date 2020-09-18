@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -22,11 +23,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -41,6 +44,8 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -48,6 +53,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -334,7 +343,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             }
         });
     }
-
+    //full screen mode
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -396,6 +405,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         this.registerReceiver(myReceiver, filter);  // register the receiver
 
         connect(); //connect to the device via bluetooth
+
+        //handle connections and read data
         mHandler = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 // connection to bluetooth
@@ -422,6 +433,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     strIncom = strIncom.replace("\r", "");
                     strIncom = strIncom.replace("\n", "");
 
+                    //splice the Serial data
                     plantHealth.setText(strIncom);
                     String[] strings = strIncom.split("T");
                     String[] strings_ = strings[1].split("H");
@@ -439,6 +451,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     //humiddebug.setText(ar.get(1));
                     //lightdebug.setText(ar.get(2));
                     //moistdebug.setText(ar.get(3));
+
+                    // move the sliders
                     moistValue = (int) ((((Double.parseDouble(ar.get(3))) - min_m) / (max_m - min_m)) * 100);
                     moistValue_ = moistValue;
                     if (moistValue < 0) moistValue_ = 0;
@@ -540,7 +554,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
     };
 
-
+    //establish bluetooth connection and handle exceptions
     private void connect(){
         if(!bluetoothAdapter.isEnabled()) {
             toastMessage("Bluetooth not on");
@@ -548,8 +562,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "HC-05";//"HC-05";//"Adafruit EZ-Link 8e6a";
-        final String address = "98:D3:A1:FD:5C:B6";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
+        final String name = "Adafruit EZ-Link 8e6a";//"HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:76:B6:00:8E:6A";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
@@ -593,12 +607,13 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
 
     }
+    // setup bluetooth socket
     private BluetoothSocket createBluetoothSocket (BluetoothDevice device) throws IOException {
         //creates secure outgoing connection with BT device using UUID
         return device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
     }
 
-
+    //setup bluetooth connection thread
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
@@ -666,7 +681,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             }
         }
     }
-
+    // text-to-speech initiation
     public void onInit(int initStatus) {
         if (initStatus == TextToSpeech.SUCCESS) {
             myTTS.setLanguage(Locale.US);
@@ -676,7 +691,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
     }
 
-    public void buttonRecord(View view){
+    @SuppressLint("StaticFieldLeak")
+    public void buttonRecord(View view){        //appends the sensor data to profile specific txt file
         resetConnection();
         //toastMessage("Sensor Data Logged");
         Date date = Calendar.getInstance().getTime();
@@ -718,6 +734,7 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                 Math.pow(((previous_h-min_h)/(max_h-min_h))-0.5, 2.0)+
                 Math.pow(((previous_l-min_l)/(max_l-min_l))-0.5, 2.0))/4.0;
 
+        // display growing condition states
         if(mse_c < 0.02 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are optimal");
         else if(mse_c < 0.02 && mse_c > mse_p) plantHealth.setText("Plant growing conditions are optimal but declining. Check back soon!");
         else if(mse_c >= 0.02 && mse_c < 0.06 && mse_c < mse_p) plantHealth.setText("Plant growing conditions are good and improving");
@@ -731,9 +748,47 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                 max_t, min_h, max_h, min_l, max_l, Double.parseDouble(ar_saved.get(ar_saved.size()-1)),
                 Double.parseDouble(ar_saved.get(ar_saved.size()-4)), Double.parseDouble(ar_saved.get(ar_saved.size()-3)),
                 Double.parseDouble(ar_saved.get(ar_saved.size()-2)));
+
+
+        new AsyncTask<Void, Void, Void>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            protected Void doInBackground(Void... voids) {    //sync logged sensor information to website
+
+                // request arguments
+                String rq = "SELECT * FROM + TABLE_NAME +";
+                HttpURLConnection urlConnection = null;
+
+                try {
+                    URL url = new URL("https://www.mdlproto.com/PlantifulWeb/Stem/UACStem.php");
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("POST");
+                    // write arguments to the output stream of HTTPUrlConnection
+                    OutputStream outputStream = new BufferedOutputStream(urlConnection.getOutputStream());
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                    bufferedWriter.write("r_q_str=" + rq);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    urlConnection.connect(); // connect to website and execute HTTP POST request
+                    int responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
+                    //debugConnection.setText(responseCode);
+                    Log.d("Debug", String.valueOf(responseCode));
+                } catch (Exception e) {
+                    Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
+
+                } finally {
+                    urlConnection.disconnect();
+                }
+
+                return null;
+            }
+        }.execute();
+
     }
 
-    public void toastMessage(String message) {
+    public void toastMessage(String message) {     //themed toast message function
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
         view.setBackgroundColor(Color.rgb(36,100,36));

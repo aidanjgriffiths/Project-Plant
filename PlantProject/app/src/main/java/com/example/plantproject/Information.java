@@ -41,7 +41,7 @@ public class Information extends AppCompatActivity {
         super.onResume();
 
     }
-
+    // fullscreen mode
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

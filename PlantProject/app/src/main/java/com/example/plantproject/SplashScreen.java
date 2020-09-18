@@ -71,6 +71,7 @@ public class SplashScreen extends AppCompatActivity {
         }, SPLASH_DISPLAY_LENGTH);
     }
 
+    // fullscreen mode
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -128,6 +129,7 @@ public class SplashScreen extends AppCompatActivity {
         }, 2000);
     }
 
+    // themed toast message
     public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();

@@ -80,7 +80,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("PlantImages", Context.MODE_PRIVATE);
 
-
+        // add profile to profile adapter
         for (int i = 0; i < name_profiles.size(); i++) {
             String profile = name_profiles.get(i);
             File imagePath = new File(directory, profile + ".jpg");
@@ -98,6 +98,8 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
                     new com.example.plantproject.BaseProfile(i, rotatedBitmap, R.drawable.open_profile, profile);
             profileList.add(profiles);
         }
+
+        // add swipe controller for individual profiles
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
@@ -149,6 +151,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
 
     }
 
+    // fullscreen view
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -178,7 +181,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
 
 
 
-
+    // add a new profile - send to profile editor
     public void buttonAdd(View view) {
         Intent intent = new Intent(this, ProfileEditor.class);
         intent.putExtra("edit_flag", false);
@@ -190,7 +193,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
 
     }
 
-
+    // edit a profile
     @Override
     public void onNoteClick(int position) {
         String profile_edit = profileList.get(position).getProfile();
@@ -221,6 +224,7 @@ public class PlantProfiles extends AppCompatActivity implements ProfileAdapter.O
         startActivity(intent);
     }
 
+    // themed toast message
     public void toastMessage(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         View view = toast.getView();
