@@ -14,3 +14,4 @@
 10/9/2020 - Update to monitor activity for debugging sensor values in real-time
 15/9/2020 - Extra debugging textviews added to monitoring activity
 16/9/2020 - Refined min and max values
+18/9/2020 - Commented code
