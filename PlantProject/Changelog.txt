@@ -1,1 +1,16 @@
-Updates to app
+7/8/2020 - Initial commit with animated splash screen, bluetooth connectivity and text-to-voice functionality
+7/8/2020 - Added resources activity with links to 6 different flora related websites
+7/8/2020 - Update to manifest to include resources activity
+19/8/2020 - Profiles and monitor activities added
+19/8/2020 - swipeable profile tabs added in scrollable recycler view
+19/8/2020 - Notification channel established for weekly notification to check on plants
+19/8/2020 - Camera, QR generator and reader included. ability to add/delete profiles.
+19/8/2020 - Connecting to bluetooth shifted to monitioring acitivity
+20/8/2020 - Added content to information and help activities
+8/9/2020 - Font changes, updated JDK to 8.0
+9/9/2020 - Added growing condition states
+9/9/2020 - Added sync with web feature
+10/9/2020 - Normalised slider values and added webserver connectivity
+10/9/2020 - Update to monitor activity for debugging sensor values in real-time
+15/9/2020 - Extra debugging textviews added to monitoring activity
+16/9/2020 - Refined min and max values
