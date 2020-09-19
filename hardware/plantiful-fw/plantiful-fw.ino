@@ -70,11 +70,6 @@ void loop() {
         delay(100);
         digitalWrite(FEEDBACK_LED_PIN, LOW);
         char numbers[5];
-
-        temperature = 26;
-        humidity = 70;
-        light = 600;
-        moisture = 80;
         
         strcpy(buf, "T");
         strcat(buf, itoa(temperature, numbers, 10));
