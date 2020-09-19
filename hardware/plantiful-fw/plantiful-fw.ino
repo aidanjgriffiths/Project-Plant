@@ -58,33 +58,32 @@ void loop() {
     {
       char c = bluetooth.read();
       c = tolower(c);
-      if(c == 'v')
+      switch(c)
       {
-        strcpy(buf, VERSION);
-        strcat(buf, "\r\n");
-        bluetooth.print(buf);
-      }
-      else if (c == 'r')
-      {
-        digitalWrite(FEEDBACK_LED_PIN, HIGH);
-        delay(100);
-        digitalWrite(FEEDBACK_LED_PIN, LOW);
-        char numbers[5];
-        
-        strcpy(buf, "T");
-        strcat(buf, itoa(temperature, numbers, 10));
-        strcat(buf, "H");
-        strcat(buf, itoa(humidity, numbers, 10));
-        strcat(buf, "L");
-        strcat(buf, ltoa(light, numbers, 10));
-        strcat(buf, "M");
-        strcat(buf, itoa(moisture, numbers, 10));
-        
-        #ifdef DEBUG
-          Serial.println(buf);
-        #endif
-        
-        bluetooth.println(buf);
+        case('v'):
+          strcpy(buf, VERSION);
+          strcat(buf, "\r\n");
+          bluetooth.print(buf);
+        case('r'):
+          digitalWrite(FEEDBACK_LED_PIN, HIGH);
+          delay(100);
+          digitalWrite(FEEDBACK_LED_PIN, LOW);
+          char numbers[5];
+          
+          strcpy(buf, "T");
+          strcat(buf, itoa(temperature, numbers, 10));
+          strcat(buf, "H");
+          strcat(buf, itoa(humidity, numbers, 10));
+          strcat(buf, "L");
+          strcat(buf, ltoa(light, numbers, 10));
+          strcat(buf, "M");
+          strcat(buf, itoa(moisture, numbers, 10));
+          
+          #ifdef DEBUG
+            Serial.println(buf);
+          #endif
+          
+          bluetooth.println(buf);
       }
     }
 }
