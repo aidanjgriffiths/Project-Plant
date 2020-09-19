@@ -1,0 +1,7 @@
+# CdS Light Dependent Resistor
+
+This sketch allows you to easily test the integration and function of the Cadmium-sulfide Light Dependent Resistor, or LDR. For responsive voltage swings, this unit requires a relatively accurate resistor to be used as a divider, and for calculating an approximate lux value from the device, a sensor-dependent minimum and maximum needs to be found (by physically taking the individual resistor/LDR combination to different lighting conditions). This sketch facilitates both of these things by outputting the relevant readings for adjusting the firmware. This sketch is invaluable as every CdS LDR will behave slightly different to another, so these values are required to be found for *every* sensor.
+
+## Use
+
+Upload the sketch to the device. Then, connect to the hardware serial UART. The device will output the current light reading, as well as maintain and display the minimum reading and maximum reading since poweron. Using the current reading you can test the responsiveness of the device (thereby validating the choice of voltage divider resistor), as well as record the minimum and maximum by moving the device from very dark environments to full bright sunlight, and using these values to set the relevant values in the main firmware sketch.
