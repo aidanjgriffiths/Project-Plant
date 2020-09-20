@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +46,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +54,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -109,6 +112,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private String strIncom;
     private ArrayList<String> ar = new ArrayList<>();
     private ArrayList<String> ar_saved = new ArrayList<>();
+    SharedPreferences sharedPref;
+    static final String USER_ID = "user_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +172,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         humiddebug = findViewById(R.id.humiddebug);
         moistdebug = findViewById(R.id.moistdebug);
         lightdebug = findViewById(R.id.lightdebug);
+
+        sharedPref = this.getSharedPreferences("com.example.plantproject", Context.MODE_PRIVATE);
 
         /*sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
@@ -562,8 +569,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "Adafruit EZ-Link 8e6a";//"HC-05";//"Adafruit EZ-Link 8e6a";
-        final String address = "98:76:B6:00:8E:6A";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
+        final String name = "HC-05";//"HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:D3:A1:FD:5C:B6";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
@@ -757,11 +764,17 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             protected Void doInBackground(Void... voids) {    //sync logged sensor information to website
 
                 // request arguments
-                String rq = "SELECT * FROM + TABLE_NAME +";
+
+                String rq = "CALL usp_insert_PMeasurement("+Double.parseDouble(ar_saved.get(ar_saved.size()-1))+","+
+                        Double.parseDouble(ar_saved.get(ar_saved.size()-4))+","+
+                        Double.parseDouble(ar_saved.get(ar_saved.size()-3))+","+
+                        Double.parseDouble(ar_saved.get(ar_saved.size()-2))+","+
+                        id_plant+"," + sharedPref.getInt(USER_ID,0) +");";
+
                 HttpURLConnection urlConnection = null;
 
                 try {
-                    URL url = new URL("https://www.mdlproto.com/PlantifulWeb/Stem/UACStem.php");
+                    URL url = new URL("https://www.mdlproto.com/PlantifulWeb/Stem/RQStem.php");
                     urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("POST");
                     // write arguments to the output stream of HTTPUrlConnection
@@ -772,12 +785,21 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     bufferedWriter.close();
                     outputStream.close();
                     urlConnection.connect(); // connect to website and execute HTTP POST request
-                    int responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
-                    //debugConnection.setText(responseCode);
-                    Log.d("Debug", String.valueOf(responseCode));
+                    int responseCode = urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
+                    // get response from server
+                    StringBuilder sb = new StringBuilder();
+                    InputStream is = responseCode == 200 ? urlConnection.getInputStream() : urlConnection.getErrorStream();
+                    BufferedReader bis = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                    String curLine = "";
+                    // retrieve each line from the response from the server
+                    while ((curLine = bis.readLine()) != null)
+                        sb.append(curLine + "\n");
+                    // close input streams
+                    is.close();
+                    bis.close();
+                    Log.d("Debug", sb.toString());
                 } catch (Exception e) {
                     Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
-
                 } finally {
                     urlConnection.disconnect();
                 }
