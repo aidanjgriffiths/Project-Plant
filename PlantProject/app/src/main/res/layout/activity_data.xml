@@ -138,7 +138,7 @@
         app:layout_constraintTop_toBottomOf="@+id/webconnect" />
 
     <TextView
-        android:id="@+id/debug"
+        android:id="@+id/websync"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -146,5 +146,17 @@
         app:layout_constraintEnd_toEndOf="@+id/textView47"
         app:layout_constraintStart_toStartOf="@+id/textView47"
         app:layout_constraintTop_toBottomOf="@+id/textView47" />
+
+    <TextView
+        android:id="@+id/web_sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:textColor="@color/title_colour"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/webconnect"
+        app:layout_constraintTop_toTopOf="@+id/webconnect" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,11 +49,11 @@ public class Data extends AppCompatActivity {
 
     private DatabaseHelper mDatabaseHelper;
     private String intentData = "";
-    private TextView debugConnection;
+    private TextView webConnection, webSync;
     private SurfaceView qr_scan;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
-    
+    int responseCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +66,10 @@ public class Data extends AppCompatActivity {
         setContentView(R.layout.activity_data);
         mDatabaseHelper = new DatabaseHelper(this);
         qr_scan = findViewById(R.id.webconnect);
-        debugConnection = findViewById(R.id.debug);
+        webConnection = findViewById(R.id.websync);
+        webSync = findViewById(R.id.web_sync);
         initialiseDetectorsAndSources();
+        webConnection.setText("Not synced to web");
 
     }
     @Override
@@ -150,7 +152,7 @@ public class Data extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
-                    debugConnection.post(new Runnable() {
+                    webConnection.post(new Runnable() {
                         @SuppressLint("StaticFieldLeak")
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         @Override
@@ -164,7 +166,7 @@ public class Data extends AppCompatActivity {
                                 protected Void doInBackground(Void... voids) {
 
                                     // request arguments
-                                    String uid = "100";
+                                    String uid = "333";
                                     String wid = intentData;
                                     HttpURLConnection urlConnection = null;
 
@@ -180,9 +182,10 @@ public class Data extends AppCompatActivity {
                                         bufferedWriter.close();
                                         outputStream.close();
                                         urlConnection.connect(); // connect to website and execute HTTP POST request
-                                        int responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
-                                        //debugConnection.setText(responseCode);
+                                        responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
+                                        Log.d("Debug", String.valueOf(intentData));
                                         Log.d("Debug", String.valueOf(responseCode));
+
                                     } catch (Exception e) {
                                         Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
 
@@ -190,9 +193,11 @@ public class Data extends AppCompatActivity {
                                         urlConnection.disconnect();
                                     }
 
-                                        return null;
+                                    return null;
                                 }
                             }.execute();
+                            //webConnection.setText(String.valueOf(responseCode));
+                            //else webConnection.setText("Not synced to web");
                             //cameraSource.stop();
                             toastMessage("QR scanner stopped");
 

@@ -1,5 +1,6 @@
 package com.example.plantproject;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,10 +12,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -28,10 +31,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.zxing.WriterException;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +62,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     DatabaseHelper mDatabaseHelper;
     private ImageButton imageButton;
     private Camera mCamera;
-
+    private double m_min, m_max, t_min, t_max, h_min, h_max, l_min, l_max;
     private boolean editFlag = false;
     private int id;
     EditText plant_name, moist_min, moist_max, temp_min, temp_max,
@@ -321,6 +334,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void buttonDone(View view) {
         String name = plant_name.getText().toString();
         String plant_ty = plant_type_text;
@@ -328,42 +342,42 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         if(moist_mn.matches("")){
             moist_mn = "0.0";
         }
-        double m_min = Double.parseDouble(moist_mn);
+        m_min = Double.parseDouble(moist_mn);
         String moist_mx = moist_max.getText().toString();
         if(moist_mx.matches("")){
             moist_mx = "100.0";
         }
-        double m_max = Double.parseDouble(moist_mx);
+        m_max = Double.parseDouble(moist_mx);
         String temp_mn = temp_min.getText().toString();
         if(temp_mn.matches("")){
             temp_mn = "0.0";
         }
-        double t_min = Double.parseDouble(temp_mn);
+        t_min = Double.parseDouble(temp_mn);
         String temp_mx = temp_max.getText().toString();
         if(temp_mx.matches("")){
             temp_mx = "40.0";
         }
-        double t_max = Double.parseDouble(temp_mx);
+        t_max = Double.parseDouble(temp_mx);
         String humid_mn = humid_min.getText().toString();
         if(humid_mn.matches("")){
             humid_mn = "0.0";
         }
-        double h_min = Double.parseDouble(humid_mn);
+        h_min = Double.parseDouble(humid_mn);
         String humid_mx = humid_max.getText().toString();
         if(humid_mx.matches("")){
             humid_mx = "100.0";
         }
-        double h_max = Double.parseDouble(humid_mx);
+        h_max = Double.parseDouble(humid_mx);
         String light_mn = light_min.getText().toString();
         if(light_mn.matches("")){
             light_mn = "0.0";
         }
-        double l_min = Double.parseDouble(light_mn);
+        l_min = Double.parseDouble(light_mn);
         String light_mx = light_max.getText().toString();
         if(light_mx.matches("")){
             light_mx = "100000.0";
         }
-        double l_max = Double.parseDouble(light_mx);
+        l_max = Double.parseDouble(light_mx);
 
         double a_moist = 0.0;
         double a_temp = 0.0;
@@ -462,6 +476,62 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
         } else {
             toastMessage("Please enter a name");
         }
+
+
+        new AsyncTask<Void, Void, Void>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            protected Void doInBackground(Void... voids) {    //sync logged sensor information to website
+
+                // request arguments
+
+                String rq = "call usp_insert_PProfile('"+ name +
+                        "', '" + plant_ty + "', " + m_min + ","+ m_max +"," + t_min +"," + t_max + "," +
+                        h_min + "," + h_max + ", " + l_min + "," + l_max +");";
+
+                HttpURLConnection urlConnection = null;
+
+                try {
+                    URL url = new URL("https://www.mdlproto.com/PlantifulWeb/Stem/RQStem.php");
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("POST");
+                    // write arguments to the output stream of HTTPUrlConnection
+                    OutputStream outputStream = new BufferedOutputStream(urlConnection.getOutputStream());
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+                    bufferedWriter.write("r_q_str=" + rq);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    urlConnection.connect(); // connect to website and execute HTTP POST request
+                    int responseCode = urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
+                    // get response from server
+                    StringBuilder sb = new StringBuilder();
+                    InputStream is = responseCode == 200 ? urlConnection.getInputStream() : urlConnection.getErrorStream();
+                    BufferedReader bis = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                    String curLine = "";
+                    // retrieve each line from the response from the server
+                    while ((curLine = bis.readLine()) != null)
+                        sb.append(curLine + "\n");
+                    // close input streams
+                    is.close();
+                    bis.close();
+                    Log.d("Debug", sb.toString());
+                } catch (Exception e) {
+                    Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
+                } finally {
+                    urlConnection.disconnect();
+                }
+
+                return null;
+            }
+        }.execute();
+
+
+
+
+
+
 
     }
 

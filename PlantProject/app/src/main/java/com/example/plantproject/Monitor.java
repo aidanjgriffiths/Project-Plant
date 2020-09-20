@@ -45,6 +45,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +53,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -757,11 +759,21 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
             protected Void doInBackground(Void... voids) {    //sync logged sensor information to website
 
                 // request arguments
-                String rq = "SELECT * FROM + TABLE_NAME +";
+
+                String rq = "CALL usp_insert_PMeasurement("+Double.parseDouble(ar_saved.get(ar_saved.size()-1))+","+
+                        Double.parseDouble(ar_saved.get(ar_saved.size()-4))+","+
+                        Double.parseDouble(ar_saved.get(ar_saved.size()-3))+","+
+                        Double.parseDouble(ar_saved.get(ar_saved.size()-2))+","+
+                        id_plant+"," + 333 +");";
+
+                /*String rq = "call usp_insert_PProfile('"+ txtBarcodeValue.getText() +
+                        "', '" + p_type + "', " + min_m + ","+  max_m +","+ min_t +"," +
+                        max_t + "," + min_h + "," + max_h + ", " + min_l + "," + max_l +");";*/
+                //String rq = "CALL usp_insert_PProfile('Cactus', 'High Tolerance', 0, 100, 0, 200, 0, 100, 0, 30000);";
                 HttpURLConnection urlConnection = null;
 
                 try {
-                    URL url = new URL("https://www.mdlproto.com/PlantifulWeb/Stem/UACStem.php");
+                    URL url = new URL("https://www.mdlproto.com/PlantifulWeb/Stem/RQStem.php");
                     urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("POST");
                     // write arguments to the output stream of HTTPUrlConnection
@@ -772,12 +784,21 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                     bufferedWriter.close();
                     outputStream.close();
                     urlConnection.connect(); // connect to website and execute HTTP POST request
-                    int responseCode =  urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
-                    //debugConnection.setText(responseCode);
-                    Log.d("Debug", String.valueOf(responseCode));
+                    int responseCode = urlConnection.getResponseCode(); // recover the request code to ensure the request did not fail!
+                    // get response from server
+                    StringBuilder sb = new StringBuilder();
+                    InputStream is = responseCode == 200 ? urlConnection.getInputStream() : urlConnection.getErrorStream();
+                    BufferedReader bis = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                    String curLine = "";
+                    // retrieve each line from the response from the server
+                    while ((curLine = bis.readLine()) != null)
+                        sb.append(curLine + "\n");
+                    // close input streams
+                    is.close();
+                    bis.close();
+                    Log.d("Debug", sb.toString());
                 } catch (Exception e) {
                     Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
-
                 } finally {
                     urlConnection.disconnect();
                 }
