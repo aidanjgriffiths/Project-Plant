@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,6 +61,7 @@ public class ProfileEditor extends AppCompatActivity implements AdapterView.OnIt
     
     ImageView qrViewer, qr_background;
     DatabaseHelper mDatabaseHelper;
+
     private ImageButton imageButton;
     private Camera mCamera;
     private double m_min, m_max, t_min, t_max, h_min, h_max, l_min, l_max;

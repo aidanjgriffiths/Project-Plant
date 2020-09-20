@@ -6,6 +6,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.vision.CameraSource;
@@ -39,6 +41,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,11 +52,17 @@ public class Data extends AppCompatActivity {
 
     private DatabaseHelper mDatabaseHelper;
     private String intentData = "";
-    private TextView webConnection, webSync;
+    private TextView webConnection, sync_label, reset_label, export_label, web_msg;
+    private ImageView reset_button, export_button;
     private SurfaceView qr_scan;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private boolean sync;
     int responseCode;
+    SharedPreferences sharedPref;
+    static final String SYNCED = "synced_user";
+    static final String USER_ID = "user_id";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,22 +75,54 @@ public class Data extends AppCompatActivity {
         setContentView(R.layout.activity_data);
         mDatabaseHelper = new DatabaseHelper(this);
         qr_scan = findViewById(R.id.webconnect);
+        sync_label = findViewById(R.id.textView47);
+        qr_scan.setVisibility(View.INVISIBLE);
+        sync_label.setVisibility(View.INVISIBLE);
+        reset_label = findViewById(R.id.reset_data_label);
+        export_label = findViewById(R.id.export_data_label);
+        reset_label.setVisibility(View.VISIBLE);
+        export_label.setVisibility(View.VISIBLE);
+        reset_button = findViewById(R.id.button_reset);
+        export_button = findViewById(R.id.imageView7);
+        reset_button.setVisibility(View.VISIBLE);
+        export_button.setVisibility(View.VISIBLE);
+        web_msg = findViewById(R.id.web_msg);
+        web_msg.setVisibility(View.INVISIBLE);
+
         webConnection = findViewById(R.id.websync);
-        webSync = findViewById(R.id.web_sync);
-        initialiseDetectorsAndSources();
-        webConnection.setText("Not synced to web");
+        sharedPref = this.getSharedPreferences("com.example.plantproject", Context.MODE_PRIVATE);
+        checkSharedPreferences();
+        //initialiseDetectorsAndSources();
+
 
     }
     @Override
     protected void onPause() {
         super.onPause();
-        cameraSource.release();
+        //cameraSource.release();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        initialiseDetectorsAndSources();
+        if(!sync) {
+            initialiseDetectorsAndSources();
+        }
+
+    }
+
+    public void checkSharedPreferences() {
+        sync = sharedPref.getBoolean(SYNCED,false);
+        if(!sync){
+            qr_scan.setVisibility(View.VISIBLE);
+            sync_label.setVisibility(View.VISIBLE);
+            web_msg.setVisibility(View.VISIBLE);
+            reset_label.setVisibility(View.INVISIBLE);
+            export_label.setVisibility(View.INVISIBLE);
+            reset_button.setVisibility(View.INVISIBLE);
+            export_button.setVisibility(View.INVISIBLE);
+            initialiseDetectorsAndSources();
+        }
 
     }
 
@@ -166,7 +207,7 @@ public class Data extends AppCompatActivity {
                                 protected Void doInBackground(Void... voids) {
 
                                     // request arguments
-                                    String uid = "333";
+                                    String uid = String.valueOf(sharedPref.getInt(USER_ID,0));;
                                     String wid = intentData;
                                     HttpURLConnection urlConnection = null;
 
@@ -196,10 +237,16 @@ public class Data extends AppCompatActivity {
                                     return null;
                                 }
                             }.execute();
-                            //webConnection.setText(String.valueOf(responseCode));
-                            //else webConnection.setText("Not synced to web");
-                            //cameraSource.stop();
-                            toastMessage("QR scanner stopped");
+
+                            toastMessage("User registered with Plantiful Web");
+                            sharedPref.edit().putBoolean(SYNCED, true).apply();
+                            qr_scan.setVisibility(View.INVISIBLE);
+                            sync_label.setVisibility(View.INVISIBLE);
+                            web_msg.setVisibility(View.INVISIBLE);
+                            reset_label.setVisibility(View.VISIBLE);
+                            export_label.setVisibility(View.VISIBLE);
+                            reset_button.setVisibility(View.VISIBLE);
+                            export_button.setVisibility(View.VISIBLE);
 
                         }
                     });
@@ -213,7 +260,7 @@ public class Data extends AppCompatActivity {
         CustomResetData cd = new CustomResetData(Data.this);
         cd.setDialogResult(new CustomResetData.OnMyDialogResult(){
             public void finish(String result){
-                if(result == "Delete"){
+                if(result.equals("Delete")){
                     String db = mDatabaseHelper.getDatabaseName();
                     getApplicationContext().deleteDatabase(db);
                     ContextWrapper cw = new ContextWrapper(getApplicationContext());

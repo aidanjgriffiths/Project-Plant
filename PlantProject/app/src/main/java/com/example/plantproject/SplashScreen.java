@@ -1,7 +1,9 @@
 package com.example.plantproject;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +26,8 @@ public class SplashScreen extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
     private static final int REQUEST_ENABLE_BT = 1;
     private MediaPlayer mySong;
+    SharedPreferences sharedPref;
+    static final String USER_ID = "user_id";
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -29,7 +35,8 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View decorView = getWindow().getDecorView();
-
+        sharedPref = this.getSharedPreferences("com.example.plantproject", Context.MODE_PRIVATE);
+        checkSharedPreferences();
         // hide the navigation bar.
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -69,6 +76,16 @@ public class SplashScreen extends AppCompatActivity {
                 SplashScreen.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
+    }
+
+    public void checkSharedPreferences() {
+        int uid = sharedPref.getInt(USER_ID,0);
+        if(uid == 0){
+            Random random = new Random();
+            int randomNumber = random.nextInt(1000);
+            sharedPref.edit().putInt(USER_ID, randomNumber).apply();
+        }
+
     }
 
     // fullscreen mode

@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -111,6 +112,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
     private String strIncom;
     private ArrayList<String> ar = new ArrayList<>();
     private ArrayList<String> ar_saved = new ArrayList<>();
+    SharedPreferences sharedPref;
+    static final String USER_ID = "user_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +172,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         humiddebug = findViewById(R.id.humiddebug);
         moistdebug = findViewById(R.id.moistdebug);
         lightdebug = findViewById(R.id.lightdebug);
+
+        sharedPref = this.getSharedPreferences("com.example.plantproject", Context.MODE_PRIVATE);
 
         /*sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
@@ -564,8 +569,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "Adafruit EZ-Link 8e6a";//"HC-05";//"Adafruit EZ-Link 8e6a";
-        final String address = "98:76:B6:00:8E:6A";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
+        final String name = "HC-05";//"HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:D3:A1:FD:5C:B6";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
@@ -764,12 +769,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
                         Double.parseDouble(ar_saved.get(ar_saved.size()-4))+","+
                         Double.parseDouble(ar_saved.get(ar_saved.size()-3))+","+
                         Double.parseDouble(ar_saved.get(ar_saved.size()-2))+","+
-                        id_plant+"," + 333 +");";
+                        id_plant+"," + sharedPref.getInt(USER_ID,0) +");";
 
-                /*String rq = "call usp_insert_PProfile('"+ txtBarcodeValue.getText() +
-                        "', '" + p_type + "', " + min_m + ","+  max_m +","+ min_t +"," +
-                        max_t + "," + min_h + "," + max_h + ", " + min_l + "," + max_l +");";*/
-                //String rq = "CALL usp_insert_PProfile('Cactus', 'High Tolerance', 0, 100, 0, 200, 0, 100, 0, 30000);";
                 HttpURLConnection urlConnection = null;
 
                 try {

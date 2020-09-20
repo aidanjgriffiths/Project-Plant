@@ -100,10 +100,11 @@
         app:layout_constraintBottom_toTopOf="@+id/textView44"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/data_header"
+        app:layout_constraintVertical_bias="0.13999999"
         app:srcCompat="@drawable/export" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/export_data_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lilita_one"
@@ -118,12 +119,12 @@
         android:id="@+id/webconnect"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@+id/textView44"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/data_header"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.14" />
 
     <TextView
         android:id="@+id/textView47"
@@ -148,15 +149,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView47" />
 
     <TextView
-        android:id="@+id/web_sync"
+        android:id="@+id/web_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:textColor="@color/title_colour"
-        android:textSize="18sp"
+        android:gravity="center"
+        android:text="Go to \nwww.mdlproto.com/PlantifulWeb/View/Register.php \nand scan the QR code to register"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView44"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/webconnect"
-        app:layout_constraintTop_toTopOf="@+id/webconnect" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/websync"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
