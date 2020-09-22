@@ -48,6 +48,7 @@ void loop()
   {
     char c = bluetooth.read();
     c = tolower(c);
+
     switch(c)
     {
       case 'v':

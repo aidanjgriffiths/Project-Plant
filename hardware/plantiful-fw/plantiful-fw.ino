@@ -15,6 +15,7 @@
 #define ADJ_SOIL_MAX 100
 #define ADJ_LIGHT_MIN 0
 #define ADJ_LIGHT_MAX 120000
+
 #define FEEDBACK_LED_PIN 13
 
 DHT dht(DHT_PIN, DHT22);
@@ -35,7 +36,7 @@ void setup() {
     Serial.begin(9600);
     Serial.println("Debug Enabled");
   #endif
-  
+
   pinMode(FEEDBACK_LED_PIN, OUTPUT);
   digitalWrite(FEEDBACK_LED_PIN, LOW);
   
@@ -58,6 +59,7 @@ void loop() {
     {
       char c = bluetooth.read();
       c = tolower(c);
+
       switch(c)
       {
         case('v'):
