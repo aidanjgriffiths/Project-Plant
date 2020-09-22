@@ -29,15 +29,15 @@ Group member is in possession of this software and has experience using it for p
 ## Hardware
 ### Uno R3 
 Compact micro-processing unit with I/O ports for interfacing with moisture, temperature/humidity and light sensors. Minimal processing required except to transmit sensor data serially over Bluetooth.
-Accessible, cost effective, and comes with an IDE that includes simplified coding functions for reading data from sensors and communicating serially with the proposed mobile application 
+Accessible, cost effective, and comes with an IDE that includes simplified coding functions for reading data from sensors and communicating serially with the proposed mobile application. Used for initial development, with later revisions using the same microcontroller (ATMEL ATMega328) in a bare configuration. 
 ### Moisture sensor 
-Measures soil moisture using two metal probes acting as a variable resistance. Will be used to determines if plant requires watering or is over-hydrated. 
+DFRobot moisture sensor measures soil moisture, utilising an inbuilt transistor and associated discrete parts amplify a weak current between the probes into a 0-5v signal dependent on moisture. Will be used to determines if plant requires watering or is over-hydrated. 
 Cheap, accurate and interfaces well with Arduino. No external libraries are required. 
-### Temperature / Humidity sensor (DHT11)
-Digital temperature and humidity sensor to determine ambient environmental parameters that determine the suitability of the conditions for optimal plant development. Highly reliable and fast response. 0-50C temperature range with error of +/- 2C. Easy to interface with Arduino. No external libraries required. 
-### Ambient light sensor (DFR0026) 
+### Temperature / Humidity sensor (DHT12)
+Digital temperature and humidity sensor to determine ambient environmental parameters that determine the suitability of the conditions for optimal plant development. Highly reliable and fast response. -40 - 80C temperature range with error of +/- 0.5C, 0-100% humidity range with an error of 2-5% over the range. Easy to interface with Arduino with easy to use, highly available external libraries.
+### Ambient light sensor (5kOhm Light Dependent Resistor)
 Measures ambient light and reflects analog voltage to Arduino controller. Will be used to determine if the plant is receiving the correct amount of sunlight. 
-Simple to use and interfaces easily with Arduino. No additional libraries required.
-### HS-05 Bluetooth module 
+Simple to use and interfaces relatively easily with Arduino requiring a single pull-up resistor as the only extra part. No additional libraries required, but basic calibration required.
+### HC-05 Bluetooth module 
 Enables Bluetooth connection with mobile device to communicate sensor data serially. 
 Easy to setup and maintain a reliable connection with a mobile phone. Security is not a priority given the non-critical nature of the sensor data collected.

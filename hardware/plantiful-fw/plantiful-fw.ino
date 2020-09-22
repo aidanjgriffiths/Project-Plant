@@ -16,6 +16,8 @@
 #define ADJ_LIGHT_MIN 0
 #define ADJ_LIGHT_MAX 120000
 
+#define FEEDBACK_LED_PIN 13
+
 DHT dht(DHT_PIN, DHT22);
 SoftwareSerial bluetooth(BLUETOOTH_RX, BLUETOOTH_TX);
 
@@ -34,6 +36,10 @@ void setup() {
     Serial.begin(9600);
     Serial.println("Debug Enabled");
   #endif
+
+  pinMode(FEEDBACK_LED_PIN, OUTPUT);
+  digitalWrite(FEEDBACK_LED_PIN, LOW);
+  
   bluetooth.begin(BLUETOOTH_BAUD);
   dht.begin();
   delay(2000); //This is required to give the DHT time to start/stabilise
@@ -53,35 +59,33 @@ void loop() {
     {
       char c = bluetooth.read();
       c = tolower(c);
-      if(c == 'v')
-      {
-        strcpy(buf, VERSION);
-        strcat(buf, "\r\n");
-        bluetooth.print(buf);
-      }
-      else if (c == 'r')
-      {
-        char numbers[5];
 
-        temperature = 26;
-        humidity = 70;
-        light = 600;
-        moisture = 80;
-        
-        strcpy(buf, "T");
-        strcat(buf, itoa(temperature, numbers, 10));
-        strcat(buf, "H");
-        strcat(buf, itoa(humidity, numbers, 10));
-        strcat(buf, "L");
-        strcat(buf, ltoa(light, numbers, 10));
-        strcat(buf, "M");
-        strcat(buf, itoa(moisture, numbers, 10));
-        
-        #ifdef DEBUG
-          Serial.println(buf);
-        #endif
-        
-        bluetooth.println(buf);
+      switch(c)
+      {
+        case('v'):
+          strcpy(buf, VERSION);
+          strcat(buf, "\r\n");
+          bluetooth.print(buf);
+        case('r'):
+          digitalWrite(FEEDBACK_LED_PIN, HIGH);
+          delay(100);
+          digitalWrite(FEEDBACK_LED_PIN, LOW);
+          char numbers[5];
+          
+          strcpy(buf, "T");
+          strcat(buf, itoa(temperature, numbers, 10));
+          strcat(buf, "H");
+          strcat(buf, itoa(humidity, numbers, 10));
+          strcat(buf, "L");
+          strcat(buf, ltoa(light, numbers, 10));
+          strcat(buf, "M");
+          strcat(buf, itoa(moisture, numbers, 10));
+          
+          #ifdef DEBUG
+            Serial.println(buf);
+          #endif
+          
+          bluetooth.println(buf);
       }
     }
 }

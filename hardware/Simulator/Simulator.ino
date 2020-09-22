@@ -4,7 +4,6 @@
 #define BLUETOOTH_TX 10
 #define BLUETOOTH_BAUD 9600
 
-char numbers[5];
 char buf[30];
 int temp = 25;
 int humidity = 65;
@@ -18,10 +17,29 @@ void setup()
   bluetooth.begin(BLUETOOTH_BAUD);
 }
 
-void adjustValue(int &adjustVariable, int adjustPressure)
+void adjustValues()
 {
-  if (adjustPressure < 33) adjustVariable -= 2;
-  else if (adjustPressure > 66) adjustVariable += 2;
+  int adjustTemp = random(0,100);
+  int adjustHumidity = random(0,100);
+  int adjustLight = random(0, 100);
+  int adjustMoisture = random(0, 100);
+
+  adjustValue(temp, adjustTemp, 15, 35);
+  adjustValue(humidity, adjustHumidity, 20, 80);
+  adjustValue(light, adjustLight, 100, 5000);
+  adjustValue(moisture, adjustMoisture, 20, 80);
+}
+
+void adjustValue(int &adjustVariable, int &adjustPressure, int minimum, int maximum)
+{
+  if (adjustPressure < 33 && adjustVariable > minimum)
+  {
+    adjustVariable = adjustVariable - 2;
+  }
+  else if (adjustPressure > 66 && adjustVariable < maximum)
+  {
+    adjustVariable = adjustVariable + 2;
+  }
 }
 
 void loop()
@@ -30,7 +48,8 @@ void loop()
   {
     char c = bluetooth.read();
     c = tolower(c);
-    switch (c)
+
+    switch(c)
     {
       case 'v':
         strcpy(buf, VERSION);
@@ -38,10 +57,9 @@ void loop()
         bluetooth.print(buf);
         break;
       case 'r':
-        adjustValue(temp, random(15, 36));
-        adjustValue(humidity, random(20, 81));
-        adjustValue(light, random(100, 5001));
-        adjustValue(moisture, random(20, 81));
+        char numbers[5];
+        
+        adjustValues();
 
         strcpy(buf, "T");
         strcat(buf, itoa(temp, numbers, 10));
