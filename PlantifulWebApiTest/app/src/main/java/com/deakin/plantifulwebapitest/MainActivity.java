@@ -30,7 +30,6 @@ import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
 
-    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,25 +42,24 @@ public class MainActivity extends AppCompatActivity {
          * Create an Concurrent task for connecting to the Plantiful Website API
          */
         new AsyncTask<Void, Void, Void>() {
-            @SuppressLint("StaticFieldLeak")
             @Override
             protected Void doInBackground(Void... voids) {
 
                 // request arguments
-                String uid = "100";
+                String uid = "3000";
                 String wid = "200";
                 String rq = "SELECT * FROM PUser";
 
                 HttpURLConnection urlConnection = null;
 
                 try {
-                    URL url = new URL(RQ_URL);
+                    URL url = new URL(UAC_URL);
                     urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("POST");
                     // write arguments to the output stream of HTTPUrlConnection
                     OutputStream outputStream = new BufferedOutputStream(urlConnection.getOutputStream());
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
-                    bufferedWriter.write("r_q_str=" + rq);
+                    bufferedWriter.write("uac_w_uid=" + uid + "&uac_w_wid=" + wid);
                     bufferedWriter.flush();
                     bufferedWriter.close();
                     outputStream.close();
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     is.close();
                     bis.close();
 
-                    Log.d("Debug", sb.toString());
+                    sb.toString();
                 } catch (Exception e) {
                     Log.d("Debug", e.getMessage() == null ? "NULL MSG" + e.toString() : e.getMessage());
                 } finally {

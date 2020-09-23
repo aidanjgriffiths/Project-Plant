@@ -4,15 +4,15 @@ body {
     background-size: cover;
     background-attachment: fixed;
     backdrop-filter: blur(10px);
-    min-height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
+    -webkit-backdrop-filter: blur(10px);
+    margin: auto;
     font-family: sans-serif;
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    justify-content: space-evenly;
+    align-content: center;
 }
 
 #qr-cont {
@@ -20,42 +20,46 @@ body {
     padding: 5px;
     background: rgba(255, 255, 255, 0.5);
     margin: auto;
-    align-self: center;
+    margin-top: 50px;
     pointer-events: none;
+    display: inline-block;
 }
 
 #plantiful-div {
     color: white;
-    margin: auto;
-    align-self: center;
+    margin: 0;
     position: relative;
-    left: 32px;
 }
 
 #plantiful-hd {
     font-family: sans-serif;
     font-size: 72pt;
     text-align: center;
-    align-self: center;
-    width: calc(100% - 64);
     white-space: nowrap;
+    padding-top: 0;
+    margin: 0;
 }
 
 #plantiful-hd .img {
     display: inline-block;
 }
 
-#plantiful-direct {
+#plantiful-direct, #connect-status {
     font-family: sans-serif;
     font-size: 18pt;
     color: white;
     margin: auto;
-    align-self: center;
     text-align: center;
     padding: 5px;
 }
 
-#plantiful-leaf {
+#connect-status {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#plantiful-leaf, #loading {
+    display: inline-block;
     width: 64px;
     height: auto;
     position: relative;
@@ -63,6 +67,32 @@ body {
     bottom: 40px;
     filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.15));
     -webkit-filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.15));
+}
+
+@keyframes rotate-load {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#loading {
+    display: inline-block;
+    filter: invert(100%);
+    width: 28px;
+    position: relative;
+    left: 10px;
+    top: 6px;
+    animation-name: rotate-load;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+#loading:hover {
+    rotation: 3;
 }
 
 #contributor-det-div {
