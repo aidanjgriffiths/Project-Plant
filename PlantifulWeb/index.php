@@ -5,11 +5,16 @@ include 'Root/WebReferences.php';
 // set the name of this website
 $_POST['W_NAME'] = "Plantiful - Home";
 // check if user cookie is set, if not, go to the registration page
-//if (!isset($_COOKIE['web_assoc_uid']))
-//{
-//	header("Location: " . $REG_PAGE);
-//	exit;
-//}
+if (isset($_GET['uid']) && !isset($_COOKIE['web_assoc_uid']))
+{
+    setcookie('web_assoc_uid', $_GET['uid']);
+    header('Refresh:0');
+}
+else if (!isset($_COOKIE['web_assoc_uid']))
+{
+	header("Location: " . $REG_PAGE);
+	exit;
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -26,20 +31,7 @@ $_POST['W_NAME'] = "Plantiful - Home";
 </head>
 <body>
 <?php include 'View/Header.php'; ?>
-<!--<form id="stem-form" method="post" action="../Stem/UACStem.php">-->
-<!--    <input id="uid" name="uac_w_uid" type="number" maxlength="6" placeholder="UID">-->
-<!--    <input id="wid" name="uac_w_wid" type="number" maxlength="6" placeholder="WID">-->
-<!--    <input id="submit" type="submit">-->
-<!--</form>-->
-<!--<div id="qr-test"></div>-->
-<!--<script type="text/javascript">-->
-<!--    new QRCode(document.getElementById("qr-test"), "123456789");-->
-<!--    document.getElementById("post").onsubmit = function () {-->
-<!---->
-<!--    }-->
-<!--</script>-->
-<iframe id="root-display" src="https://fr.wikipedia.org/wiki/Main_Page">
-</iframe>
+<iframe id="root-display" src="./View/Content/Overview.php"></iframe>
 <?php include 'View/Footer.php'; ?>
 </body>
 </html>
