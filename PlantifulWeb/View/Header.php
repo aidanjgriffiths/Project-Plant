@@ -4,8 +4,8 @@
     </div>
     <div id="user-det-div">
         <p>User ID: <?php
-			if (isset($_POST['web_assoc_uid']))
-				echo $_POST['web_assoc_uid'];
+			if (isset($_COOKIE['web_assoc_uid']))
+				echo $_COOKIE['web_assoc_uid'];
 			else
 				echo 'No User Active'; ?></p>
     </div>

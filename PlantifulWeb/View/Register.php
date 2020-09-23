@@ -33,6 +33,8 @@ if (!isset($_COOKIE['qr_seed']))
                     if (this.readyState === 4 && this.status === 200) {
                         if (this.responseText[0] >= 0) {
                             document.getElementById("connect-status").textContent = "Connected to User: " + this.responseText;
+                            sleep(2000);
+                            document.location.href = "../index.php?uid=" + this.responseText;
                             logged_in = true;
                         } else
                             console.log(this.responseText);
