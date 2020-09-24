@@ -1,4 +1,4 @@
-<?php include_once(dirname(__DIR__) . './Root/DatabaseConnector.php');
+<?php include_once(dirname(__DIR__) . '/Root/DatabaseConnector.php');
 
 class PMeasurement
 {
