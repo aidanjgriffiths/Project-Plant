@@ -36,7 +36,7 @@ class PMeasurement
 		{
 			array_push($pmeasurements, new PMeasurement($row['moisture'], $row['temperature'], $row['light'], $row['humidity'], $row['profile_id_fk'], $row['user_id_fk'], $row['measurement_id_pk']));
 		}
-		
+
 		return $pmeasurements;
 	}
 
@@ -71,14 +71,14 @@ class PMeasurement
 			return null;
 		}
 	}
-	
+
 	public function __set($property, $value)
 	{
 		if (property_exists($this, $property))
 		{
 			$this->$property = $value;
 		}
-		
+
 		return $this;
 	}
 }

@@ -1,7 +1,6 @@
 #ft-div {
     background: white;
     color: #20d426;
-    width: 100%;
     align-content: center;
     border-top: 2px solid darkgreen;
     align-items: flex-start;
@@ -12,6 +11,7 @@
     bottom: 0;
     position: fixed;
     box-shadow: 0 -5px 15px 0 rgba(0,0,0,0.3);
+    width: 100%;
 }
 
 #ft-div h1 {
@@ -23,6 +23,10 @@
 
 #overview-img
 {
-    height: 45px;
+    height: 40px;
     width: auto;
+}
+
+input {
+    padding: 5px !important;
 }

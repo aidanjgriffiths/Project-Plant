@@ -4,13 +4,13 @@ body, html {
     padding: 20px;
 }
 
-#overview-tbl {
+#measurement-tbl {
     color: black;
     width: 100%;
     border-spacing: 0;
 }
 
-#overview-tbl > thead {
+#measurement-tbl > thead {
     text-align: center;
     font-weight: bold;
     background-color: #14b33b;
@@ -21,17 +21,23 @@ td {
     padding: 10px;
 }
 
-#overview-tbl tr:first-child td:first-child {
+#measurement-tbl tr:first-child td:first-child {
     border-top-left-radius: 10px;
 }
 
-#overview-tbl tr:first-child td:last-child {
+#measurement-tbl tr:first-child td:last-child {
     border-top-right-radius: 10px;
 }
 
 /* Add Border Rounded For children */
 
-#overview-tbl > tbody > tr > td {
+#measurement-tbl > tbody > tr > td {
     text-align: center;
     margin: auto;
+}
+
+canvas {
+    height: 60% !important;
+    margin: auto !important;
+    width: auto !important;
 }
