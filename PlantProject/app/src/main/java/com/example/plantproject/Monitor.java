@@ -569,8 +569,8 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         button_connect.setText(R.string.connecting);
         // Connect to device name and MAC address
-        final String name = "HC-05";//"HC-05";//"Adafruit EZ-Link 8e6a";
-        final String address = "98:D3:A1:FD:5C:B6";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
+        final String name = "Adafruit EZ-Link 8e6a";//"HC-05";//"Adafruit EZ-Link 8e6a";
+        final String address = "98:76:B6:00:8E:6A";//"98:D3:A1:FD:5C:B6";//"98:76:B6:00:8E:6A";
         new Thread() {
             public void run() {
                 boolean fail = false;
@@ -767,9 +767,11 @@ public class Monitor extends AppCompatActivity implements TextToSpeech.OnInitLis
 
                 String rq = "CALL usp_insert_PMeasurement("+Double.parseDouble(ar_saved.get(ar_saved.size()-1))+","+
                         Double.parseDouble(ar_saved.get(ar_saved.size()-4))+","+
-                        Double.parseDouble(ar_saved.get(ar_saved.size()-3))+","+
                         Double.parseDouble(ar_saved.get(ar_saved.size()-2))+","+
+                        Double.parseDouble(ar_saved.get(ar_saved.size()-3))+","+
                         id_plant+"," + sharedPref.getInt(USER_ID,0) +");";
+
+                Log.d("Debug", rq);
 
                 HttpURLConnection urlConnection = null;
 
